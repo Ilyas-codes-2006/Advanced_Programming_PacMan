@@ -32,6 +32,28 @@ public:
     void update() override;
     void render() override;
 };
+class LevelState: public State {
+    sf::Text titleText;
+    sf::Font font;
+public:
+    LevelState(sf::RenderWindow* window);
+    void Input(sf::Event *event) override;
+    void update() override;
+    void render() override;
+};
+class PausedState: public State {
+private:
+    sf::Text paused;
+    sf::Text resume;
+    sf::Text QuitGame;
+    sf::Text ExitToDesktop;
+    sf::Font font;
+public:
+    PausedState(sf::RenderWindow* window);
+    void Input(sf::Event *event) override;
+    void update() override;
+    void render() override;
+};
 
 
 #endif //ADVANCEDPROGRAMMING_PACMAN_STATE_H

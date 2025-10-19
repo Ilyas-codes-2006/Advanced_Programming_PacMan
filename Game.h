@@ -6,11 +6,12 @@
 #define ADVANCEDPROGRAMMING_PACMAN_GAME_H
 
 #include "State.h"
+#include "StateManager.h"
 #include <SFML/Graphics.hpp>
-
 class Game {
 private:
     sf::RenderWindow* window;
+    StateManager stateManager;
 public:
     Game(sf::RenderWindow* window);
     void update();
