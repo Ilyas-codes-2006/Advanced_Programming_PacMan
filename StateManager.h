@@ -5,6 +5,9 @@
 #ifndef ADVANCEDPROGRAMMING_PACMAN_STATEMANAGER_H
 #define ADVANCEDPROGRAMMING_PACMAN_STATEMANAGER_H
 
+#include <vector>
+#include <memory>
+
 
 class StateManager {
 };

@@ -9,5 +9,7 @@ add_executable(AdvancedProgramming_PacMan main.cpp
         Game.cpp
         Game.h
         StateManager.cpp
-        StateManager.h)
+        StateManager.h
+        State.cpp
+        State.h)
 target_link_libraries(AdvancedProgramming_PacMan sfml-graphics sfml-window sfml-system)

@@ -5,7 +5,7 @@
 #ifndef ADVANCEDPROGRAMMING_PACMAN_GAME_H
 #define ADVANCEDPROGRAMMING_PACMAN_GAME_H
 
-
+#include "State.h"
 #include <SFML/Graphics.hpp>
 
 class Game {
