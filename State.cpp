@@ -14,7 +14,7 @@ MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : Stat
     titleText.setFont(font);
     titleText.setString("PAC-MAN");
     titleText.setCharacterSize(60);
-    titleText.setFillColor(sf::Color::Yellow);
+    titleText.setFillColor(sf::Color(255, 255, 0));
     titleText.setPosition(160, 30);
 
     playButton.setSize(sf::Vector2f(200, 60));
@@ -46,7 +46,7 @@ void MenuState::Input(sf::Event *event) {
     }
 }
 void MenuState::update() {
-    playButton.setFillColor(sf::Color::Yellow);
+    playButton.setFillColor(sf::Color(255, 255, 0));
 }
 void MenuState::render() {
     window->draw(titleText);
@@ -62,7 +62,7 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     titleText.setFont(font);
     titleText.setString("GAME IS PLAYING");
     titleText.setCharacterSize(50);
-    titleText.setFillColor(sf::Color::Yellow);
+    titleText.setFillColor(sf::Color(255, 255, 0));
     titleText.setPosition(85, 30);
 }
 
@@ -86,7 +86,7 @@ PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : 
     paused.setFont(font);
     paused.setString("PAUSED");
     paused.setCharacterSize(60);
-    paused.setFillColor(sf::Color::Yellow);
+    paused.setFillColor(sf::Color(255, 255, 0));
     paused.setPosition(180, 50);
 
     resume.setFont(font);

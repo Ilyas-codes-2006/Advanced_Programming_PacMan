@@ -20,7 +20,7 @@ void Game::update() {
             stateManager.whichInput(&event);
         }
         stateManager.whichUpdate();
-        window->clear(sf::Color::Blue);
+        window->clear(sf::Color(0,0,180));
         stateManager.whichRender();
         window->display();
     }
