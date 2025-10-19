@@ -10,9 +10,9 @@ MenuState::MenuState(sf::RenderWindow *window) : State(window){
 
     titleText.setFont(font);
     titleText.setString("PAC-MAN");
-    titleText.setCharacterSize(60);   // big title
+    titleText.setCharacterSize(60);
     titleText.setFillColor(sf::Color::Yellow);
-    titleText.setPosition(160, 30);   // adjust as needed
+    titleText.setPosition(160, 30);
 
     playButton.setSize(sf::Vector2f(200, 60));
     playButton.setFillColor(sf::Color::Blue);
@@ -43,7 +43,6 @@ void MenuState::Input(sf::Event *event) {
     }
 }
 void MenuState::update() {
-    sf::Vector2i mousePos = sf::Mouse::getPosition(*window);
     playButton.setFillColor(sf::Color::Yellow);
 }
 void MenuState::render() {
