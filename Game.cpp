@@ -10,18 +10,18 @@ Game::Game(sf::RenderWindow* window) {
     this->window = window;
 }
 void Game::update() {
-    MenuState menu(window);
+    stateManager.push(make_unique<MenuState>(window,&stateManager));
     while (window->isOpen()) {
         sf::Event event;
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
                 window->close();
             }
-            menu.Input(&event);
+            stateManager.whichInput(&event);
         }
-        menu.update();
+        stateManager.whichUpdate();
         window->clear(sf::Color::Blue);
-        menu.render();
+        stateManager.whichRender();
         window->display();
     }
 }

@@ -8,13 +8,17 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 using namespace std;
+class StateManager;
 class State {
 protected:
     sf::RenderWindow* window;
+    StateManager* stateManager;
 public:
-    explicit State(sf::RenderWindow *window)
-        : window(window) {
+    State(sf::RenderWindow *window, StateManager *stateManager)
+        : window(window),
+          stateManager(stateManager) {
     }
+
     virtual void Input(sf::Event* event) = 0;
     virtual void update() = 0;
     virtual void render() = 0;
@@ -27,7 +31,7 @@ private:
     sf::Text highScores;
     sf::Font font;
 public:
-    MenuState(sf::RenderWindow* window);
+    MenuState(sf::RenderWindow *window, StateManager *stateManager);
     void Input(sf::Event *event) override;
     void update() override;
     void render() override;
@@ -36,7 +40,7 @@ class LevelState: public State {
     sf::Text titleText;
     sf::Font font;
 public:
-    LevelState(sf::RenderWindow* window);
+    LevelState(sf::RenderWindow *window, StateManager *stateManager);
     void Input(sf::Event *event) override;
     void update() override;
     void render() override;
@@ -49,7 +53,7 @@ private:
     sf::Text ExitToDesktop;
     sf::Font font;
 public:
-    PausedState(sf::RenderWindow* window);
+    PausedState(sf::RenderWindow *window, StateManager *stateManager);
     void Input(sf::Event *event) override;
     void update() override;
     void render() override;
