@@ -1,0 +1,13 @@
+//
+// Created by Youssef on 9/11/2025.
+//
+
+#ifndef ADVANCEDPROGRAMMING_PACMAN_ENTITY_H
+#define ADVANCEDPROGRAMMING_PACMAN_ENTITY_H
+
+
+class Entity {
+};
+
+
+#endif //ADVANCEDPROGRAMMING_PACMAN_ENTITY_H

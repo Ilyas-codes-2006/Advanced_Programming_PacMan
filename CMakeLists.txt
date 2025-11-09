@@ -11,5 +11,9 @@ add_executable(AdvancedProgramming_PacMan main.cpp
         StateManager.cpp
         StateManager.h
         State.cpp
-        State.h)
+        State.h
+        World.cpp
+        World.h
+        Entity.cpp
+        Entity.h)
 target_link_libraries(AdvancedProgramming_PacMan sfml-graphics sfml-window sfml-system)

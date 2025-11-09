@@ -58,7 +58,6 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
     }
-
     titleText.setFont(font);
     titleText.setString("GAME IS PLAYING");
     titleText.setCharacterSize(50);
@@ -136,4 +135,3 @@ void PausedState::render() {
     window->draw(QuitGame);
     window->draw(ExitToDesktop);
 }
-
