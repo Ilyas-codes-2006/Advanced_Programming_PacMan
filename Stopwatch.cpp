@@ -8,3 +8,9 @@ Stopwatch &Stopwatch::getInstance() {
     static Stopwatch instance;
     return instance;
 }
+float Stopwatch::tick() {
+    currentTime = std::chrono::steady_clock::now();
+    deltaTime = currentTime - previousTime;
+    previousTime = currentTime;
+    return deltaTime.count();
+}

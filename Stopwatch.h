@@ -4,13 +4,18 @@
 
 #ifndef ADVANCEDPROGRAMMING_PACMAN_STOPWATCH_H
 #define ADVANCEDPROGRAMMING_PACMAN_STOPWATCH_H
+#include <chrono>
 
 
 class Stopwatch {
 private:
+    std::chrono::steady_clock::time_point previousTime = std::chrono::steady_clock::now();
+    std::chrono::steady_clock::time_point currentTime;
+    std::chrono::duration<float> deltaTime;
     Stopwatch() = default;
 public:
     static Stopwatch& getInstance();
+    float tick();
 };
 
 

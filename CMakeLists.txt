@@ -14,8 +14,12 @@ add_executable(AdvancedProgramming_PacMan main.cpp
         State.h
         World.cpp
         World.h
-        Entity.cpp
-        Entity.h
         Stopwatch.cpp
-        Stopwatch.h)
+        Stopwatch.h
+        Subject.cpp
+        Subject.h
+        EntityModel.cpp
+        EntityModel.h
+        EntityView.cpp
+        EntityView.h)
 target_link_libraries(AdvancedProgramming_PacMan sfml-graphics sfml-window sfml-system)

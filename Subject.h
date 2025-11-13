@@ -1,0 +1,13 @@
+//
+// Created by Youssef on 13/11/2025.
+//
+
+#ifndef ADVANCEDPROGRAMMING_PACMAN_SUBJECT_H
+#define ADVANCEDPROGRAMMING_PACMAN_SUBJECT_H
+
+
+class Subject {
+};
+
+
+#endif //ADVANCEDPROGRAMMING_PACMAN_SUBJECT_H
