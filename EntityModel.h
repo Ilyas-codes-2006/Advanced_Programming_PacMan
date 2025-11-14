@@ -35,26 +35,26 @@ private:
     Direction currentDirection = Direction::None;
     Direction nextDirection = Direction::None;
 public:
-    explicit PacMan(const tuple<int, int> &position)
+    explicit PacMan(const tuple<float, float> &position)
         : EntityModel(position) {
     }
     void update(float deltaTime) override;
 };
 class Ghost: public EntityModel {
 public:
-    explicit Ghost(const tuple<int, int> &position)
+    explicit Ghost(const tuple<float, float> &position)
         : EntityModel(position) {
     }
 };
 class Wall: public EntityModel {
 public:
-    explicit Wall(const tuple<int, int> &position)
+    explicit Wall(const tuple<float, float> &position)
         : EntityModel(position) {
     }
 };
 class Collectable: public EntityModel {
 public:
-    explicit Collectable(const tuple<int, int> &position)
+    explicit Collectable(const tuple<float, float> &position)
         : EntityModel(position) {
     }
 };

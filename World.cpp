@@ -3,10 +3,10 @@
 //
 
 #include "World.h"
-void World::addEntity(shared_ptr<Entity>& entity) {
+void World::addEntity(shared_ptr<EntityModel>& entity) {
     entities.push_back(entity);
 }
-void World::removeEntity(shared_ptr<Entity>& entity) {
+void World::removeEntity(shared_ptr<EntityModel>& entity) {
     for (auto it = entities.begin(); it != entities.end(); ++it) {
         if (it->get() == entity.get()) {
             entities.erase(it);

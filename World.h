@@ -8,13 +8,18 @@
 #include <vector>
 #include <iostream>
 using namespace std;
-class Entity;
+class AbstractFactory;
+class EntityModel;
 class World {
 private:
-    vector<shared_ptr<Entity>> entities;
+    shared_ptr<AbstractFactory> factory;
+    vector<shared_ptr<EntityModel>> entities;
 public:
-    void addEntity(shared_ptr<Entity>& entity);
-    void removeEntity(shared_ptr<Entity>& entity);
+    explicit World(const shared_ptr<AbstractFactory> &factory)
+        : factory(factory) {
+    }
+    void addEntity(shared_ptr<EntityModel>& entity);
+    void removeEntity(shared_ptr<EntityModel>& entity);
     void clearEntities();
 };
 

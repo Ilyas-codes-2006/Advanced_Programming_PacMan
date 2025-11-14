@@ -1,0 +1,13 @@
+//
+// Created by Youssef on 14/11/2025.
+//
+
+#ifndef ADVANCEDPROGRAMMING_PACMAN_CAMERA_H
+#define ADVANCEDPROGRAMMING_PACMAN_CAMERA_H
+
+
+class Camera {
+};
+
+
+#endif //ADVANCEDPROGRAMMING_PACMAN_CAMERA_H

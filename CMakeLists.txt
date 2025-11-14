@@ -21,5 +21,11 @@ add_executable(AdvancedProgramming_PacMan main.cpp
         EntityModel.cpp
         EntityModel.h
         EntityView.cpp
-        EntityView.h)
+        EntityView.h
+        AbstractFactory.cpp
+        AbstractFactory.h
+        ConcreteFactory.cpp
+        ConcreteFactory.h
+        Camera.cpp
+        Camera.h)
 target_link_libraries(AdvancedProgramming_PacMan sfml-graphics sfml-window sfml-system)
