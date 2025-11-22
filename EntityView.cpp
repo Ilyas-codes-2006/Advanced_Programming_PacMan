@@ -16,14 +16,16 @@ void PacManRender::setSprite(const string &spritesheet) {
 }
 
 void PacManRender::render(sf::RenderWindow *window) {
-    auto [x, y] = link->getPosition();
-    sprite.setPosition(x,y);
+    auto worldPos = link->getPosition();
+    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos);
+    sprite.setPosition(pixelX,pixelY);
     window->draw(sprite);
 }
 
 void WallRender::render(sf::RenderWindow *window) {
-    auto [x, y] = link->getPosition();
-    wall.setPosition(x, y);
+    auto worldPos = link->getPosition();
+    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos);
+    wall.setPosition(pixelX,pixelY);
     window->draw(wall);
 }
 

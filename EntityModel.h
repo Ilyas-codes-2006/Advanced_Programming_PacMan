@@ -14,13 +14,18 @@ class EntityModel: public Subject {
 private:
     tuple<float,float> position;
 public:
-    explicit EntityModel(const tuple<int, int> &position)
+    explicit EntityModel(const tuple<float, float> &position)
         : position(position) {
     }
     virtual void update(float deltaTime) = 0;
 
     tuple<float, float> getPosition() const {
         return position;
+    }
+
+    void setPosition(const tuple<float, float> &position) {
+        this->position = position;
+        notify();
     }
 };
 enum class Direction {
@@ -51,12 +56,14 @@ public:
     explicit Wall(const tuple<float, float> &position)
         : EntityModel(position) {
     }
+    void update(float deltaTime) override {}
 };
 class Collectable: public EntityModel {
 public:
     explicit Collectable(const tuple<float, float> &position)
         : EntityModel(position) {
     }
+    void update(float deltaTime) override {}
 };
 
 

@@ -7,18 +7,30 @@
 
 #include <memory>
 #include <SFML/Graphics.hpp>
+
+#include "EntityModel.h"
+#include "Camera.h"
+#include "Observer.h"
 using namespace std;
 class EntityModel;
-class PacMan;
 
-class EntityView {
+class EntityView: public Observer {
 protected:
     shared_ptr<EntityModel> link;
+    Camera& camera;
 public:
-    explicit EntityView(const shared_ptr<EntityModel> &link)
-        : link(link) {
+    EntityView(const shared_ptr<EntityModel> &link, Camera &camera)
+        : link(link),
+          camera(camera) {
+        link->attach(this);
     }
+
     virtual void render(sf::RenderWindow* window) = 0;
+
+    virtual void update() override{}
+    ~EntityView() override {
+        link->detach(this);
+    }
 };
 class PacManRender : public EntityView {
 private:
@@ -26,6 +38,7 @@ private:
     sf::Sprite sprite;
     sf::IntRect currentImage;
 public:
+    void update() override {}
     void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
 };
@@ -33,10 +46,11 @@ class WallRender : public EntityView {
 private:
     sf::RectangleShape wall;
 public:
-    WallRender(shared_ptr<EntityModel> model) : EntityView(model) {
+    WallRender(shared_ptr<EntityModel> model, Camera &camera) : EntityView(model, camera) {
         wall.setSize(sf::Vector2f(19, 19));
         wall.setFillColor(sf::Color::Blue);
     }
+    void update() override {}
     void render(sf::RenderWindow* window) override;
 };
 

@@ -27,5 +27,9 @@ add_executable(AdvancedProgramming_PacMan main.cpp
         ConcreteFactory.cpp
         ConcreteFactory.h
         Camera.cpp
-        Camera.h)
+        Camera.h
+        Observer.cpp
+        Observer.h
+        Mapreader.cpp
+        Mapreader.h)
 target_link_libraries(AdvancedProgramming_PacMan sfml-graphics sfml-window sfml-system)

@@ -13,11 +13,12 @@ class Collectable;
 
 class AbstractFactory {
 public:
-    /*virtual std::shared_ptr<PacMan> PacManEntity(const tuple<float,float>& positie) = 0;
-    virtual std::shared_ptr<Wall> WallEntity(const tuple<float,float>& positie) = 0;*/
-    /*virtual std::shared_ptr<Ghost> GhostEntity(const tuple<float,float>& positie) = 0;
-    virtual std::shared_ptr<Collectable> CoinEntity(const tuple<float,float>& positie) = 0;
+    virtual std::shared_ptr<PacMan> PacManEntity(const tuple<float,float>& positie) = 0;
+    virtual std::shared_ptr<Wall> WallEntity(const tuple<float,float>& positie) = 0;
+    /*virtual std::shared_ptr<Ghost> GhostEntity(const tuple<float,float>& positie) = 0;*/
+    /*virtual std::shared_ptr<Collectable> CoinEntity(const tuple<float,float>& positie) = 0;
     virtual std::shared_ptr<Collectable> FruitEntity(const tuple<float,float>& positie) = 0;*/
+    virtual ~AbstractFactory() = default;
 };
 
 
