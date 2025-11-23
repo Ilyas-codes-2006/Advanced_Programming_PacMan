@@ -21,9 +21,10 @@ vector<tuple<float, float, char> > Mapreader::readMap() const {
         y++;
     }
     for (int j = 0; j < y; j++) {
+        int invertedY = y - 1 - j;
         for (int i = 0; i < x; i++) {
             float coordX = -1.0f + 2.0f*(i + 0.5f)/x;
-            float coordY = -1.0f + 2.0f*(j + 0.5f)/y;
+            float coordY = -1.0f + 2.0f*(invertedY + 0.5f)/y;
             level.push_back({coordX,coordY,levelCount[j][i]});
         }
     }

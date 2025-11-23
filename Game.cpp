@@ -23,8 +23,9 @@ void Game::update() {
     for (auto& entity : world.getEntities()) {
         char symbol = entity->getSymbol();
         if (symbol == 'P') {
+            views.push_back(concreteFactory->FloorView(entity, camera));
             auto pacView = concreteFactory->PacManView(entity, camera);
-            pacView->setSprite("../PacMan.png");
+            pacView->setSprite("../PacMan.png",17,1);
             views.push_back(pacView);
         }
         else if (symbol == '#') {
@@ -42,7 +43,7 @@ void Game::update() {
             }
         }
 
-        window->clear(sf::Color(0, 0, 0));
+        window->clear(sf::Color::White);
 
         for (auto& view : views) {
             view->render(window);

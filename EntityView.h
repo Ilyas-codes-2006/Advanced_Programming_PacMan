@@ -46,7 +46,7 @@ public:
         : EntityView(link, camera) {
     }
     void update() override {}
-    void setSprite(const string& spritesheet);
+    void setSprite(const string& spritesheet,float c, float r);
     void render(sf::RenderWindow *window) override;
 };
 class FloorRender : public EntityView {
