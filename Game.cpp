@@ -19,7 +19,6 @@ void Game::update() {
         cout << "Entity at (" << get<0>(pos) << ", " << get<1>(pos) << ")" << entity->getSymbol() <<  endl;
     }*/
     Camera camera(window->getSize().x,window->getSize().y);
-    vector<shared_ptr<EntityView>> views;
     for (auto& entity : world.getEntities()) {
         char symbol = entity->getSymbol();
         if (symbol == 'P') {
@@ -35,7 +34,7 @@ void Game::update() {
             views.push_back(concreteFactory->FloorView(entity, camera));
         }
     }
-    while (window->isOpen()) {
+    /*while (window->isOpen()) {
         sf::Event event;
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -50,9 +49,9 @@ void Game::update() {
         }
 
         window->display();
-    }
+    }*/
 
-    /*stateManager.push(make_unique<MenuState>(window,&stateManager));
+    stateManager.push(make_unique<MenuState>(window,&stateManager));
     while (window->isOpen()) {
         sf::Event event;
         while (window->pollEvent(event)) {
@@ -65,5 +64,5 @@ void Game::update() {
         window->clear(sf::Color(0,0,180));
         stateManager.whichRender();
         window->display();
-    }*/
+    }
 }

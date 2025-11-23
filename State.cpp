@@ -4,6 +4,7 @@
 
 #include "State.h"
 
+#include "Game.h"
 #include "StateManager.h"
 
 MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager){
@@ -75,7 +76,12 @@ void LevelState::Input(sf::Event *event) {
 void LevelState::update() {
 }
 void LevelState::render() {
-    window->draw(titleText);
+    /*window->draw(titleText);*/
+    window->clear(sf::Color::White);
+    for (auto& view : game->getViews()) {
+        view->render(window);
+    }
+    window->display();
 }
 PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : State(window,stateManager) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")) {

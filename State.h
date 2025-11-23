@@ -9,6 +9,7 @@
 #include <iostream>
 using namespace std;
 class StateManager;
+class Game;
 class State {
 protected:
     sf::RenderWindow* window;
@@ -39,6 +40,7 @@ public:
 class LevelState: public State {
     sf::Text titleText;
     sf::Font font;
+    Game* game;
 public:
     LevelState(sf::RenderWindow *window, StateManager *stateManager);
     void Input(sf::Event *event) override;

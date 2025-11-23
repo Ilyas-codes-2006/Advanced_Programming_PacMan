@@ -15,12 +15,15 @@
 #include <SFML/Graphics.hpp>
 class Game {
 private:
+    vector<shared_ptr<EntityView>> views;
     sf::RenderWindow* window;
     StateManager stateManager;
 public:
     Game(sf::RenderWindow* window);
     void update();
-
+    [[nodiscard]] vector<shared_ptr<EntityView>> getViews() const {
+        return views;
+    }
 };
 
 
