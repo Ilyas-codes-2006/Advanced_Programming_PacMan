@@ -31,5 +31,7 @@ add_executable(AdvancedProgramming_PacMan main.cpp
         Observer.cpp
         Observer.h
         Mapreader.cpp
-        Mapreader.h)
+        Mapreader.h
+        Level.cpp
+        Level.h)
 target_link_libraries(AdvancedProgramming_PacMan sfml-graphics sfml-window sfml-system)

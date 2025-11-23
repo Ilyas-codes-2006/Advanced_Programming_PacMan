@@ -38,9 +38,23 @@ private:
     sf::Sprite sprite;
     sf::IntRect currentImage;
 public:
+    PacManRender(const shared_ptr<EntityModel> &link, Camera &camera)
+        : EntityView(link, camera) {
+    }
     void update() override {}
     void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
+};
+class FloorRender : public EntityView {
+private:
+    sf::RectangleShape wall;
+public:
+    FloorRender(shared_ptr<EntityModel> model, Camera &camera) : EntityView(model, camera) {
+        wall.setSize(sf::Vector2f(19, 19));
+        wall.setFillColor(sf::Color::Black);
+    }
+    void update() override {}
+    void render(sf::RenderWindow* window) override;
 };
 class WallRender : public EntityView {
 private:

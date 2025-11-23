@@ -7,17 +7,29 @@
 #include <memory>
 #include <vector>
 #include <iostream>
+#include "AbstractFactory.h"
 using namespace std;
-class AbstractFactory;
+class Level;
 class EntityModel;
 class World {
 private:
+    vector<shared_ptr<Level>> levels;
     shared_ptr<AbstractFactory> factory;
     vector<shared_ptr<EntityModel>> entities;
+    int currentLevel = 0;
 public:
     explicit World(const shared_ptr<AbstractFactory> &factory)
         : factory(factory) {
     }
+    shared_ptr<Level> getCurrentLevel();
+    void addLevel(shared_ptr<Level>& level);
+    void makeLevel(shared_ptr<Level> level);
+
+    [[nodiscard]] vector<shared_ptr<EntityModel>> getEntities() const {
+        return entities;
+    }
+
+    void levelFinished();
     void addEntity(shared_ptr<EntityModel>& entity);
     void removeEntity(shared_ptr<EntityModel>& entity);
     void clearEntities();

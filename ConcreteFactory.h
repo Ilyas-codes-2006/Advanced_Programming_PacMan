@@ -10,11 +10,16 @@
 
 class ConcreteFactory: public AbstractFactory {
 public:
-    shared_ptr<PacMan> PacManEntity(const tuple<float, float> &positie) override;
-    shared_ptr<Wall> WallEntity(const tuple<float, float> &positie) override;
+    shared_ptr<EntityModel> FloorEntity(const tuple<float, float> &positie) override;
+    shared_ptr<EntityModel> PacManEntity(const tuple<float, float> &positie) override;
+    shared_ptr<EntityModel> WallEntity(const tuple<float, float> &positie) override;
+    shared_ptr<EntityView> WallView(shared_ptr<EntityModel> model, Camera &camera) override;
+    shared_ptr<EntityView> PacManView(shared_ptr<EntityModel> model, Camera &camera) override;
+    shared_ptr<EntityView> FloorView(shared_ptr<EntityModel> model, Camera &camera) override;
     /*shared_ptr<Ghost> GhostEntity(const tuple<float, float> &positie) override;*/
     /*shared_ptr<Collectable> CoinEntity(const tuple<float, float> &positie) override;
     shared_ptr<Collectable> FruitEntity(const tuple<float, float> &positie) override;*/
+    ~ConcreteFactory() override = default;
 };
 
 

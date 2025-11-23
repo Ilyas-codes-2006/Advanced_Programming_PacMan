@@ -3,6 +3,10 @@
 //
 
 #include "World.h"
+
+#include "AbstractFactory.h"
+#include "Level.h"
+
 void World::addEntity(shared_ptr<EntityModel>& entity) {
     entities.push_back(entity);
 }
@@ -17,4 +21,38 @@ void World::removeEntity(shared_ptr<EntityModel>& entity) {
 void World::clearEntities() {
     entities.clear();
 }
+shared_ptr<Level> World::getCurrentLevel() {
+    return levels[currentLevel];
+}
+void World::addLevel(shared_ptr<Level> &level) {
+    levels.push_back(level);
+}
+void World::levelFinished() {
+    currentLevel++;
+}
+void World::makeLevel(shared_ptr<Level> level) {
+    clearEntities();
+    auto map = level->getLevelMapping();
+    for (auto coord: map) {
+        shared_ptr<EntityModel> entity;
+        float coordX = get<0>(coord);
+        float coordY = get<1>(coord);
+        char charEntity = get<2>(coord);
+
+        switch (charEntity) {
+            case '#':
+                entity = factory->WallEntity({coordX,coordY});
+                break;
+            case 'P':
+                entity = factory->PacManEntity({coordX,coordY});
+                break;
+            case ' ':
+                entity = factory->FloorEntity({coordX,coordY});
+        }
+        addEntity(entity);
+    }
+}
+
+
+
 

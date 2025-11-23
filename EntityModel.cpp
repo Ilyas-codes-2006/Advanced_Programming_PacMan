@@ -3,3 +3,7 @@
 //
 
 #include "EntityModel.h"
+
+void PacMan::update(float deltaTime) {
+
+}

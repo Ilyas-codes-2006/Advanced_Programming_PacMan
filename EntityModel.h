@@ -50,10 +50,18 @@ public:
     explicit Ghost(const tuple<float, float> &position)
         : EntityModel(position) {
     }
+    void update(float deltaTime) override {}
 };
 class Wall: public EntityModel {
 public:
     explicit Wall(const tuple<float, float> &position)
+        : EntityModel(position) {
+    }
+    void update(float deltaTime) override {}
+};
+class Floor: public EntityModel {
+public:
+    explicit Floor(const tuple<float, float> &position)
         : EntityModel(position) {
     }
     void update(float deltaTime) override {}

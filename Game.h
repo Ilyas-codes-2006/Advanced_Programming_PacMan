@@ -6,6 +6,11 @@
 #define ADVANCEDPROGRAMMING_PACMAN_GAME_H
 
 #include "State.h"
+#include "ConcreteFactory.h"
+#include "World.h"
+#include "Level.h"
+#include "Camera.h"
+#include "EntityView.h"
 #include "StateManager.h"
 #include <SFML/Graphics.hpp>
 class Game {

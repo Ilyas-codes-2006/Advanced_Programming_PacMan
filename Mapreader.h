@@ -12,14 +12,12 @@ using namespace std;
 
 class Mapreader {
 private:
-    string x;
-    string y;
     string filename;
 public:
     explicit Mapreader(const string &filename)
         : filename(filename) {
     }
-    vector<tuple<int,int,char>> readMap() const;
+    vector<tuple<float,float,char>> readMap() const;
 };
 
 

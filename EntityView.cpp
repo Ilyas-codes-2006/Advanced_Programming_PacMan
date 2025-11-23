@@ -28,6 +28,12 @@ void WallRender::render(sf::RenderWindow *window) {
     wall.setPosition(pixelX,pixelY);
     window->draw(wall);
 }
+void FloorRender::render(sf::RenderWindow *window) {
+    auto worldPos = link->getPosition();
+    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos);
+    wall.setPosition(pixelX,pixelY);
+    window->draw(wall);
+}
 
 
 
