@@ -25,6 +25,10 @@ public:
         link->attach(this);
     }
 
+    [[nodiscard]] shared_ptr<EntityModel> getLink() const {
+        return link;
+    }
+
     virtual void render(sf::RenderWindow* window) = 0;
 
     virtual void update() override{}
@@ -47,11 +51,11 @@ public:
 };
 class FloorRender : public EntityView {
 private:
-    sf::RectangleShape wall;
+    sf::RectangleShape floor;
 public:
     FloorRender(shared_ptr<EntityModel> model, Camera &camera) : EntityView(model, camera) {
-        wall.setSize(sf::Vector2f(19, 19));
-        wall.setFillColor(sf::Color::Black);
+        floor.setSize(sf::Vector2f(100, 100));
+        floor.setFillColor(sf::Color::Black);
     }
     void update() override {}
     void render(sf::RenderWindow* window) override;
@@ -61,7 +65,7 @@ private:
     sf::RectangleShape wall;
 public:
     WallRender(shared_ptr<EntityModel> model, Camera &camera) : EntityView(model, camera) {
-        wall.setSize(sf::Vector2f(19, 19));
+        wall.setSize(sf::Vector2f(100, 100));
         wall.setFillColor(sf::Color::Blue);
     }
     void update() override {}

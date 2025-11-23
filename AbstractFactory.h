@@ -5,6 +5,8 @@
 #ifndef ADVANCEDPROGRAMMING_PACMAN_ABSTRACTFACTORY_H
 #define ADVANCEDPROGRAMMING_PACMAN_ABSTRACTFACTORY_H
 #include <memory>
+
+#include "EntityView.h"
 using namespace std;
 class EntityModel;
 class EntityView;
@@ -15,12 +17,12 @@ class Collectable;
 
 class AbstractFactory {
 public:
-    virtual shared_ptr<EntityModel> FloorEntity(const tuple<float,float>& positie) = 0;
-    virtual shared_ptr<EntityModel> PacManEntity(const tuple<float,float>& positie) = 0;
-    virtual shared_ptr<EntityModel> WallEntity(const tuple<float,float>& positie) = 0;
-    virtual shared_ptr<EntityView> PacManView(shared_ptr<EntityModel> model, Camera& camera) = 0;
-    virtual shared_ptr<EntityView> WallView(shared_ptr<EntityModel> model, Camera& camera) = 0;
-    virtual shared_ptr<EntityView> FloorView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<EntityModel> FloorEntity(const tuple<float,float>& positie,char symbol) = 0;
+    virtual shared_ptr<EntityModel> PacManEntity(const tuple<float,float>& positie,char symbol) = 0;
+    virtual shared_ptr<EntityModel> WallEntity(const tuple<float,float>& positie,char symbol) = 0;
+    virtual shared_ptr<PacManRender> PacManView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<WallRender> WallView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<FloorRender> FloorView(shared_ptr<EntityModel> model, Camera& camera) = 0;
 
     /*virtual std::shared_ptr<Ghost> GhostEntity(const tuple<float,float>& positie) = 0;*/
     /*virtual std::shared_ptr<Collectable> CoinEntity(const tuple<float,float>& positie) = 0;

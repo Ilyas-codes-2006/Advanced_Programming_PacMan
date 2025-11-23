@@ -41,13 +41,13 @@ void World::makeLevel(shared_ptr<Level> level) {
 
         switch (charEntity) {
             case '#':
-                entity = factory->WallEntity({coordX,coordY});
+                entity = factory->WallEntity({coordX,coordY},'#');
                 break;
             case 'P':
-                entity = factory->PacManEntity({coordX,coordY});
+                entity = factory->PacManEntity({coordX,coordY},'P');
                 break;
             case ' ':
-                entity = factory->FloorEntity({coordX,coordY});
+                entity = factory->FloorEntity({coordX,coordY},' ');
         }
         addEntity(entity);
     }

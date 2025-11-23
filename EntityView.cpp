@@ -11,7 +11,7 @@ void PacManRender::setSprite(const string &spritesheet) {
         throw runtime_error("Failed to load texture: " + spritesheet);
     }
     sprite.setTexture(texture);
-    currentImage = sf::IntRect(893,0,19,19);
+    currentImage = sf::IntRect(893,0,100,100);
     sprite.setTextureRect(currentImage);
 }
 
@@ -31,8 +31,8 @@ void WallRender::render(sf::RenderWindow *window) {
 void FloorRender::render(sf::RenderWindow *window) {
     auto worldPos = link->getPosition();
     auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos);
-    wall.setPosition(pixelX,pixelY);
-    window->draw(wall);
+    floor.setPosition(pixelX,pixelY);
+    window->draw(floor);
 }
 
 

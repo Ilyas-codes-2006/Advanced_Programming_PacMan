@@ -6,22 +6,22 @@
 
 #include "EntityView.h"
 
-shared_ptr<EntityModel> ConcreteFactory::PacManEntity(const tuple<float, float> &positie) {
-    return make_shared<PacMan>(positie);
+shared_ptr<EntityModel> ConcreteFactory::PacManEntity(const tuple<float, float> &positie,char symbol) {
+    return make_shared<PacMan>(positie,symbol);
 }
-shared_ptr<EntityModel> ConcreteFactory::WallEntity(const tuple<float, float> &positie) {
-    return make_shared<Wall>(positie);
+shared_ptr<EntityModel> ConcreteFactory::WallEntity(const tuple<float, float> &positie,char symbol) {
+    return make_shared<Wall>(positie,symbol);
 }
-shared_ptr<EntityModel> ConcreteFactory::FloorEntity(const tuple<float, float> &positie) {
-    return make_shared<Floor>(positie);
+shared_ptr<EntityModel> ConcreteFactory::FloorEntity(const tuple<float, float> &positie,char symbol) {
+    return make_shared<Floor>(positie,symbol);
 }
-shared_ptr<EntityView> ConcreteFactory::PacManView(shared_ptr<EntityModel> model, Camera &camera) {
+shared_ptr<PacManRender> ConcreteFactory::PacManView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<PacManRender>(model,camera);
 }
-shared_ptr<EntityView> ConcreteFactory::WallView(shared_ptr<EntityModel> model, Camera &camera) {
+shared_ptr<WallRender> ConcreteFactory::WallView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<WallRender>(model,camera);
 }
-shared_ptr<EntityView> ConcreteFactory::FloorView(shared_ptr<EntityModel> model, Camera &camera) {
+shared_ptr<FloorRender> ConcreteFactory::FloorView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<FloorRender>(model,camera);
 }
 

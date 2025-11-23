@@ -13,10 +13,13 @@ using namespace std;
 class EntityModel: public Subject {
 private:
     tuple<float,float> position;
+    char symbol;
 public:
-    explicit EntityModel(const tuple<float, float> &position)
-        : position(position) {
+    EntityModel(const tuple<float, float> &position, char symbol)
+        : position(position),
+          symbol(symbol) {
     }
+
     virtual void update(float deltaTime) = 0;
 
     tuple<float, float> getPosition() const {
@@ -26,6 +29,10 @@ public:
     void setPosition(const tuple<float, float> &position) {
         this->position = position;
         notify();
+    }
+
+    [[nodiscard]] char getSymbol() const {
+        return symbol;
     }
 };
 enum class Direction {
@@ -40,37 +47,42 @@ private:
     Direction currentDirection = Direction::None;
     Direction nextDirection = Direction::None;
 public:
-    explicit PacMan(const tuple<float, float> &position)
-        : EntityModel(position) {
+    PacMan(const tuple<float, float> &position, char symbol)
+        : EntityModel(position, symbol) {
     }
+
     void update(float deltaTime) override;
 };
 class Ghost: public EntityModel {
 public:
-    explicit Ghost(const tuple<float, float> &position)
-        : EntityModel(position) {
+    Ghost(const tuple<float, float> &position, char symbol)
+        : EntityModel(position, symbol) {
     }
+
     void update(float deltaTime) override {}
 };
 class Wall: public EntityModel {
 public:
-    explicit Wall(const tuple<float, float> &position)
-        : EntityModel(position) {
+    Wall(const tuple<float, float> &position, char symbol)
+        : EntityModel(position, symbol) {
     }
+
     void update(float deltaTime) override {}
 };
 class Floor: public EntityModel {
 public:
-    explicit Floor(const tuple<float, float> &position)
-        : EntityModel(position) {
+    Floor(const tuple<float, float> &position, char symbol)
+        : EntityModel(position, symbol) {
     }
+
     void update(float deltaTime) override {}
 };
 class Collectable: public EntityModel {
 public:
-    explicit Collectable(const tuple<float, float> &position)
-        : EntityModel(position) {
+    Collectable(const tuple<float, float> &position, char symbol)
+        : EntityModel(position, symbol) {
     }
+
     void update(float deltaTime) override {}
 };
 

@@ -22,9 +22,10 @@ vector<tuple<float, float, char> > Mapreader::readMap() const {
     }
     for (int j = 0; j < y; j++) {
         for (int i = 0; i < x; i++) {
-            level.push_back({i,j,levelCount[j][i]});
+            float coordX = -1.0f + 2.0f*(i + 0.5f)/x;
+            float coordY = -1.0f + 2.0f*(j + 0.5f)/y;
+            level.push_back({coordX,coordY,levelCount[j][i]});
         }
     }
-    string test = "To see if its right";
     return level;
 }

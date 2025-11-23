@@ -13,10 +13,21 @@ using namespace std;
 class Mapreader {
 private:
     string filename;
+    int width = 0;
+    int height = 0;
 public:
     explicit Mapreader(const string &filename)
         : filename(filename) {
     }
+
+    [[nodiscard]] int getWidth() const {
+        return width;
+    }
+
+    [[nodiscard]] int getHeight() const {
+        return height;
+    }
+
     vector<tuple<float,float,char>> readMap() const;
 };
 
