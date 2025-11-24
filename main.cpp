@@ -7,7 +7,7 @@ using namespace std;
 int main() {
     Mapreader reader("../levelTest.txt");
     auto level = reader.readMap();
-    sf::RenderWindow window(sf::VideoMode(2500, 1300), "PacMan");
+    sf::RenderWindow window(sf::VideoMode(2000, 1100), "PacMan");
     Game game = Game(&window);
     game.update();
     return 0;

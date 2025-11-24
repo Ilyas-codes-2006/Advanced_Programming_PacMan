@@ -7,6 +7,7 @@
 
 #include <string>
 #include <tuple>
+#include "Stopwatch.h"
 #include "Subject.h"
 using namespace std;
 
@@ -19,6 +20,14 @@ public:
         : position(position),
           symbol(symbol) {
     }
+
+    [[nodiscard]] virtual char getcurrentDirection() const = 0;
+
+    virtual void setCurrentDirection(char currentDirection) = 0;
+
+    [[nodiscard]] virtual char getnextDirection() = 0;
+
+    virtual void setnextDirection(char nextDirection) = 0;
 
     virtual void update(float deltaTime) = 0;
 
@@ -35,21 +44,23 @@ public:
         return symbol;
     }
 };
-enum class Direction {
-    None,
-    Up,
-    Down,
-    Left,
-    Right
-};
+
 class PacMan: public EntityModel {
-private:
-    Direction currentDirection = Direction::None;
-    Direction nextDirection = Direction::None;
+    char currentDirection = 'N';
+    char nextDirection = 'N';
 public:
+
     PacMan(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
+
+    [[nodiscard]] char getcurrentDirection() const override;
+
+    void setCurrentDirection(char currentDirection) override;
+
+    [[nodiscard]] char getnextDirection() override;
+
+    void setnextDirection(char nextDirection) override;
 
     void update(float deltaTime) override;
 };
@@ -58,7 +69,13 @@ public:
     Ghost(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
+    [[nodiscard]] char getcurrentDirection() const override{}
 
+    void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] char getnextDirection() override{}
+
+    void setnextDirection(char nextDirection) override{}
     void update(float deltaTime) override {}
 };
 class Wall: public EntityModel {
@@ -66,6 +83,13 @@ public:
     Wall(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
+    [[nodiscard]] char getcurrentDirection() const override{}
+
+    void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] char getnextDirection() override{}
+
+    void setnextDirection(char nextDirection) override{}
 
     void update(float deltaTime) override {}
 };
@@ -74,7 +98,13 @@ public:
     Floor(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
+    [[nodiscard]] char getcurrentDirection() const override{}
 
+    void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] char getnextDirection() override{}
+
+    void setnextDirection(char nextDirection) override{}
     void update(float deltaTime) override {}
 };
 class Collectable: public EntityModel {
@@ -82,6 +112,13 @@ public:
     Collectable(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
+    [[nodiscard]] char getcurrentDirection() const override{}
+
+    void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] char getnextDirection() override{}
+
+    void setnextDirection(char nextDirection) override{}
 
     void update(float deltaTime) override {}
 };

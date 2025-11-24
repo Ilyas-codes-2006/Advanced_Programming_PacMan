@@ -5,5 +5,34 @@
 #include "EntityModel.h"
 
 void PacMan::update(float deltaTime) {
+    auto position = getPosition();
+    switch (getnextDirection()) {
+        case 'u':
+            setPosition({get<0>(position),get<1>(position)+deltaTime});
+            break;
+        case 'l':
+            setPosition({get<0>(position)-deltaTime,get<1>(position)});
+            break;
+        case 'r':
+            setPosition({get<0>(position) + deltaTime,get<1>(position)});
+            break;
+        case 'd':
+            setPosition({get<0>(position),get<1>(position)-deltaTime});
+            break;
+    }
+}
+char PacMan::getcurrentDirection() const {
+    return currentDirection;
+}
 
+void PacMan::setCurrentDirection(char current_direction) {
+    currentDirection = current_direction;
+}
+
+char PacMan::getnextDirection() {
+    return nextDirection;
+}
+
+void PacMan::setnextDirection(char next_direction) {
+    nextDirection = next_direction;
 }
