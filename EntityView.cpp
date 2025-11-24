@@ -31,7 +31,7 @@ void PacManRender::render(sf::RenderWindow *window) {
     auto worldPos = link->getPosition();
     auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos);
     float halfSize = 50.0f;
-    sprite.setPosition(pixelX-halfSize,pixelY-halfSize);
+    sprite.setPosition(pixelX-halfSize-15,pixelY-halfSize+5);
     window->draw(sprite);
 }
 

@@ -24,13 +24,13 @@ void Game::update() {
         if (symbol == 'P') {
             views.push_back(concreteFactory->FloorView(entity, camera));
             auto pacView = concreteFactory->PacManView(entity, camera);
-            pacView->setSprite("../PacMan.png",17,1);
+            pacView->setSprite("../PacMan.png",17,0);
             views.push_back(pacView);
         }
         else if (symbol == '#') {
             views.push_back(concreteFactory->WallView(entity, camera));
         }
-        else if (symbol == ' ') {
+        else if (symbol == '_') {
             views.push_back(concreteFactory->FloorView(entity, camera));
         }
     }

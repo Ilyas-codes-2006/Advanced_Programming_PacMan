@@ -46,8 +46,8 @@ void World::makeLevel(shared_ptr<Level> level) {
             case 'P':
                 entity = factory->PacManEntity({coordX,coordY},'P');
                 break;
-            case ' ':
-                entity = factory->FloorEntity({coordX,coordY},' ');
+            case '_':
+                entity = factory->FloorEntity({coordX,coordY},'_');
         }
         addEntity(entity);
     }
