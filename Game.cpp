@@ -34,7 +34,7 @@ void Game::update() {
             views.push_back(concreteFactory->FloorView(entity, camera));
         }
     }
-    /*while (window->isOpen()) {
+    while (window->isOpen()) {
         sf::Event event;
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -49,9 +49,9 @@ void Game::update() {
         }
 
         window->display();
-    }*/
+    }
 
-    stateManager.push(make_unique<MenuState>(window,&stateManager));
+    /*stateManager.push(make_unique<MenuState>(window,&stateManager));
     while (window->isOpen()) {
         sf::Event event;
         while (window->pollEvent(event)) {
@@ -64,5 +64,5 @@ void Game::update() {
         window->clear(sf::Color(0,0,180));
         stateManager.whichRender();
         window->display();
-    }
+    }*/
 }
