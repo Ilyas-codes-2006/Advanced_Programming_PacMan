@@ -6,18 +6,19 @@
 
 void PacMan::update(float deltaTime) {
     auto position = getPosition();
+    float speed = 0.002;
     switch (getnextDirection()) {
         case 'u':
-            setPosition({get<0>(position),get<1>(position)+deltaTime});
+            setPosition({get<0>(position)*deltaTime,get<1>(position)-speed*deltaTime});
             break;
         case 'l':
-            setPosition({get<0>(position)-deltaTime,get<1>(position)});
+            setPosition({get<0>(position)-speed*deltaTime,get<1>(position)*deltaTime});
             break;
         case 'r':
-            setPosition({get<0>(position) + deltaTime,get<1>(position)});
+            setPosition({get<0>(position)+speed*deltaTime,get<1>(position)*deltaTime});
             break;
         case 'd':
-            setPosition({get<0>(position),get<1>(position)-deltaTime});
+            setPosition({get<0>(position)*deltaTime,get<1>(position)+speed*deltaTime});
             break;
     }
 }

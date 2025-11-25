@@ -71,6 +71,9 @@ void LevelState::Input(sf::Event *event) {
         if (event->key.code == sf::Keyboard::Escape) {
             stateManager->push(make_unique<PausedState>(window,stateManager));
         }
+        if (event->key.code == sf::Keyboard::Up) {
+
+        }
     }
 }
 void LevelState::update() {
