@@ -12,13 +12,13 @@ Game::Game(sf::RenderWindow* window) {
 void Game::update() {
     auto concreteFactory = make_shared<ConcreteFactory>();
     World world(concreteFactory);
-    auto level = make_shared<Level>("../levelTest.txt");
+    Camera camera(window->getSize().x,window->getSize().y);
+    auto level = make_shared<Level>("../levelTest.txt",camera);
     world.makeLevel(level);
     /*for (auto& entity : world.getEntities()) {
         auto pos = entity->getPosition();
         cout << "Entity at (" << get<0>(pos) << ", " << get<1>(pos) << ")" << entity->getSymbol() <<  endl;
     }*/
-    Camera camera(window->getSize().x,window->getSize().y);
     for (auto& entity : world.getEntities()) {
         char symbol = entity->getSymbol();
         if (symbol == 'P') {

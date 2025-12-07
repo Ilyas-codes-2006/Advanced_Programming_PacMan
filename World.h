@@ -28,7 +28,6 @@ public:
     [[nodiscard]] vector<shared_ptr<EntityModel>> getEntities() const {
         return entities;
     }
-
     void levelFinished();
     void addEntity(shared_ptr<EntityModel>& entity);
     void removeEntity(shared_ptr<EntityModel>& entity);

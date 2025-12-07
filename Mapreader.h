@@ -9,6 +9,7 @@
 #include <iostream>
 #include <fstream>
 using namespace std;
+#include "Camera.h"
 
 class Mapreader {
 private:
@@ -28,7 +29,7 @@ public:
         return height;
     }
 
-    vector<tuple<float,float,char>> readMap() const;
+    vector<tuple<float,float,char>> readMap(Camera camera) const;
 };
 
 

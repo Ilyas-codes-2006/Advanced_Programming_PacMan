@@ -4,7 +4,7 @@
 
 #include "Mapreader.h"
 
-vector<tuple<float, float, char> > Mapreader::readMap() const {
+vector<tuple<float, float, char>> Mapreader::readMap(Camera camera) const {
     ifstream input(filename);
     if (!input.is_open()) {
         cerr << "Error: Could not open file " << filename << endl;
@@ -21,11 +21,10 @@ vector<tuple<float, float, char> > Mapreader::readMap() const {
         y++;
     }
     for (int j = 0; j < y; j++) {
-        int invertedY = y - 1 - j;
         for (int i = 0; i < x; i++) {
-            float coordX = -1.0f + 2.0f*(i + 0.5f)/x;
-            float coordY = -1.0f + 2.0f*(invertedY + 0.5f)/y;
-            level.push_back({coordX,coordY,levelCount[j][i]});
+            auto coord = make_tuple(i*100,j*100);
+            auto NormCoord = camera.PixelCoToWorldCo(coord);
+            level.push_back({get<0>(NormCoord),get<1>(NormCoord),levelCount[j][i]});
         }
     }
     return level;

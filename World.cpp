@@ -38,7 +38,6 @@ void World::makeLevel(shared_ptr<Level> level) {
         float coordX = get<0>(coord);
         float coordY = get<1>(coord);
         char charEntity = get<2>(coord);
-
         switch (charEntity) {
             case '#':
                 entity = factory->WallEntity({coordX,coordY},'#');

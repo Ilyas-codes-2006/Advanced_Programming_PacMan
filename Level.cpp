@@ -6,7 +6,7 @@
 
 #include "Mapreader.h"
 
-Level::Level(const string &filename) {
+Level::Level(const string &filename,Camera camera) {
     Mapreader read(filename);
-    levelmapping = read.readMap();
+    levelmapping = read.readMap(camera);
 }

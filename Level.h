@@ -8,12 +8,12 @@
 #include <vector>
 #include <string>
 using namespace std;
-
+#include "Camera.h"
 class Level {
 private:
     vector<tuple<float,float,char>> levelmapping;
 public:
-    explicit Level(const string& filename);
+    explicit Level(const string& filename,Camera camera);
 
     [[nodiscard]] vector<tuple<float, float, char>> getLevelMapping() const {
         return levelmapping;
