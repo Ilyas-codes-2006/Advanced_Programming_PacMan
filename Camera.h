@@ -16,8 +16,8 @@ public:
         : width(width),
           height(height) {
     }
-    tuple<float,float> worldCoToPixelsCo(const tuple<float,float>& worldCo) const;
-    tuple<float,float> PixelCoToWorldCo(const tuple<float,float>& pixelCo) const;
+    tuple<float,float> worldCoToPixelsCo(const tuple<float,float>& worldCo,int a) const;
+    tuple<float,float> PixelCoToWorldCo(const tuple<float,float>& pixelCo,int a) const;
 };
 
 

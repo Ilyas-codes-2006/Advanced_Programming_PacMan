@@ -12,7 +12,7 @@ Game::Game(sf::RenderWindow* window) {
 void Game::update() {
     auto concreteFactory = make_shared<ConcreteFactory>();
     World world(concreteFactory);
-    Camera camera(window->getSize().x,window->getSize().y);
+    Camera camera(window->getSize().x-100,window->getSize().y-100);
     auto level = make_shared<Level>("../levelTest.txt",camera);
     world.makeLevel(level);
     /*for (auto& entity : world.getEntities()) {

@@ -29,7 +29,7 @@ void PacManRender::setSprite(const string &spritesheet,float c, float r) {
 
 void PacManRender::render(sf::RenderWindow *window) {
     auto worldPos = link->getPosition();
-    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos);
+    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos,100);
     float halfSize = 50.0f;
     sprite.setPosition(pixelX-halfSize-15,pixelY-halfSize+5);
     window->draw(sprite);
@@ -37,14 +37,14 @@ void PacManRender::render(sf::RenderWindow *window) {
 
 void WallRender::render(sf::RenderWindow *window) {
     auto worldPos = link->getPosition();
-    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos);
+    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos,100);
     float halfSize = 50.0f;
     wall.setPosition(pixelX-halfSize,pixelY-halfSize);
     window->draw(wall);
 }
 void FloorRender::render(sf::RenderWindow *window) {
     auto worldPos = link->getPosition();
-    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos);
+    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos,100);
     float halfSize = 50.0f;
     floor.setPosition(pixelX-halfSize,pixelY-halfSize);
     window->draw(floor);
