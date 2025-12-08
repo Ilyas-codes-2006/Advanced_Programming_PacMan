@@ -36,7 +36,7 @@ void Game::update() {
         else if (symbol == 'F') {
             views.push_back(concreteFactory->FloorView(entity, camera));
             auto FruitView = concreteFactory->FruitView(entity,camera);
-            FruitView->setSprite("../PacMan.png",12,3);
+            FruitView->setSprite("../PacMan.png",8,5);
             views.push_back(FruitView);
         }
         else if (symbol == '-') {
