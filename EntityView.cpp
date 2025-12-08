@@ -6,14 +6,18 @@
 
 #include "EntityModel.h"
 
-void PacManRender::setSprite(const string &spritesheet,float c, float r) {
+void PacManRender::setSprite(const string &spritesheet) {
+    spridesheet = spritesheet;
     if (!texture.loadFromFile(spritesheet)) {
         throw runtime_error("Failed to load texture: " + spritesheet);
     }
     float characterX = texture.getSize().x/19.0;
     float characterY = texture.getSize().y/19.0;
-    currentImage = sf::IntRect(characterX*c,characterY*r,characterX,characterY);
+    xChar = characterX;
+    yChar = characterY;
+    currentImage = sf::IntRect(characterX*x,characterY*y,characterX,characterY);
     sprite.setTexture(texture);
+    sprite.scale(2,2);
     sprite.setTextureRect(currentImage);
 }
 
@@ -25,6 +29,46 @@ void PacManRender::render(sf::RenderWindow *window) {
     sprite.setOrigin(currentImage.width/2.0,currentImage.height/2.0);
     sprite.setPosition(x,y);
     window->draw(sprite);
+}
+
+void PacManRender::update() {
+    char direction = link->getnextDirection();
+    switch (direction) {
+        case 'u':
+            y = 10;
+            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+            sprite.setTextureRect(currentImage);
+            break;
+        case 'd':
+            y = 4;
+            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+            sprite.setTextureRect(currentImage);
+            break;
+        case 'l':
+            y = 7;
+            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+            sprite.setTextureRect(currentImage);
+            break;
+        case 'r':
+            y = 1;
+            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+            sprite.setTextureRect(currentImage);
+            break;
+    }
+    /*if (count == 0) {
+        y++;
+        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+        sprite.setTextureRect(currentImage);
+        count++;
+    }
+    if (count == 2) {
+        y--;
+        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+        sprite.setTexture(texture);
+        sprite.scale(2,2);
+        sprite.setTextureRect(currentImage);
+        count = 0;
+    }*/
 }
 
 void WallRender::render(sf::RenderWindow *window) {
@@ -45,13 +89,13 @@ void FloorRender::render(sf::RenderWindow *window) {
     floor.setPosition(x,y);
     window->draw(floor);
 }
-void FruitRender::setSprite(const string &spritesheet, float c, float r) {
+void FruitRender::setSprite(const string &spritesheet) {
     if (!texture.loadFromFile(spritesheet)) {
         throw runtime_error("Failed to load texture: " + spritesheet);
     }
     float characterX = texture.getSize().x/19.0;
     float characterY = texture.getSize().y/19.0;
-    currentImage = sf::IntRect(characterX*c,characterY*r,characterX,characterY);
+    currentImage = sf::IntRect(characterX*x,characterY*y,characterX,characterY);
     sprite.setTexture(texture);
     sprite.setTextureRect(currentImage);
     sprite.setScale(2.7,2.7);
@@ -65,13 +109,13 @@ void FruitRender::render(sf::RenderWindow *window) {
     sprite.setPosition(x,y);
     window->draw(sprite);
 }
-void CoinRender::setSprite(const string &spritesheet, float c, float r) {
+void CoinRender::setSprite(const string &spritesheet) {
     if (!texture.loadFromFile(spritesheet)) {
         throw runtime_error("Failed to load texture: " + spritesheet);
     }
     float characterX = texture.getSize().x/19.0;
     float characterY = texture.getSize().y/19.0;
-    currentImage = sf::IntRect(characterX*c,characterY*r,characterX,characterY);
+    currentImage = sf::IntRect(characterX*x,characterY*y,characterX,characterY);
     sprite.setTexture(texture);
     sprite.setTextureRect(currentImage);
     sprite.setScale(1.2,1.2);

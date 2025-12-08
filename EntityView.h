@@ -41,12 +41,18 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
     sf::IntRect currentImage;
+    string spridesheet;
+    float xChar;
+    float yChar;
+    int x = 17;
+    int y = 0;
+    int count = 0;
 public:
     PacManRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
     }
-    void update() override {}
-    void setSprite(const string& spritesheet,float c, float r);
+    void update() override;
+    void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
 };
 class FloorRender : public EntityView {
@@ -76,12 +82,14 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
     sf::IntRect currentImage;
+    int x = 8;
+    int y = 5;
 public:
     CoinRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
     }
     void update() override {}
-    void setSprite(const string& spritesheet,float c, float r);
+    void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
 };
 class FruitRender : public EntityView {
@@ -89,12 +97,14 @@ private:
     sf::Texture texture;
     sf::Sprite sprite;
     sf::IntRect currentImage;
+    int x = 8;
+    int y = 5;
 public:
     FruitRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
     }
     void update() override {}
-    void setSprite(const string& spritesheet,float c, float r);
+    void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
 };
 

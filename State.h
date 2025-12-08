@@ -7,6 +7,11 @@
 
 #include <SFML/Graphics.hpp>
 #include <iostream>
+#include <memory>
+
+#include "ConcreteFactory.h"
+#include "World.h"
+class EntityView;
 using namespace std;
 class StateManager;
 class Game;
@@ -38,11 +43,16 @@ public:
     void render() override;
 };
 class LevelState: public State {
-    sf::Text titleText;
-    sf::Font font;
-    Game* game;
+private:
+    shared_ptr<ConcreteFactory> factory;
+    shared_ptr<World> world;
+    Camera camera;
+    vector<shared_ptr<EntityView>> views;
 public:
     LevelState(sf::RenderWindow *window, StateManager *stateManager);
+    [[nodiscard]] vector<shared_ptr<EntityView>> getViews() const {
+        return views;
+    }
     void Input(sf::Event *event) override;
     void update() override;
     void render() override;

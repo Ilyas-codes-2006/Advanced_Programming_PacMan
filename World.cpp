@@ -44,6 +44,7 @@ void World::makeLevel(shared_ptr<Level> level) {
                 break;
             case 'P':
                 entity = factory->PacManEntity({coordX,coordY},'P');
+                pacman = entity;
                 break;
             case '_':
                 entity = factory->FloorEntity({coordX,coordY},'_');
@@ -58,6 +59,14 @@ void World::makeLevel(shared_ptr<Level> level) {
         addEntity(entity);
     }
 }
+void World::check(shared_ptr<EntityModel> entity) {
+    if (entity->getSymbol()=='-') {
+        entity->interacts(pacman);
+        cout << "interacts" << entity->getSymbol() << endl;
+    }
+    removeEntity(entity);
+}
+
 
 
 

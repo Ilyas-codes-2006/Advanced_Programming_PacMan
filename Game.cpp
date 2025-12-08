@@ -10,7 +10,7 @@ Game::Game(sf::RenderWindow* window) {
     this->window = window;
 }
 void Game::update() {
-    auto concreteFactory = make_shared<ConcreteFactory>();
+    /*auto concreteFactory = make_shared<ConcreteFactory>();
     World world(concreteFactory);
     Camera camera(window->getSize().x,window->getSize().y);
     auto level = make_shared<Level>("../levelTest.txt",camera);
@@ -18,7 +18,7 @@ void Game::update() {
     /*for (auto& entity : world.getEntities()) {
         auto pos = entity->getPosition();
         cout << "Entity at (" << get<0>(pos) << ", " << get<1>(pos) << ")" << entity->getSymbol() <<  endl;
-    }*/
+    }#1#
     for (auto& entity : world.getEntities()) {
         char symbol = entity->getSymbol();
         if (symbol == 'P') {
@@ -45,8 +45,8 @@ void Game::update() {
             CoinView->setSprite("../PacMan.png",8,5);
             views.push_back(CoinView);
         }
-    }
-    while (window->isOpen()) {
+    }*/
+    /*while (window->isOpen()) {
         sf::Event event;
         while (window->pollEvent(event)) {
             if (event.type == sf::Event::Closed) {
@@ -61,9 +61,9 @@ void Game::update() {
         }
 
         window->display();
-    }
+    }*/
 
-    /*stateManager.push(make_unique<MenuState>(window,&stateManager));
+    stateManager.push(make_unique<MenuState>(window,&stateManager));
     while (window->isOpen()) {
         sf::Event event;
         while (window->pollEvent(event)) {
@@ -76,5 +76,5 @@ void Game::update() {
         window->clear(sf::Color(0,0,180));
         stateManager.whichRender();
         window->display();
-    }*/
+    }
 }

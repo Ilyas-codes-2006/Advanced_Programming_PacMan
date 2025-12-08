@@ -55,15 +55,39 @@ void MenuState::render() {
     window->draw(playButtonText);
     window->draw(highScores);
 }
-LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager){
-    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
-        cout << "Error loading font!" << endl;
+LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager), camera(window->getSize().x,window->getSize().y) {
+    factory = make_shared<ConcreteFactory>();
+    world = make_shared<World>(factory);
+    auto level = make_shared<Level>("../levelTest.txt",camera);
+    world->addLevel(level);
+    world->makeLevel(world->getCurrentLevel());
+    for (auto& entity : world->getEntities()) {
+        float x = get<0>(entity->getPosition());
+        float y = get<1>(entity->getPosition());
+        auto floor= factory->FloorEntity({x,y},'_');
+        char symbol = entity->getSymbol();
+        if (symbol == '#') {
+            views.push_back(factory->WallView(entity, camera));
+        } else {
+            views.push_back(factory->FloorView(floor, camera));
+        }
     }
-    titleText.setFont(font);
-    titleText.setString("GAME IS PLAYING");
-    titleText.setCharacterSize(50);
-    titleText.setFillColor(sf::Color(255, 255, 0));
-    titleText.setPosition(85, 30);
+    for (auto& entity : world->getEntities()) {
+        char symbol = entity->getSymbol();
+        if (symbol == 'F') {
+            auto FruitView = factory->FruitView(entity,camera);
+            FruitView->setSprite("../PacMan.png");
+            views.push_back(FruitView);
+        }
+        else if (symbol == '-') {
+            auto CoinView = factory->CoinView(entity,camera);
+            CoinView->setSprite("../PacMan.png");
+            views.push_back(CoinView);
+        }
+    }
+    auto pacView = factory->PacManView(world->getPacman(), camera);
+    pacView->setSprite("../PacMan.png");
+    views.push_back(pacView);
 }
 
 void LevelState::Input(sf::Event *event) {
@@ -72,19 +96,28 @@ void LevelState::Input(sf::Event *event) {
             stateManager->push(make_unique<PausedState>(window,stateManager));
         }
         if (event->key.code == sf::Keyboard::Up) {
-
+            world->getPacman()->setnextDirection('u');
+        }
+        if (event->key.code == sf::Keyboard::Down) {
+            world->getPacman()->setnextDirection('d');
+        }
+        if (event->key.code == sf::Keyboard::Left) {
+            world->getPacman()->setnextDirection('l');
+        }
+        if (event->key.code == sf::Keyboard::Right) {
+            world->getPacman()->setnextDirection('r');
         }
     }
 }
 void LevelState::update() {
+    float deltatime = Stopwatch::getInstance().tick();
+    world->getPacman()->update(deltatime);
 }
 void LevelState::render() {
-    window->draw(titleText);
-    /*window->clear(sf::Color::White);
-    for (auto& view : game->getViews()) {
+    window->clear();
+    for (auto& view : views) {
         view->render(window);
     }
-    window->display();*/
 }
 PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : State(window,stateManager) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")) {

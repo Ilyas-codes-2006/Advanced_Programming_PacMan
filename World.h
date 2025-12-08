@@ -16,6 +16,7 @@ private:
     vector<shared_ptr<Level>> levels;
     shared_ptr<AbstractFactory> factory;
     vector<shared_ptr<EntityModel>> entities;
+    shared_ptr<EntityModel> pacman;
     int currentLevel = 0;
 public:
     explicit World(const shared_ptr<AbstractFactory> &factory)
@@ -25,6 +26,10 @@ public:
     void addLevel(shared_ptr<Level>& level);
     void makeLevel(shared_ptr<Level> level);
 
+    [[nodiscard]] shared_ptr<EntityModel> getPacman() const {
+        return pacman;
+    }
+
     [[nodiscard]] vector<shared_ptr<EntityModel>> getEntities() const {
         return entities;
     }
@@ -32,6 +37,7 @@ public:
     void addEntity(shared_ptr<EntityModel>& entity);
     void removeEntity(shared_ptr<EntityModel>& entity);
     void clearEntities();
+    void check(shared_ptr<EntityModel> entity);
 };
 
 
