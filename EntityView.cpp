@@ -49,6 +49,62 @@ void FloorRender::render(sf::RenderWindow *window) {
     floor.setPosition(pixelX-halfSize,pixelY-halfSize);
     window->draw(floor);
 }
+void FruitRender::setSprite(const string &spritesheet, float c, float r) {
+    if (!texture.loadFromFile(spritesheet)) {
+        throw runtime_error("Failed to load texture: " + spritesheet);
+    }
+    sprite.setTexture(texture);
+    float spriteCountX = 19;
+    float spriteCountY = 19;
+    float beginspriteX = 18;
+    float beginspriteY = 1;
+
+    float spriteWidth = texture.getSize().x/spriteCountX;
+    float spriteHeight = texture.getSize().y/spriteCountY;
+    int col = c;
+    int row = r;
+    currentImage = sf::IntRect(col*spriteWidth,row*spriteHeight,spriteWidth,spriteHeight);
+    float scaleX = 100.0f/spriteWidth;
+    float scaleY = 100.0f/spriteHeight;
+    sprite.setScale(1.2,1.2);
+    sprite.setTextureRect(currentImage);
+}
+void FruitRender::render(sf::RenderWindow *window) {
+    auto worldPos = link->getPosition();
+    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos,100);
+    float halfSize = 50.0f;
+    sprite.setPosition(pixelX-halfSize+15,pixelY-halfSize+20);
+    window->draw(sprite);
+}
+void CoinRender::setSprite(const string &spritesheet, float c, float r) {
+    if (!texture.loadFromFile(spritesheet)) {
+        throw runtime_error("Failed to load texture: " + spritesheet);
+    }
+    sprite.setTexture(texture);
+    float spriteCountX = 19;
+    float spriteCountY = 19;
+    float beginspriteX = 18;
+    float beginspriteY = 1;
+
+    float spriteWidth = texture.getSize().x/spriteCountX;
+    float spriteHeight = texture.getSize().y/spriteCountY;
+    int col = c;
+    int row = r;
+    currentImage = sf::IntRect(col*spriteWidth,row*spriteHeight,spriteWidth,spriteHeight);
+    float scaleX = 100.0f/spriteWidth;
+    float scaleY = 100.0f/spriteHeight;
+    sprite.setScale(1.2,1.2);
+    sprite.setTextureRect(currentImage);
+}
+void CoinRender::render(sf::RenderWindow *window) {
+    auto worldPos = link->getPosition();
+    auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos,100);
+    float halfSize = 50.0f;
+    sprite.setPosition(pixelX-halfSize+15,pixelY-halfSize+20);
+    window->draw(sprite);
+}
+
+
 
 
 

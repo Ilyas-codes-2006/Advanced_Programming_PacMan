@@ -107,9 +107,24 @@ public:
     void setnextDirection(char nextDirection) override{}
     void update(float deltaTime) override {}
 };
-class Collectable: public EntityModel {
+class Fruit: public EntityModel {
 public:
-    Collectable(const tuple<float, float> &position, char symbol)
+    Fruit(const tuple<float, float> &position, char symbol)
+        : EntityModel(position, symbol) {
+    }
+    [[nodiscard]] char getcurrentDirection() const override{}
+
+    void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] char getnextDirection() override{}
+
+    void setnextDirection(char nextDirection) override{}
+
+    void update(float deltaTime) override {}
+};
+class Coin: public EntityModel {
+public:
+    Coin(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
     [[nodiscard]] char getcurrentDirection() const override{}

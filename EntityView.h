@@ -71,6 +71,32 @@ public:
     void update() override {}
     void render(sf::RenderWindow* window) override;
 };
+class CoinRender : public EntityView {
+private:
+    sf::Texture texture;
+    sf::Sprite sprite;
+    sf::IntRect currentImage;
+public:
+    CoinRender(const shared_ptr<EntityModel> &link, Camera &camera)
+        : EntityView(link, camera) {
+    }
+    void update() override {}
+    void setSprite(const string& spritesheet,float c, float r);
+    void render(sf::RenderWindow *window) override;
+};
+class FruitRender : public EntityView {
+private:
+    sf::Texture texture;
+    sf::Sprite sprite;
+    sf::IntRect currentImage;
+public:
+    FruitRender(const shared_ptr<EntityModel> &link, Camera &camera)
+        : EntityView(link, camera) {
+    }
+    void update() override {}
+    void setSprite(const string& spritesheet,float c, float r);
+    void render(sf::RenderWindow *window) override;
+};
 
 
 #endif //ADVANCEDPROGRAMMING_PACMAN_ENTITYVIEW_H

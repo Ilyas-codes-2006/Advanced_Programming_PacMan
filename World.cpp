@@ -47,6 +47,13 @@ void World::makeLevel(shared_ptr<Level> level) {
                 break;
             case '_':
                 entity = factory->FloorEntity({coordX,coordY},'_');
+                break;
+            case 'F':
+                entity = factory->FruitEntity({coordX,coordY},'F');
+                break;
+            case '-':
+                entity = factory->CoinEntity({coordX,coordY},'-');
+                break;
         }
         addEntity(entity);
     }

@@ -12,7 +12,7 @@ Game::Game(sf::RenderWindow* window) {
 void Game::update() {
     auto concreteFactory = make_shared<ConcreteFactory>();
     World world(concreteFactory);
-    Camera camera(window->getSize().x-100,window->getSize().y-100);
+    Camera camera(window->getSize().x,window->getSize().y);
     auto level = make_shared<Level>("../levelTest.txt",camera);
     world.makeLevel(level);
     /*for (auto& entity : world.getEntities()) {
@@ -32,6 +32,18 @@ void Game::update() {
         }
         else if (symbol == '_') {
             views.push_back(concreteFactory->FloorView(entity, camera));
+        }
+        else if (symbol == 'F') {
+            views.push_back(concreteFactory->FloorView(entity, camera));
+            auto FruitView = concreteFactory->FruitView(entity,camera);
+            FruitView->setSprite("../PacMan.png",12,3);
+            views.push_back(FruitView);
+        }
+        else if (symbol == '-') {
+            views.push_back(concreteFactory->FloorView(entity, camera));
+            auto CoinView = concreteFactory->CoinView(entity,camera);
+            CoinView->setSprite("../PacMan.png",8,5);
+            views.push_back(CoinView);
         }
     }
     while (window->isOpen()) {
