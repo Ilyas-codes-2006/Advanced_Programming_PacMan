@@ -14,12 +14,30 @@ using namespace std;
 class Mapreader {
 private:
     string filename;
+    int xs;
+    int ys;
 public:
     explicit Mapreader(const string &filename)
         : filename(filename) {
     }
 
-    vector<tuple<float,float,char>> readMap(Camera camera) const;
+    [[nodiscard]] int xs1() const {
+        return xs;
+    }
+
+    void set_xs(int xs) {
+        this->xs = xs;
+    }
+
+    [[nodiscard]] int ys1() const {
+        return ys;
+    }
+
+    void set_ys(int ys) {
+        this->ys = ys;
+    }
+
+    vector<tuple<float,float,char>> readMap(Camera camera);
 };
 
 

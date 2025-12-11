@@ -61,14 +61,20 @@ tuple<float,float> PacMan::getPrevPosition() {
 void PacMan::setPrevPosition(tuple<float,float> prev) {
     previous_position = prev;
 }
-shared_ptr<EntityModel> Coin::interacts(shared_ptr<EntityModel> pacman) {
+/*shared_ptr<EntityModel> Coin::interacts(shared_ptr<EntityModel> pacman) {
     if (pacman->getPosition() == this->getPosition()) {
         setInteracted(true);
     }
     return nullptr;
 }
 shared_ptr<EntityModel> Wall::interacts(shared_ptr<EntityModel> PacMan) {
+    auto pac = PacMan->getPosition();
+    auto wall = getPosition();
+    if (wall == pac) {
+        auto prevpes = PacMan->getPrevPosition();
+        PacMan->setPosition(prevpes);
+    }
     return nullptr;
-}
+}*/
 
 

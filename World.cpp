@@ -41,24 +41,55 @@ void World::makeLevel(shared_ptr<Level> level) {
         switch (charEntity) {
             case '#':
                 entity = factory->WallEntity({coordX,coordY},'#');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
                 break;
             case 'P':
                 entity = factory->PacManEntity({coordX,coordY},'P');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
                 pacman = entity;
                 break;
             case '_':
                 entity = factory->FloorEntity({coordX,coordY},'_');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
                 break;
             case 'F':
                 entity = factory->FruitEntity({coordX,coordY},'F');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
                 break;
             case '-':
                 entity = factory->CoinEntity({coordX,coordY},'-');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
                 break;
         }
         addEntity(entity);
     }
 }
+void World::checkCollision() {
+    auto pac = pacman->getPosition();
+    float xMin = get<0>(pac)-pacman->entity_width()/2;
+    float xMax = get<0>(pac)+pacman->entity_width()/2;
+    float yMin = get<1>(pac)+pacman->entity_height()/2;
+    float yMax = get<1>(pac)-pacman->entity_height()/2;
+    for (auto entity: getEntities()) {
+        if (entity->getSymbol()== '#') {
+            auto wall = entity->getPosition();
+            float wMinx = get<0>(wall)-entity->entity_width()/2;
+            float wMaxx = get<0>(wall)+entity->entity_width()/2;
+            float wMiny = get<1>(wall)+entity->entity_height()/2;
+            float wMaxy = get<1>(wall)-entity->entity_height()/2;
+            if (xMax > wMinx && xMin < wMaxx && yMax < wMiny && yMin > wMaxy) {
+                auto pos = pacman->getPrevPosition();
+                pacman->setPosition(pos);
+            }
+        }
+    }
+}
+
 
 
 

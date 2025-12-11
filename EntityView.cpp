@@ -35,23 +35,24 @@ void PacManRender::update() {
     char direction = link->getnextDirection();
     switch (direction) {
         case 'u':
-            y = 9;
+            y = 10;
             break;
         case 'd':
-            y = 3;
+            y = 4;
             break;
         case 'l':
-            y = 6;
+            y = 7;
             break;
         case 'r':
-            y = 0;
+            y = 1;
             break;
     }
-    if (count >= 0 && count < 3) {
+    currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+    sprite.setTextureRect(currentImage);
+    /*if (count >= 0 && count < 3) {
         spriteIndex = 1;
         y = y + spriteIndex;
-        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
-        sprite.setTextureRect(currentImage);
+
         count++;
         spriteIndex = 0;
     }
@@ -77,7 +78,7 @@ void PacManRender::update() {
         if (count == 9) {
             count = 0;
         }
-    }
+    }*/
 }
 
 void WallRender::render(sf::RenderWindow *window) {

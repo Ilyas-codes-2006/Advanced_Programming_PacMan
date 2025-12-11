@@ -107,11 +107,7 @@ void LevelState::Input(sf::Event *event) {
 void LevelState::update() {
     float deltatime = Stopwatch::getInstance().tick();
     world->getPacman()->update(deltatime);
-    for (auto entity:world->getEntities()) {
-        if (entity->getSymbol() == '#') {
-            entity->interacts(world->getPacman());
-        }
-    }
+    world->checkCollision();
 }
 void LevelState::render() {
     window->clear();

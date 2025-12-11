@@ -37,6 +37,7 @@ public:
     void addEntity(shared_ptr<EntityModel>& entity);
     void removeEntity(shared_ptr<EntityModel>& entity);
     void clearEntities();
+    void checkCollision();
 };
 
 

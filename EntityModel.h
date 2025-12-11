@@ -14,6 +14,9 @@ using namespace std;
 class EntityModel: public Subject {
 private:
     tuple<float,float> position;
+    float entityWidth;
+    float entityHeight;
+    float margeCol = 0.05f;
     bool interacted = false;
     char symbol;
 public:
@@ -24,6 +27,26 @@ public:
 
     [[nodiscard]] bool getInteracted() const {
         return interacted;
+    }
+
+    [[nodiscard]] float entity_width() const {
+        return entityWidth;
+    }
+
+    void set_entity_width(float entity_width) {
+        entityWidth = entity_width;
+    }
+
+    [[nodiscard]] float entity_height() const {
+        return entityHeight;
+    }
+
+    void set_entity_height(float entity_height) {
+        entityHeight = entity_height;
+    }
+
+    [[nodiscard]] float marge_col() const {
+        return margeCol;
     }
 
     void setInteracted(bool interacted) {
@@ -47,8 +70,6 @@ public:
     virtual void setPrevPosition(tuple<float,float> prev) = 0;
 
     virtual void update(float deltaTime) = 0;
-
-    virtual shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) = 0;
 
     tuple<float, float> getPosition() const {
         return position;
@@ -74,7 +95,6 @@ public:
     PacMan(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
-    shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) override{}
     [[nodiscard]] char getcurrentDirection() const override;
 
     void setCurrentDirection(char currentDirection) override;
@@ -98,7 +118,7 @@ public:
     Ghost(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
-    shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) override{}
+
     [[nodiscard]] char getcurrentDirection() const override{}
 
     void setCurrentDirection(char currentDirection) override{}
@@ -123,7 +143,7 @@ public:
     Wall(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
-    shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) override;
+
     [[nodiscard]] char getcurrentDirection() const override{}
 
     void setCurrentDirection(char currentDirection) override{}
@@ -147,7 +167,7 @@ public:
     Floor(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
-    shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) override{}
+
     [[nodiscard]] char getcurrentDirection() const override{}
 
     void setCurrentDirection(char currentDirection) override{}
@@ -170,7 +190,7 @@ public:
     Fruit(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
-    shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) override{}
+
     [[nodiscard]] char getcurrentDirection() const override{}
 
     void setCurrentDirection(char currentDirection) override{}
@@ -195,7 +215,6 @@ public:
         : EntityModel(position, symbol) {
     }
 
-    shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) override;
 
     [[nodiscard]] char getcurrentDirection() const override{}
 
