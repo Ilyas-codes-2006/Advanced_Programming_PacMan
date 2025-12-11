@@ -9,7 +9,7 @@
 void PacMan::update(float deltaTime) {
     auto position = getPosition();
     this->setPrevPosition(position);
-    float speed = 0.2;
+    float speed = 0.3;
     float x = get<0>(position);
     float y = get<1>(position);
     switch (getnextDirection()) {

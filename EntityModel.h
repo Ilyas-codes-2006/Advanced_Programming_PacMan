@@ -16,7 +16,6 @@ private:
     tuple<float,float> position;
     float entityWidth;
     float entityHeight;
-    float margeCol = 0.05f;
     bool interacted = false;
     char symbol;
 public:
@@ -43,10 +42,6 @@ public:
 
     void set_entity_height(float entity_height) {
         entityHeight = entity_height;
-    }
-
-    [[nodiscard]] float marge_col() const {
-        return margeCol;
     }
 
     void setInteracted(bool interacted) {

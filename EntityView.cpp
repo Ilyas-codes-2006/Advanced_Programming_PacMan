@@ -86,7 +86,7 @@ void WallRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    wall.setOrigin(wall.getSize().x/2,wall.getSize().y/2);
+    /*wall.setOrigin(wall.getSize().x/2,wall.getSize().y/2);*/
     wall.setPosition(x,y);
     window->draw(wall);
 }
@@ -95,7 +95,7 @@ void FloorRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    floor.setOrigin(floor.getSize().x/2,floor.getSize().y/2);
+    /*floor.setOrigin(floor.getSize().x/2,floor.getSize().y/2);*/
     floor.setPosition(x,y);
     window->draw(floor);
 }
@@ -115,7 +115,7 @@ void FruitRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    sprite.setOrigin(currentImage.width/2,currentImage.height/2);
+    /*sprite.setOrigin(currentImage.width/2,currentImage.height/2);*/
     sprite.setPosition(x,y);
     window->draw(sprite);
 }
@@ -131,11 +131,14 @@ void CoinRender::setSprite(const string &spritesheet) {
     sprite.setScale(1.2,1.2);
 }
 void CoinRender::render(sf::RenderWindow *window) {
+    if (link->getInteracted()) {
+        return;
+    }
     auto Position = link->getPosition();
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    sprite.setOrigin(currentImage.width/2,currentImage.height/2);
+    /*sprite.setOrigin(currentImage.width/2,currentImage.height/2);*/
     sprite.setPosition(x,y);
     window->draw(sprite);
 }

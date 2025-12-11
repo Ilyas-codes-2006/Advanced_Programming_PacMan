@@ -89,6 +89,31 @@ void World::checkCollision() {
         }
     }
 }
+void World::checkEaten() {
+    auto pac = pacman->getPosition();
+    float xMin = get<0>(pac)-pacman->entity_width()/8;
+    float xMax = get<0>(pac)+pacman->entity_width()/8;
+    float yMin = get<1>(pac)+pacman->entity_height()/8;
+    float yMax = get<1>(pac)-pacman->entity_height()/8;
+    vector<shared_ptr<EntityModel>> coins;
+    for (auto entity: getEntities()) {
+        if (entity->getSymbol()== '-') {
+            auto coin = entity->getPosition();
+            float wMinx = get<0>(coin)-entity->entity_width()/8;
+            float wMaxx = get<0>(coin)+entity->entity_width()/8;
+            float wMiny = get<1>(coin)+entity->entity_height()/8;
+            float wMaxy = get<1>(coin)-entity->entity_height()/8;
+            if (xMax > wMinx && xMin < wMaxx && yMax < wMiny && yMin > wMaxy) {
+                cout << "eaten" << endl;
+                entity->setInteracted(true);
+                coins.push_back(entity);
+            }
+        }
+    }
+    for (auto coin: coins) {
+        removeEntity(coin);
+    }
+}
 
 
 

@@ -38,6 +38,7 @@ public:
     void removeEntity(shared_ptr<EntityModel>& entity);
     void clearEntities();
     void checkCollision();
+    void checkEaten();
 };
 
 

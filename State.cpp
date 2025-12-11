@@ -66,6 +66,9 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
         if (symbol == '#') {
             views.push_back(factory->WallView(entity, camera));
         }
+        else if (symbol == '_') {
+            views.push_back(factory->FloorView(entity, camera));
+        }
     }
     for (auto& entity : world->getEntities()) {
         char symbol = entity->getSymbol();
@@ -79,6 +82,7 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
             CoinView->setSprite("../PacMan.png");
             views.push_back(CoinView);
         }
+
     }
     auto pacView = factory->PacManView(world->getPacman(), camera);
     pacView->setSprite("../PacMan.png");
@@ -108,6 +112,7 @@ void LevelState::update() {
     float deltatime = Stopwatch::getInstance().tick();
     world->getPacman()->update(deltatime);
     world->checkCollision();
+    world->checkEaten();
 }
 void LevelState::render() {
     window->clear();

@@ -20,8 +20,8 @@ vector<tuple<float, float, char>> Mapreader::readMap(Camera camera) {
         x = line.size();
         y++;
     }
-    float width = float(x)-1;
-    float height = float(y)-1;
+    float width = float(x);
+    float height = float(y);
     xs = x;
     ys = y;
     for (int j = 0; j < y; j++) {
