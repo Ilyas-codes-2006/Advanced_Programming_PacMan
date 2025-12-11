@@ -115,7 +115,7 @@ void FruitRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    /*sprite.setOrigin(currentImage.width/2,currentImage.height/2);*/
+    sprite.setOrigin(currentImage.width/2,currentImage.height/2);
     sprite.setPosition(x,y);
     window->draw(sprite);
 }
@@ -138,7 +138,7 @@ void CoinRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    /*sprite.setOrigin(currentImage.width/2,currentImage.height/2);*/
+    sprite.setOrigin(currentImage.width/2,currentImage.height/2);
     sprite.setPosition(x,y);
     window->draw(sprite);
 }
