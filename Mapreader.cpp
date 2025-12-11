@@ -20,11 +20,13 @@ vector<tuple<float, float, char>> Mapreader::readMap(Camera camera) const {
         x = line.size();
         y++;
     }
+    float width = float(x)-1;
+    float height = float(y)-1;
     for (int j = 0; j < y; j++) {
+        float coordy = 1-2*(float(j)/height);
         for (int i = 0; i < x; i++) {
-            auto coord = make_tuple(int(i*100),int(j*100));
-            auto NormCoord = camera.PixelCoToWorldCo(coord,0);
-            level.push_back({get<0>(NormCoord),get<1>(NormCoord),levelCount[j][i]});
+            float coordx = -1+2*(float(i)/width);
+            level.push_back({coordx,coordy,levelCount[j][i]});
         }
     }
     return level;

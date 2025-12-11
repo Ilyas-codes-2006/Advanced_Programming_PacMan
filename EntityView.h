@@ -46,6 +46,7 @@ private:
     float yChar;
     int x = 17;
     int y = 0;
+    int spriteIndex = 0;
     int count = 0;
 public:
     PacManRender(const shared_ptr<EntityModel> &link, Camera &camera)

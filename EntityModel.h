@@ -38,6 +38,14 @@ public:
 
     virtual void setnextDirection(char nextDirection) = 0;
 
+    [[nodiscard]] virtual tuple<float,float> getcurrentPosition() = 0;
+
+    virtual void setCurrentPosition(tuple<float,float> cur) = 0;
+
+    [[nodiscard]] virtual tuple<float,float> getPrevPosition() = 0;
+
+    virtual void setPrevPosition(tuple<float,float> prev) = 0;
+
     virtual void update(float deltaTime) = 0;
 
     virtual shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) = 0;
@@ -59,6 +67,8 @@ public:
 class PacMan: public EntityModel {
     char currentDirection = 'N';
     char nextDirection = 'N';
+    tuple<float,float> current_position;
+    tuple<float,float> previous_position;
 public:
 
     PacMan(const tuple<float, float> &position, char symbol)
@@ -72,6 +82,14 @@ public:
     [[nodiscard]] char getnextDirection() override;
 
     void setnextDirection(char nextDirection) override;
+
+    [[nodiscard]] tuple<float,float> getcurrentPosition() override;
+
+    void setCurrentPosition(tuple<float,float> cur) override;
+
+    [[nodiscard]]  tuple<float,float> getPrevPosition() override;
+
+    void setPrevPosition(tuple<float,float> prev) override;
 
     void update(float deltaTime) override;
 };
@@ -88,6 +106,16 @@ public:
     [[nodiscard]] char getnextDirection() override{}
 
     void setnextDirection(char nextDirection) override{}
+
+
+    [[nodiscard]] tuple<float,float> getcurrentPosition() override{}
+
+    void setCurrentPosition(tuple<float,float> cur) override {}
+
+    [[nodiscard]]  tuple<float,float> getPrevPosition() override {}
+
+    void setPrevPosition(tuple<float,float> prev) override {}
+
     void update(float deltaTime) override {}
 };
 class Wall: public EntityModel {
@@ -95,10 +123,18 @@ public:
     Wall(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
-    shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) override{}
+    shared_ptr<EntityModel> interacts(shared_ptr<EntityModel> PacMan) override;
     [[nodiscard]] char getcurrentDirection() const override{}
 
     void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] tuple<float,float> getcurrentPosition() override{}
+
+    void setCurrentPosition(tuple<float,float> cur) override {}
+
+    [[nodiscard]]  tuple<float,float> getPrevPosition() override {}
+
+    void setPrevPosition(tuple<float,float> prev) override {}
 
     [[nodiscard]] char getnextDirection() override{}
 
@@ -115,6 +151,14 @@ public:
     [[nodiscard]] char getcurrentDirection() const override{}
 
     void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] tuple<float,float> getcurrentPosition() override{}
+
+    void setCurrentPosition(tuple<float,float> cur) override {}
+
+    [[nodiscard]]  tuple<float,float> getPrevPosition() override {}
+
+    void setPrevPosition(tuple<float,float> prev) override {}
 
     [[nodiscard]] char getnextDirection() override{}
 
@@ -133,6 +177,14 @@ public:
 
     [[nodiscard]] char getnextDirection() override{}
 
+    [[nodiscard]] tuple<float,float> getcurrentPosition() override{}
+
+    void setCurrentPosition(tuple<float,float> cur) override {}
+
+    [[nodiscard]]  tuple<float,float> getPrevPosition() override {}
+
+    void setPrevPosition(tuple<float,float> prev) override {}
+
     void setnextDirection(char nextDirection) override{}
 
     void update(float deltaTime) override {}
@@ -148,6 +200,14 @@ public:
     [[nodiscard]] char getcurrentDirection() const override{}
 
     void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] tuple<float,float> getcurrentPosition() override{}
+
+    void setCurrentPosition(tuple<float,float> cur) override {}
+
+    [[nodiscard]]  tuple<float,float> getPrevPosition() override {}
+
+    void setPrevPosition(tuple<float,float> prev) override {}
 
     [[nodiscard]] char getnextDirection() override{}
 

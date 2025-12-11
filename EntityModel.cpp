@@ -4,23 +4,30 @@
 
 #include "EntityModel.h"
 
+#include <iostream>
+
 void PacMan::update(float deltaTime) {
     auto position = getPosition();
+    this->setPrevPosition(position);
     float speed = 0.2;
     float x = get<0>(position);
     float y = get<1>(position);
     switch (getnextDirection()) {
         case 'u':
             setPosition({x,y+(speed*deltaTime)});
+            this->setCurrentPosition(getPosition());
             break;
         case 'd':
             setPosition({x,y-(speed*deltaTime)});
+            this->setCurrentPosition(getPosition());
             break;
         case 'l':
             setPosition({x-(speed*deltaTime),y});
+            this->setCurrentPosition(getPosition());
             break;
         case 'r':
             setPosition({x+(speed*deltaTime),y});
+            this->setCurrentPosition(getPosition());
             break;
     }
 }
@@ -39,10 +46,29 @@ char PacMan::getnextDirection() {
 void PacMan::setnextDirection(char next_direction) {
     nextDirection = next_direction;
 }
+tuple<float,float> PacMan::getcurrentPosition() {
+    return current_position;
+}
+
+void PacMan::setCurrentPosition(tuple<float,float> cur) {
+    current_position = cur;
+}
+
+tuple<float,float> PacMan::getPrevPosition() {
+    return previous_position;
+}
+
+void PacMan::setPrevPosition(tuple<float,float> prev) {
+    previous_position = prev;
+}
 shared_ptr<EntityModel> Coin::interacts(shared_ptr<EntityModel> pacman) {
     if (pacman->getPosition() == this->getPosition()) {
         setInteracted(true);
     }
     return nullptr;
 }
+shared_ptr<EntityModel> Wall::interacts(shared_ptr<EntityModel> PacMan) {
+    return nullptr;
+}
+
 

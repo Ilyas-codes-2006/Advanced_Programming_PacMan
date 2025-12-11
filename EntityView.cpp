@@ -15,10 +15,11 @@ void PacManRender::setSprite(const string &spritesheet) {
     float characterY = texture.getSize().y/19.0;
     xChar = characterX;
     yChar = characterY;
+    sprite.setOrigin(xChar / 2.0f, yChar / 2.0f);
     currentImage = sf::IntRect(characterX*x,characterY*y,characterX,characterY);
     sprite.setTexture(texture);
-    sprite.scale(2,2);
     sprite.setTextureRect(currentImage);
+    sprite.scale(2,2);
 }
 
 void PacManRender::render(sf::RenderWindow *window) {
@@ -26,7 +27,6 @@ void PacManRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    sprite.setOrigin(currentImage.width/2.0,currentImage.height/2.0);
     sprite.setPosition(x,y);
     window->draw(sprite);
 }
@@ -35,40 +35,49 @@ void PacManRender::update() {
     char direction = link->getnextDirection();
     switch (direction) {
         case 'u':
-            y = 10;
-            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
-            sprite.setTextureRect(currentImage);
+            y = 9;
             break;
         case 'd':
-            y = 4;
-            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
-            sprite.setTextureRect(currentImage);
+            y = 3;
             break;
         case 'l':
-            y = 7;
-            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
-            sprite.setTextureRect(currentImage);
+            y = 6;
             break;
         case 'r':
-            y = 1;
-            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
-            sprite.setTextureRect(currentImage);
+            y = 0;
             break;
     }
-    /*if (count == 0) {
-        y++;
+    if (count >= 0 && count < 3) {
+        spriteIndex = 1;
+        y = y + spriteIndex;
         currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
         sprite.setTextureRect(currentImage);
         count++;
+        spriteIndex = 0;
     }
-    if (count == 2) {
-        y--;
+    if (count >= 3 && count < 6) {
+        spriteIndex = 2;
+        y = y + spriteIndex;
         currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
         sprite.setTexture(texture);
         sprite.scale(2,2);
         sprite.setTextureRect(currentImage);
-        count = 0;
-    }*/
+        count++;
+        spriteIndex = 0;
+    }
+    if (count >= 6 && count < 9) {
+        spriteIndex = 0;
+        y = y + spriteIndex;
+        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+        sprite.setTexture(texture);
+        sprite.scale(2,2);
+        sprite.setTextureRect(currentImage);
+        count++;
+        spriteIndex = 0;
+        if (count == 9) {
+            count = 0;
+        }
+    }
 }
 
 void WallRender::render(sf::RenderWindow *window) {

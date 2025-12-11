@@ -62,14 +62,9 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     world->addLevel(level);
     world->makeLevel(world->getCurrentLevel());
     for (auto& entity : world->getEntities()) {
-        float x = get<0>(entity->getPosition());
-        float y = get<1>(entity->getPosition());
-        auto floor= factory->FloorEntity({x,y},'_');
         char symbol = entity->getSymbol();
         if (symbol == '#') {
             views.push_back(factory->WallView(entity, camera));
-        } else {
-            views.push_back(factory->FloorView(floor, camera));
         }
     }
     for (auto& entity : world->getEntities()) {
@@ -112,6 +107,11 @@ void LevelState::Input(sf::Event *event) {
 void LevelState::update() {
     float deltatime = Stopwatch::getInstance().tick();
     world->getPacman()->update(deltatime);
+    for (auto entity:world->getEntities()) {
+        if (entity->getSymbol() == '#') {
+            entity->interacts(world->getPacman());
+        }
+    }
 }
 void LevelState::render() {
     window->clear();
