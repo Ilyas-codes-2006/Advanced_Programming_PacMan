@@ -61,7 +61,7 @@ private:
     sf::RectangleShape floor;
 public:
     FloorRender(shared_ptr<EntityModel> model, Camera &camera) : EntityView(model, camera) {
-        floor.setSize(sf::Vector2f(100, 100));
+        floor.setSize(sf::Vector2f(95, 91));
         floor.setFillColor(sf::Color::Black);
     }
     void update() override {}
@@ -72,7 +72,7 @@ private:
     sf::RectangleShape wall;
 public:
     WallRender(shared_ptr<EntityModel> model, Camera &camera) : EntityView(model, camera) {
-        wall.setSize(sf::Vector2f(100, 100));
+        wall.setSize(sf::Vector2f(95, 91));
         wall.setFillColor(sf::Color::Blue);
     }
     void update() override {}

@@ -10,7 +10,7 @@ int main() {
     auto world = camera.worldCoToPixelsCo(pixel,100);
     Mapreader reader("../levelTest.txt");
     auto level = reader.readMap(camera);*/
-    sf::RenderWindow window(sf::VideoMode(1920,  1080), "PacMan");
+    sf::RenderWindow window(sf::VideoMode(1900,  1000), "PacMan");
     Game game = Game(&window);
     game.update();
     return 0;

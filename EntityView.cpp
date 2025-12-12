@@ -15,7 +15,7 @@ void PacManRender::setSprite(const string &spritesheet) {
     float characterY = texture.getSize().y/19.0;
     xChar = characterX;
     yChar = characterY;
-    sprite.setOrigin(xChar / 2.0f, yChar / 2.0f);
+    /*sprite.setOrigin(xChar/2.0f,yChar/2.0f);*/
     currentImage = sf::IntRect(characterX*x,characterY*y,characterX,characterY);
     sprite.setTexture(texture);
     sprite.setTextureRect(currentImage);
@@ -115,7 +115,7 @@ void FruitRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    sprite.setOrigin(currentImage.width/2,currentImage.height/2);
+    /*sprite.setOrigin(currentImage.width/2,currentImage.height/2);*/
     sprite.setPosition(x,y);
     window->draw(sprite);
 }
@@ -138,7 +138,7 @@ void CoinRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    sprite.setOrigin(currentImage.width/2,currentImage.height/2);
+    /*sprite.setOrigin(currentImage.width/2,currentImage.height/2);*/
     sprite.setPosition(x,y);
     window->draw(sprite);
 }

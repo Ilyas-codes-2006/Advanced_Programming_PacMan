@@ -24,12 +24,32 @@ vector<tuple<float, float, char>> Mapreader::readMap(Camera camera) {
     float height = float(y);
     xs = x;
     ys = y;
+    int gotit = 0;
+    float tileWidth;
+    float tileHeight;
     for (int j = 0; j < y; j++) {
         float coordy = 1-2*(float(j)/height);
-        for (int i = 0; i < x; i++) {
-            float coordx = -1+2*(float(i)/width);
-            level.push_back({coordx,coordy,levelCount[j][i]});
+        float coordy2 = 1-2*(float(j+1)/height);
+        if (gotit==0) {
+            for (int i = 0; i < x; i++) {
+                float coordx = -1+2*(float(i)/width);
+                float coordx2 = -1+2*(float(i+1)/width);
+                auto tup2 = camera.worldCoToPixelsCo({coordx2,coordy2},0);
+                auto tup1 = camera.worldCoToPixelsCo({coordx,coordy},0);
+                tileWidth = get<0>(tup2)-get<0>(tup1);
+                tileHeight = get<1>(tup2)-get<1>(tup1);
+                level.push_back({coordx,coordy,levelCount[j][i]});
+            }
+            gotit = 1;
+        }
+        else {
+            for (int i = 0; i < x; i++) {
+                float coordx = -1+2*(float(i)/width);
+                level.push_back({coordx,coordy,levelCount[j][i]});
+            }
         }
     }
+    tilewidth = tileWidth;
+    tileheight = tileHeight;
     return level;
 }

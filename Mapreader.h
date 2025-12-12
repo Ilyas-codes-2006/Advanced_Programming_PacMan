@@ -16,6 +16,8 @@ private:
     string filename;
     int xs;
     int ys;
+    float tilewidth;
+    float tileheight;
 public:
     explicit Mapreader(const string &filename)
         : filename(filename) {
@@ -35,6 +37,14 @@ public:
 
     void set_ys(int ys) {
         this->ys = ys;
+    }
+
+    [[nodiscard]] float tileheight1() const {
+        return tileheight;
+    }
+
+    [[nodiscard]] float tilewidth1() const {
+        return tilewidth;
     }
 
     vector<tuple<float,float,char>> readMap(Camera camera);
