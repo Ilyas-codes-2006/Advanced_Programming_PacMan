@@ -27,7 +27,7 @@ void PacManRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    sprite.setPosition(x,y);
+    sprite.setPosition(x-15,y);
     window->draw(sprite);
 }
 
