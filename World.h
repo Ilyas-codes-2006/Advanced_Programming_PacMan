@@ -39,6 +39,8 @@ public:
     void clearEntities();
     void checkCollision();
     void checkEaten();
+    bool canMove(char direction, float move, tuple<float,float> position);
+    void updatePacman(float deltaTime);
 };
 
 

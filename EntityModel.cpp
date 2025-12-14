@@ -15,21 +15,18 @@ void PacMan::update(float deltaTime) {
     switch (getnextDirection()) {
         case 'u':
             setPosition({x,y+(speed*deltaTime)});
-            this->setCurrentPosition(getPosition());
             break;
         case 'd':
             setPosition({x,y-(speed*deltaTime)});
-            this->setCurrentPosition(getPosition());
             break;
         case 'l':
             setPosition({x-(speed*deltaTime),y});
-            this->setCurrentPosition(getPosition());
             break;
         case 'r':
             setPosition({x+(speed*deltaTime),y});
-            this->setCurrentPosition(getPosition());
             break;
     }
+    this->setCurrentPosition(getPosition());
 }
 char PacMan::getcurrentDirection() const {
     return currentDirection;

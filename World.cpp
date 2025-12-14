@@ -114,6 +114,86 @@ void World::checkEaten() {
         removeEntity(coin);
     }
 }
+bool World::canMove(char direction, float move, tuple<float,float> position) {
+    auto pac = pacman->getPosition();
+    float x = get<0>(position);
+    float y = get<1>(position);
+    switch (direction) {
+        case 'u':
+            y+=move;
+            break;
+        case 'd':
+            y-=move;
+            break;
+        case 'l':
+            x-=move;
+            break;
+        case 'r':
+            x+=move;
+            break;
+    }
+    float xMin = x-pacman->entity_width()/2.5;
+    float xMax = x+pacman->entity_width()/2.5;
+    float yMin = y+pacman->entity_height()/2.5;
+    float yMax = y-pacman->entity_height()/2.5;
+    for (auto entity: getEntities()) {
+        if (entity->getSymbol()== '#') {
+            auto wall = entity->getPosition();
+            float wMinx = get<0>(wall)-entity->entity_width()/2;
+            float wMaxx = get<0>(wall)+entity->entity_width()/2;
+            float wMiny = get<1>(wall)+entity->entity_height()/2;
+            float wMaxy = get<1>(wall)-entity->entity_height()/2;
+            if (xMax > wMinx && xMin < wMaxx && yMax < wMiny && yMin > wMaxy) {
+                return false;
+            }
+        }
+    }
+    return true;
+}
+void World::updatePacman(float deltaTime) {
+    float speed = 0.3f;
+    float step = speed * deltaTime;
+
+    auto pos = pacman->getPosition();
+    char dir = pacman->getnextDirection();
+
+    float x = get<0>(pos);
+    float y = get<1>(pos);
+
+    tuple<float,float> nextPos = pos;
+
+    switch (dir) {
+        case 'u': nextPos = {x, y + step}; break;
+        case 'd': nextPos = {x, y - step}; break;
+        case 'l': nextPos = {x - step, y}; break;
+        case 'r': nextPos = {x + step, y}; break;
+        default: return;
+    }
+
+    float xMin = get<0>(nextPos) - pacman->entity_width()/2;
+    float xMax = get<0>(nextPos) + pacman->entity_width()/2;
+    float yMin = get<1>(nextPos) + pacman->entity_height()/2;
+    float yMax = get<1>(nextPos) - pacman->entity_height()/2;
+
+    for (auto& entity : entities) {
+        if (entity->getSymbol() == '#') {
+            auto wall = entity->getPosition();
+            float wMinx = get<0>(wall) - entity->entity_width()/2;
+            float wMaxx = get<0>(wall) + entity->entity_width()/2;
+            float wMiny = get<1>(wall) + entity->entity_height()/2;
+            float wMaxy = get<1>(wall) - entity->entity_height()/2;
+
+            if (xMax > wMinx && xMin < wMaxx &&
+                yMax < wMiny && yMin > wMaxy) {
+                return;
+                }
+        }
+    }
+
+    pacman->setPrevPosition(pos);
+    pacman->setPosition(nextPos);
+}
+
 
 
 
