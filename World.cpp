@@ -71,10 +71,10 @@ void World::makeLevel(shared_ptr<Level> level) {
 }
 void World::checkCollision() {
     auto pac = pacman->getPosition();
-    float xMin = get<0>(pac)-pacman->entity_width()/2;
-    float xMax = get<0>(pac)+pacman->entity_width()/2;
-    float yMin = get<1>(pac)+pacman->entity_height()/2;
-    float yMax = get<1>(pac)-pacman->entity_height()/2;
+    float xMin = get<0>(pac)-pacman->entity_width()/2.5;
+    float xMax = get<0>(pac)+pacman->entity_width()/2.5;
+    float yMin = get<1>(pac)+pacman->entity_height()/2.5;
+    float yMax = get<1>(pac)-pacman->entity_height()/2.5;
     for (auto entity: getEntities()) {
         if (entity->getSymbol()== '#') {
             auto wall = entity->getPosition();
