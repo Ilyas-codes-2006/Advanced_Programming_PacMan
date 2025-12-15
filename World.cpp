@@ -170,18 +170,18 @@ void World::updatePacman(float deltaTime) {
         default: return;
     }
 
-    float xMin = get<0>(nextPos) - pacman->entity_width()/2;
-    float xMax = get<0>(nextPos) + pacman->entity_width()/2;
-    float yMin = get<1>(nextPos) + pacman->entity_height()/2;
-    float yMax = get<1>(nextPos) - pacman->entity_height()/2;
+    float xMin = get<0>(nextPos) - pacman->entity_width()/2.0009;
+    float xMax = get<0>(nextPos) + pacman->entity_width()/2.0009;
+    float yMin = get<1>(nextPos) + pacman->entity_height()/2.0005;
+    float yMax = get<1>(nextPos) - pacman->entity_height()/2.0005;
 
     for (auto& entity : entities) {
         if (entity->getSymbol() == '#') {
             auto wall = entity->getPosition();
-            float wMinx = get<0>(wall) - entity->entity_width()/2;
-            float wMaxx = get<0>(wall) + entity->entity_width()/2;
-            float wMiny = get<1>(wall) + entity->entity_height()/2;
-            float wMaxy = get<1>(wall) - entity->entity_height()/2;
+            float wMinx = get<0>(wall) - entity->entity_width()/2.0009;
+            float wMaxx = get<0>(wall) + entity->entity_width()/2.0009;
+            float wMiny = get<1>(wall) + entity->entity_height()/2.0005;
+            float wMaxy = get<1>(wall) - entity->entity_height()/2.0005;
 
             if (xMax > wMinx && xMin < wMaxx &&
                 yMax < wMiny && yMin > wMaxy) {
