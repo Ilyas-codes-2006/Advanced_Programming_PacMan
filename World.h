@@ -39,7 +39,9 @@ public:
     void clearEntities();
     void checkCollision();
     void checkEaten();
-    bool canMove(char direction, float move, tuple<float,float> position);
+    bool wallinDirection(char dir);
+    float findCorridorCenter(char dir);
+    bool canMovethroughcorridor(float hitbox, tuple<float,float> position);
     void updatePacman(float deltaTime);
 };
 

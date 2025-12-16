@@ -112,7 +112,7 @@ void LevelState::update() {
     float deltatime = Stopwatch::getInstance().tick();
     world->updatePacman(deltatime);
     /*world->getPacman()->update(deltatime);*/
-    world->checkCollision();
+    /*world->checkCollision();*/
     world->checkEaten();
 }
 void LevelState::render() {
