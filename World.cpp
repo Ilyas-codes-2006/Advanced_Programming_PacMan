@@ -116,52 +116,71 @@ void World::checkEaten() {
         removeEntity(coin);
     }
 }
+/*float World::findCorridorCenter(char dir, tuple<float,float> position) {
+    float entityW = pacman->entity_width();
+    float entityH = pacman->entity_height();
+    if (dir == 'u' || dir == 'd') {
+
+    }
+    else if (dir == 'l' || dir == 'r') {
+
+    }
+}*/
+bool World::keepgoing(float hitbox, tuple<float, float> position) {
+    float x = get<0>(position);
+    float y = get<1>(position);
+    float xMin = x-pacman->entity_width()/hitbox;
+    float xMax = x+pacman->entity_width()/hitbox;
+    float yMin = y+pacman->entity_height()/hitbox;
+    float yMax = y-pacman->entity_height()/hitbox;
+    for (auto entity: entities) {
+        if (entity->getSymbol()== '#') {
+            auto wall = entity->getPosition();
+            float wMinx = get<0>(wall)-entity->entity_width()/2;
+            float wMaxx = get<0>(wall)+entity->entity_width()/2;
+            float wMiny = get<1>(wall)+entity->entity_height()/2;
+            float wMaxy = get<1>(wall)-entity->entity_height()/2;
+            if (xMax >= wMinx && xMin <= wMaxx && yMax <= wMiny && yMin >= wMaxy) {
+                return true;
+            }
+        }
+    }
+    return true;
+}
+
 bool World::wallinDirection(char dir) {
-    /*auto pos = pacman->getPosition();
+    auto pos = pacman->getPosition();
     float x = get<0>(pos);
     float y = get<1>(pos);
-
-    float lookAhead = 0.0f;
-    float checkX = x;
-    float checkY = y;
-
+    float entityW = pacman->entity_width();
+    float entityH = pacman->entity_height();
     switch (dir) {
         case 'u':
-            lookAhead = pacman->entity_height()/2 + 1.0f;
-            checkY -= lookAhead; // omhoog = y kleiner
+            y+=entityH/2;
             break;
         case 'd':
-            lookAhead = pacman->entity_height()/2 + 1.0f;
-            checkY += lookAhead; // omlaag = y groter
+            y-=entityH/2;
             break;
         case 'l':
-            lookAhead = pacman->entity_width()/2 + 1.0f;
-            checkX -= lookAhead; // links = x kleiner
+            x-=entityW/2;
             break;
         case 'r':
-            lookAhead = pacman->entity_width()/2 + 1.0f;
-            checkX += lookAhead; // rechts = x groter
+            x+=entityW/2;
             break;
-        default:
-            return false;
     }
-
     for (auto& entity : entities) {
-        if (entity->getSymbol() != '#') continue;
-
-        auto wall = entity->getPosition();
-        float wMinX = get<0>(wall) - entity->entity_width()/2;
-        float wMaxX = get<0>(wall) + entity->entity_width()/2;
-        float wMinY = get<1>(wall) - entity->entity_height()/2;
-        float wMaxY = get<1>(wall) + entity->entity_height()/2;
-
-        if (checkX >= wMinX && checkX <= wMaxX &&
-            checkY >= wMinY && checkY <= wMaxY) {
-            return true;
+        if (entity->getSymbol() == '#') {
+            auto wall = entity->getPosition();
+            float wMinx = get<0>(wall)-entity->entity_width()/1.95;
+            float wMaxx = get<0>(wall)+entity->entity_width()/1.95;
+            float wMiny = get<1>(wall)-entity->entity_height()/1.95;
+            float wMaxy = get<1>(wall)+entity->entity_height()/1.95;
+            if (x >= wMinx && x <= wMaxx && y >= wMiny && y <= wMaxy) {
+                return true;
             }
+        }
     }
-
-    return false;*/
+    return false;
 }
 
 bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
@@ -171,13 +190,13 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     float xMax = x+pacman->entity_width()/hitbox;
     float yMin = y+pacman->entity_height()/hitbox;
     float yMax = y-pacman->entity_height()/hitbox;
-    for (auto entity: getEntities()) {
+    for (auto entity: entities) {
         if (entity->getSymbol()== '#') {
             auto wall = entity->getPosition();
-            float wMinx = get<0>(wall)-entity->entity_width()/hitbox;
-            float wMaxx = get<0>(wall)+entity->entity_width()/hitbox;
-            float wMiny = get<1>(wall)+entity->entity_height()/hitbox;
-            float wMaxy = get<1>(wall)-entity->entity_height()/hitbox;
+            float wMinx = get<0>(wall)-entity->entity_width()/2;
+            float wMaxx = get<0>(wall)+entity->entity_width()/2;
+            float wMiny = get<1>(wall)+entity->entity_height()/2;
+            float wMaxy = get<1>(wall)-entity->entity_height()/2;
             if (xMax >= wMinx && xMin <= wMaxx && yMax <= wMiny && yMin >= wMaxy) {
                 return false;
             }
@@ -190,9 +209,10 @@ void World::updatePacman(float deltaTime) {
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();
-    /*if (wallinDirection(dir)) {
+    char curDir = pacman->getcurrentDirection();
+    if (wallinDirection(dir)) {
         return;
-    }*/
+    }
     float x = get<0>(pos);
     float y = get<1>(pos);
     tuple<float,float> nextPos = pos;
@@ -203,13 +223,24 @@ void World::updatePacman(float deltaTime) {
         case 'r': nextPos = {x+step,y}; break;
         default: return;
     }
+    /*tuple<float,float> realPose = pos;
+
+    if (keepgoing(2.1,nextPos)) {
+        switch (curDir) {
+            case 'u': realPose = {x,y+step}; break;
+            case 'd': realPose = {x,y-step}; break;
+            case 'l': realPose = {x-step,y}; break;
+            case 'r': realPose = {x+step,y}; break;
+            default: return;
+        }
+    }*/
     /*if (!wallinDirection(3,nextPos)) {
         return;
     }*/
-    if (!canMovethroughcorridor(2.5,nextPos)) {
+    if (!canMovethroughcorridor(2.3,nextPos)) {
         return;
     }
-    if (wallinDirection(dir)) return;
+    /*if (wallinDirection(dir)) return;*/
 
     /*float xMin = get<0>(nextPos) - pacman->entity_width()/2.0009;
     float xMax = get<0>(nextPos) + pacman->entity_width()/2.0009;
