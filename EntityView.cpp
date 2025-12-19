@@ -32,7 +32,7 @@ void PacManRender::render(sf::RenderWindow *window) {
 }
 
 void PacManRender::update() {
-    char direction = link->getnextDirection();
+    char direction = link->getcurrentDirection();
     switch (direction) {
         case 'u':
             y = 10;

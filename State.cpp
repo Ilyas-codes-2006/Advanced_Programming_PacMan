@@ -96,19 +96,15 @@ void LevelState::Input(sf::Event *event) {
         }
         if (event->key.code == sf::Keyboard::Up) {
             world->getPacman()->setnextDirection('u');
-            world->getPacman()->setCurrentDirection('u');
         }
         if (event->key.code == sf::Keyboard::Down) {
             world->getPacman()->setnextDirection('d');
-            world->getPacman()->setCurrentDirection('u');
         }
         if (event->key.code == sf::Keyboard::Left) {
             world->getPacman()->setnextDirection('l');
-            world->getPacman()->setCurrentDirection('u');
         }
         if (event->key.code == sf::Keyboard::Right) {
             world->getPacman()->setnextDirection('r');
-            world->getPacman()->setCurrentDirection('u');
         }
     }
 }
