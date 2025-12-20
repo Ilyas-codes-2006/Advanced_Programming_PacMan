@@ -31,7 +31,7 @@ void PacManRender::render(sf::RenderWindow *window) {
     window->draw(sprite);
 }
 
-void PacManRender::update() {
+void PacManRender::update(const Event& event) {
     char direction = link->getcurrentDirection();
     switch (direction) {
         case 'u':

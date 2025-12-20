@@ -6,16 +6,17 @@
 #define ADVANCEDPROGRAMMING_PACMAN_SUBJECT_H
 #include <vector>
 #include <algorithm>
-#include "Observer.h"
 
+#include "Observer.h"
+struct Event;
 class Subject {
 private:
     std::vector<Observer *> observers;
 public:
     virtual ~Subject() = default;
-    void attach(Observer * observer);
+    void attach(Observer* observer);
     void detach(Observer* observer);
-    void notify();
+    void notify(const Event& event);
 };
 
 

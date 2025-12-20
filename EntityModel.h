@@ -72,7 +72,7 @@ public:
 
     void setPosition(const tuple<float, float> &position) {
         this->position = position;
-        notify();
+        /*notify();*/
     }
 
     [[nodiscard]] char getSymbol() const {

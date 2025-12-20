@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "ConcreteFactory.h"
+#include "Score.h"
 #include "World.h"
 class EntityView;
 using namespace std;
@@ -44,6 +45,9 @@ public:
 };
 class LevelState: public State {
 private:
+    sf::Text scoreTxt;
+    sf::Text lives;
+    sf::Font font;
     shared_ptr<ConcreteFactory> factory;
     shared_ptr<World> world;
     Camera camera;

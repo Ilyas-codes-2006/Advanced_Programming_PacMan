@@ -33,5 +33,8 @@ add_executable(AdvancedProgramming_PacMan main.cpp
         Mapreader.cpp
         Mapreader.h
         Level.cpp
-        Level.h)
+        Level.h
+        Score.cpp
+        Score.h
+)
 target_link_libraries(AdvancedProgramming_PacMan sfml-graphics sfml-window sfml-system)

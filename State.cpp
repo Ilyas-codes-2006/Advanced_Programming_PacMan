@@ -56,6 +56,19 @@ void MenuState::render() {
     window->draw(highScores);
 }
 LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager), camera(window->getSize().x,window->getSize().y) {
+    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
+        cout << "Error loading font!" << endl;
+    }
+    scoreTxt.setFont(font);
+    scoreTxt.setString("Score: 0");
+    scoreTxt.setCharacterSize(50);
+    scoreTxt.setFillColor(sf::Color(255, 255, 0));
+    scoreTxt.setPosition(100,window->getSize().y-80);
+    lives.setFont(font);
+    lives.setString("Lives Remaining: 3");
+    lives.setCharacterSize(50);
+    lives.setFillColor(sf::Color(255, 255, 0));
+    lives.setPosition(window->getSize().x/2+500,window->getSize().y-80);
     factory = make_shared<ConcreteFactory>();
     world = make_shared<World>(factory);
     auto level = make_shared<Level>("../levelTest.txt",camera);
@@ -120,6 +133,8 @@ void LevelState::render() {
     for (auto& view : views) {
         view->render(window);
     }
+    window->draw(lives);
+    window->draw(scoreTxt);
 }
 PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : State(window,stateManager) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")) {

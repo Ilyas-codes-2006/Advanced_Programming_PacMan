@@ -8,6 +8,7 @@
 
 #include "AbstractFactory.h"
 #include "Level.h"
+#include "Score.h"
 
 void World::addEntity(shared_ptr<EntityModel>& entity) {
     entities.push_back(entity);
@@ -98,7 +99,7 @@ void World::checkEaten() {
     float yMin = get<1>(pac)+pacman->entity_height()/6;
     float yMax = get<1>(pac)-pacman->entity_height()/6;
     vector<shared_ptr<EntityModel>> coins;
-    for (auto entity: getEntities()) {
+    for (auto entity: entities) {
         if (entity->getSymbol()== '-') {
             auto coin = entity->getPosition();
             float wMinx = get<0>(coin)-entity->entity_width()/6;
@@ -109,6 +110,7 @@ void World::checkEaten() {
                 cout << "eaten" << endl;
                 entity->setInteracted(true);
                 coins.push_back(entity);
+                /*score.addPoints();*/
             }
         }
     }
@@ -226,15 +228,14 @@ void World::updatePacman(float deltaTime) {
             case 'r': nextPos = {x+step,y}; break;
             default: return;
         }
-
         if (!canMovethroughcorridor(2.09,nextPos)) {
             return;
         }
-
         pacman->setPrevPosition(pos);
         pacman->setPosition(nextPos);
     }
 }
+
 
 
 

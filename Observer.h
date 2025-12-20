@@ -4,11 +4,24 @@
 
 #ifndef ADVANCEDPROGRAMMING_PACMAN_OBSERVER_H
 #define ADVANCEDPROGRAMMING_PACMAN_OBSERVER_H
+#include <memory>
 
 
+class EntityModel;
+
+enum class WhichEvent {
+    Moved,
+    CoinGone,
+    FruitGone,
+    DirectionSwitch,
+};
+struct Event {
+    WhichEvent type;
+    EntityModel* entity;
+};
 class Observer {
 public:
-    virtual void update() = 0;
+    virtual void update(const Event& event) = 0;
     virtual ~Observer() = default;
 };
 

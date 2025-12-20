@@ -31,7 +31,7 @@ public:
 
     virtual void render(sf::RenderWindow* window) = 0;
 
-    virtual void update() override{}
+    virtual void update(const Event& event) override{}
     ~EntityView() override {
         link->detach(this);
     }
@@ -52,7 +52,7 @@ public:
     PacManRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
     }
-    void update() override;
+    void update(const Event& event) override;
     void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
 };
@@ -64,7 +64,7 @@ public:
         floor.setSize(sf::Vector2f(95, 91));
         floor.setFillColor(sf::Color::Black);
     }
-    void update() override {}
+    void update(const Event& event) override {}
     void render(sf::RenderWindow* window) override;
 };
 class WallRender : public EntityView {
@@ -75,7 +75,7 @@ public:
         wall.setSize(sf::Vector2f(95, 91));
         wall.setFillColor(sf::Color::Blue);
     }
-    void update() override {}
+    void update(const Event& event) override {}
     void render(sf::RenderWindow* window) override;
 };
 class CoinRender : public EntityView {
@@ -89,7 +89,7 @@ public:
     CoinRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
     }
-    void update() override {}
+    void update(const Event& event) override {}
     void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
 };
@@ -104,7 +104,7 @@ public:
     FruitRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
     }
-    void update() override {}
+    void update(const Event& event) override {}
     void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
 };

@@ -10,6 +10,7 @@
 #include "AbstractFactory.h"
 using namespace std;
 class Level;
+class Score;
 class EntityModel;
 class World {
 private:

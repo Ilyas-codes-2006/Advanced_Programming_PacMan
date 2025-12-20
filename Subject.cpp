@@ -8,9 +8,9 @@ void Subject::attach(Observer *observer) {
 void Subject::detach(Observer *observer) {
     observers.erase(std::remove(observers.begin(),observers.end(),observer),observers.end());
 }
-void Subject::notify() {
+void Subject::notify(const Event& event) {
     for (auto observer: observers) {
-        observer->update();
+        observer->update(event);
     }
 }
 
