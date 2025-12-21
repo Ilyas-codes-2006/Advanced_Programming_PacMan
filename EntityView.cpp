@@ -32,23 +32,25 @@ void PacManRender::render(sf::RenderWindow *window) {
 }
 
 void PacManRender::update(const Event& event) {
-    char direction = link->getcurrentDirection();
-    switch (direction) {
-        case 'u':
-            y = 10;
-            break;
-        case 'd':
-            y = 4;
-            break;
-        case 'l':
-            y = 7;
-            break;
-        case 'r':
-            y = 1;
-            break;
+    if (event.type==WhichEvent::Moved) {
+        char direction = link->getcurrentDirection();
+        switch (direction) {
+            case 'u':
+                y = 10;
+                break;
+            case 'd':
+                y = 4;
+                break;
+            case 'l':
+                y = 7;
+                break;
+            case 'r':
+                y = 1;
+                break;
+        }
+        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+        sprite.setTextureRect(currentImage);
     }
-    currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
-    sprite.setTextureRect(currentImage);
     /*if (count >= 0 && count < 3) {
         spriteIndex = 1;
         y = y + spriteIndex;

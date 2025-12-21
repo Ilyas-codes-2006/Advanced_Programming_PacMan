@@ -11,7 +11,8 @@ class EntityModel;
 
 enum class WhichEvent {
     Moved,
-    CoinGone,
+    CoinPoint,
+    CoinEaten,
     FruitGone,
     DirectionSwitch,
 };

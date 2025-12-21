@@ -7,7 +7,7 @@
 #include <iostream>
 
 void PacMan::update(float deltaTime) {
-    auto position = getPosition();
+    /*auto position = getPosition();
     this->setPrevPosition(position);
     float speed = 0.3;
     float x = get<0>(position);
@@ -26,7 +26,7 @@ void PacMan::update(float deltaTime) {
             setPosition({x+(speed*deltaTime),y});
             break;
     }
-    this->setCurrentPosition(getPosition());
+    this->setCurrentPosition(getPosition());*/
 }
 char PacMan::getcurrentDirection() const {
     return currentDirection;

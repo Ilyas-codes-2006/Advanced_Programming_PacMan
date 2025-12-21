@@ -4,7 +4,7 @@
 
 #include "Score.h"
 void Score::update(const Event &event) {
-    if (event.type == WhichEvent::CoinGone) {
+    if (event.type == WhichEvent::CoinPoint) {
         score+=100;
     }
 }

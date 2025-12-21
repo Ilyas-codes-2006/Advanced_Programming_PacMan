@@ -51,6 +51,7 @@ private:
     shared_ptr<ConcreteFactory> factory;
     shared_ptr<World> world;
     Camera camera;
+    shared_ptr<Score> score;
     vector<shared_ptr<EntityView>> views;
 public:
     LevelState(sf::RenderWindow *window, StateManager *stateManager);

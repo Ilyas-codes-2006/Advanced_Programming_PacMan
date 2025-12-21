@@ -109,6 +109,8 @@ void World::checkEaten() {
             if (xMax > wMinx && xMin < wMaxx && yMax < wMiny && yMin > wMaxy) {
                 cout << "eaten" << endl;
                 entity->setInteracted(true);
+                Event event(WhichEvent::CoinPoint,entity.get());
+                entity->notify(event);
                 coins.push_back(entity);
                 /*score.addPoints();*/
             }
@@ -213,6 +215,8 @@ void World::updatePacman(float deltaTime) {
 
             pacman->setPrevPosition(pos);
             pacman->setPosition(nextPos);
+            Event event(WhichEvent::Moved,pacman.get());
+            pacman->notify(event);
         }
     }
     else {
@@ -233,6 +237,8 @@ void World::updatePacman(float deltaTime) {
         }
         pacman->setPrevPosition(pos);
         pacman->setPosition(nextPos);
+        Event event(WhichEvent::Moved,pacman.get());
+        pacman->notify(event);
     }
 }
 

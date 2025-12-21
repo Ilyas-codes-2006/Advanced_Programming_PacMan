@@ -69,6 +69,7 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     lives.setCharacterSize(50);
     lives.setFillColor(sf::Color(255, 255, 0));
     lives.setPosition(window->getSize().x/2+500,window->getSize().y-80);
+    score = make_shared<Score>();
     factory = make_shared<ConcreteFactory>();
     world = make_shared<World>(factory);
     auto level = make_shared<Level>("../levelTest.txt",camera);
@@ -86,11 +87,13 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     for (auto& entity : world->getEntities()) {
         char symbol = entity->getSymbol();
         if (symbol == 'F') {
+            entity->attach(score.get());
             auto FruitView = factory->FruitView(entity,camera);
             FruitView->setSprite("../PacMan.png");
             views.push_back(FruitView);
         }
         else if (symbol == '-') {
+            entity->attach(score.get());
             auto CoinView = factory->CoinView(entity,camera);
             CoinView->setSprite("../PacMan.png");
             views.push_back(CoinView);
@@ -127,6 +130,7 @@ void LevelState::update() {
     /*world->getPacman()->update(deltatime);*/
     /*world->checkCollision();*/
     world->checkEaten();
+    scoreTxt.setString("Score: " + std::to_string(score->getScore()));
 }
 void LevelState::render() {
     window->clear();
