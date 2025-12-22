@@ -17,6 +17,8 @@ private:
     vector<shared_ptr<Level>> levels;
     shared_ptr<AbstractFactory> factory;
     vector<shared_ptr<EntityModel>> entities;
+    float time = 0.0f;
+    vector<shared_ptr<EntityModel>> ghosts;
     shared_ptr<EntityModel> pacman;
     int currentLevel = 0;
 public:
@@ -40,6 +42,7 @@ public:
     void clearEntities();
     void checkCollision();
     void checkEaten();
+    void GhostMovement(float deltatime);
     bool wallinDirection(char dir);
     float findCorridorCenter(char dir, tuple<float,float> position);
     bool canMovethroughcorridor(float hitbox, tuple<float,float> position);

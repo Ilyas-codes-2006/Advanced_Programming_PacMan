@@ -109,29 +109,32 @@ public:
     void update(float deltaTime) override;
 };
 class Ghost: public EntityModel {
+    char currentDirection = 'N';
+    char nextDirection = 'N';
+    tuple<float,float> current_position;
+    tuple<float,float> previous_position;
 public:
+
     Ghost(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
     }
+    [[nodiscard]] char getcurrentDirection() const override;
 
-    [[nodiscard]] char getcurrentDirection() const override{}
+    void setCurrentDirection(char currentDirection) override;
 
-    void setCurrentDirection(char currentDirection) override{}
+    [[nodiscard]] char getnextDirection() override;
 
-    [[nodiscard]] char getnextDirection() override{}
+    void setnextDirection(char nextDirection) override;
 
-    void setnextDirection(char nextDirection) override{}
+    [[nodiscard]] tuple<float,float> getcurrentPosition() override;
 
+    void setCurrentPosition(tuple<float,float> cur) override;
 
-    [[nodiscard]] tuple<float,float> getcurrentPosition() override{}
+    [[nodiscard]]  tuple<float,float> getPrevPosition() override;
 
-    void setCurrentPosition(tuple<float,float> cur) override {}
+    void setPrevPosition(tuple<float,float> prev) override;
 
-    [[nodiscard]]  tuple<float,float> getPrevPosition() override {}
-
-    void setPrevPosition(tuple<float,float> prev) override {}
-
-    void update(float deltaTime) override {}
+    void update(float deltaTime) override;
 };
 class Wall: public EntityModel {
 public:

@@ -156,6 +156,7 @@ void LevelState::update() {
     world->updatePacman(deltatime);
     /*world->getPacman()->update(deltatime);*/
     /*world->checkCollision();*/
+    world->GhostMovement(deltatime);
     world->checkEaten();
     scoreTxt.setString("Score: " + std::to_string(score->getScore()));
 }

@@ -58,6 +58,58 @@ tuple<float,float> PacMan::getPrevPosition() {
 void PacMan::setPrevPosition(tuple<float,float> prev) {
     previous_position = prev;
 }
+void Ghost::update(float deltaTime) {
+    /*auto position = getPosition();
+    this->setPrevPosition(position);
+    float speed = 0.3;
+    float x = get<0>(position);
+    float y = get<1>(position);
+    switch (getnextDirection()) {
+        case 'u':
+            setPosition({x,y+(speed*deltaTime)});
+            break;
+        case 'd':
+            setPosition({x,y-(speed*deltaTime)});
+            break;
+        case 'l':
+            setPosition({x-(speed*deltaTime),y});
+            break;
+        case 'r':
+            setPosition({x+(speed*deltaTime),y});
+            break;
+    }
+    this->setCurrentPosition(getPosition());*/
+}
+char Ghost::getcurrentDirection() const {
+    return currentDirection;
+}
+
+void Ghost::setCurrentDirection(char current_direction) {
+    currentDirection = current_direction;
+}
+
+char Ghost::getnextDirection() {
+    return nextDirection;
+}
+
+void Ghost::setnextDirection(char next_direction) {
+    nextDirection = next_direction;
+}
+tuple<float,float> Ghost::getcurrentPosition() {
+    return current_position;
+}
+
+void Ghost::setCurrentPosition(tuple<float,float> cur) {
+    current_position = cur;
+}
+
+tuple<float,float> Ghost::getPrevPosition() {
+    return previous_position;
+}
+
+void Ghost::setPrevPosition(tuple<float,float> prev) {
+    previous_position = prev;
+}
 /*shared_ptr<EntityModel> Coin::interacts(shared_ptr<EntityModel> pacman) {
     if (pacman->getPosition() == this->getPosition()) {
         setInteracted(true);

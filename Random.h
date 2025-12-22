@@ -1,0 +1,13 @@
+//
+// Created by Youssef on 22/12/2025.
+//
+
+#ifndef ADVANCEDPROGRAMMING_PACMAN_RANDOM_H
+#define ADVANCEDPROGRAMMING_PACMAN_RANDOM_H
+
+
+class Random {
+};
+
+
+#endif //ADVANCEDPROGRAMMING_PACMAN_RANDOM_H

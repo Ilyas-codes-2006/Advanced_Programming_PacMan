@@ -72,22 +72,25 @@ void World::makeLevel(shared_ptr<Level> level) {
                 entity = factory->GhostEntity({coordX,coordY},'r');
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
-                pacman = entity;
+                ghosts.push_back(entity);
                 break;
             case 'p':
                 entity = factory->GhostEntity({coordX,coordY},'p');
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
+                ghosts.push_back(entity);
                 break;
             case 'b':
                 entity = factory->GhostEntity({coordX,coordY},'b');
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
+                ghosts.push_back(entity);
                 break;
             case 'o':
                 entity = factory->GhostEntity({coordX,coordY},'o');
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
+                ghosts.push_back(entity);
                 break;
 
         }
@@ -263,6 +266,66 @@ void World::updatePacman(float deltaTime) {
         pacman->notify(event);
     }
 }
+void World::GhostMovement(float deltatime) {
+    time += deltatime;
+    for (auto ghost: ghosts) {
+        if (ghost->getSymbol()=='r') {
+            ghost->setnextDirection('u');
+            float speed = 0.3f;
+            float step = speed * deltatime;
+            auto pos = ghost->getPosition();
+            char dir = ghost->getnextDirection();
+            if (wallinDirection(dir)) {
+                if (ghost->getcurrentDirection() == 'N') {
+                    return;
+                }
+                else {
+                    char cur = ghost->getcurrentDirection();
+                    float x = get<0>(pos);
+                    float y = get<1>(pos);
+                    tuple<float,float> nextPos = pos;
+                    switch (cur) {
+                        case 'u': nextPos = {x,y+step}; break;
+                        case 'd': nextPos = {x,y-step}; break;
+                        case 'l': nextPos = {x-step,y}; break;
+                        case 'r': nextPos = {x+step,y}; break;
+                        default: return;
+                    }
+                    if (!canMovethroughcorridor(2.09,nextPos)) {
+                        return;
+                    }
+
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextPos);
+                    /*Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);*/
+                }
+            }
+            else {
+                ghost->setCurrentDirection(dir);
+                char cur = ghost->getcurrentDirection();
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (cur) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);*/
+            }
+        }
+    }
+}
+
 
 
 
