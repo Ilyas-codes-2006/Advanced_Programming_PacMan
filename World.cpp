@@ -68,6 +68,28 @@ void World::makeLevel(shared_ptr<Level> level) {
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 break;
+            case 'r':
+                entity = factory->GhostEntity({coordX,coordY},'r');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
+                pacman = entity;
+                break;
+            case 'p':
+                entity = factory->GhostEntity({coordX,coordY},'p');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
+                break;
+            case 'b':
+                entity = factory->GhostEntity({coordX,coordY},'b');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
+                break;
+            case 'o':
+                entity = factory->GhostEntity({coordX,coordY},'o');
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
+                break;
+
         }
         addEntity(entity);
     }

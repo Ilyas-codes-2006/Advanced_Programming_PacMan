@@ -103,6 +103,33 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     auto pacView = factory->PacManView(world->getPacman(), camera);
     pacView->setSprite("../PacMan.png");
     views.push_back(pacView);
+    for (auto& entity : world->getEntities()) {
+        char symbol = entity->getSymbol();
+        if (symbol == 'r') {
+            entity->attach(score.get());
+            auto Ghostview = factory->GhostView(entity,camera);
+            Ghostview->setSprite("../PacMan.png");
+            views.push_back(Ghostview);
+        }
+        else if (symbol == 'p') {
+            entity->attach(score.get());
+            auto Ghostview = factory->GhostView(entity,camera);
+            Ghostview->setSprite("../PacMan.png");
+            views.push_back(Ghostview);
+        }
+        else if (symbol == 'b') {
+            entity->attach(score.get());
+            auto Ghostview = factory->GhostView(entity,camera);
+            Ghostview->setSprite("../PacMan.png");
+            views.push_back(Ghostview);
+        }
+        else if (symbol == 'o') {
+            entity->attach(score.get());
+            auto Ghostview = factory->GhostView(entity,camera);
+            Ghostview->setSprite("../PacMan.png");
+            views.push_back(Ghostview);
+        }
+    }
 }
 
 void LevelState::Input(sf::Event *event) {

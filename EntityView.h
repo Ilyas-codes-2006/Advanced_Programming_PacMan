@@ -31,7 +31,7 @@ public:
 
     virtual void render(sf::RenderWindow* window) = 0;
 
-    virtual void update(const Event& event) override{}
+    virtual void update(const Event& event) override {}
     ~EntityView() override {
         link->detach(this);
     }
@@ -46,8 +46,9 @@ private:
     float yChar;
     int x = 17;
     int y = 0;
-    int spriteIndex = 0;
-    int count = 0;
+    int cycle = 0;
+    float count = 0.0f;
+    float switchMouth = 0.003f;
 public:
     PacManRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
@@ -102,6 +103,27 @@ private:
     int y = 5;
 public:
     FruitRender(const shared_ptr<EntityModel> &link, Camera &camera)
+        : EntityView(link, camera) {
+    }
+    void update(const Event& event) override {}
+    void setSprite(const string& spritesheet);
+    void render(sf::RenderWindow *window) override;
+};
+class GhostRender : public EntityView {
+private:
+    sf::Texture texture;
+    sf::Sprite sprite;
+    sf::IntRect currentImage;
+    string spridesheet;
+    float xChar;
+    float yChar;
+    int x;
+    int y;
+    int cycle = 0;
+    float count = 0.0f;
+    float switchMouth = 0.003f;
+public:
+    GhostRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
     }
     void update(const Event& event) override {}

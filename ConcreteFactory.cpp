@@ -21,6 +21,9 @@ shared_ptr<EntityModel> ConcreteFactory::CoinEntity(const tuple<float, float> &p
 shared_ptr<EntityModel> ConcreteFactory::FruitEntity(const tuple<float, float> &positie, char symbol) {
     return make_shared<Fruit>(positie,symbol);
 }
+shared_ptr<EntityModel> ConcreteFactory::GhostEntity(const tuple<float, float> &positie, char symbol) {
+    return make_shared<Ghost>(positie,symbol);
+}
 shared_ptr<PacManRender> ConcreteFactory::PacManView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<PacManRender>(model,camera);
 }
@@ -35,6 +38,9 @@ shared_ptr<CoinRender> ConcreteFactory::CoinView(shared_ptr<EntityModel> model, 
 }
 shared_ptr<FruitRender> ConcreteFactory::FruitView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<FruitRender>(model,camera);
+}
+shared_ptr<GhostRender> ConcreteFactory::GhostView(shared_ptr<EntityModel> model, Camera &camera) {
+    return make_shared<GhostRender>(model,camera);
 }
 
 

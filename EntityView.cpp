@@ -5,7 +5,7 @@
 #include "EntityView.h"
 
 #include "EntityModel.h"
-
+#
 void PacManRender::setSprite(const string &spritesheet) {
     spridesheet = spritesheet;
     if (!texture.loadFromFile(spritesheet)) {
@@ -27,26 +27,45 @@ void PacManRender::render(sf::RenderWindow *window) {
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
     float y = get<1>(Pixels);
-    sprite.setPosition(x-15,y);
+    sprite.setPosition(x-16,y+3);
     window->draw(sprite);
 }
 
 void PacManRender::update(const Event& event) {
     if (event.type==WhichEvent::Moved) {
         char direction = link->getcurrentDirection();
+        int pos = 0;
         switch (direction) {
             case 'u':
-                y = 10;
+                pos = 9;
                 break;
             case 'd':
-                y = 4;
+                pos = 4;
                 break;
             case 'l':
-                y = 7;
+                pos = 7;
                 break;
             case 'r':
-                y = 1;
+                pos = 1;
                 break;
+        }
+        count+=Stopwatch::getInstance().tick();
+        if (count >= switchMouth) {
+            switch (cycle) {
+                case 0:
+                    y = pos+1;
+                    cycle++;
+                    break;
+                case 1:
+                    y = pos+2;
+                    cycle++;
+                    break;
+                case 2:
+                    y = pos;
+                    cycle = 0;
+                    break;
+            }
+            count = 0.0f;
         }
         currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
         sprite.setTextureRect(currentImage);
@@ -142,6 +161,48 @@ void CoinRender::render(sf::RenderWindow *window) {
     float y = get<1>(Pixels);
     /*sprite.setOrigin(link->entity_width()/2,link->entity_height()/2);*/
     sprite.setPosition(x+15,y+15);
+    window->draw(sprite);
+}
+void GhostRender::setSprite(const string &spritesheet) {
+    spridesheet = spritesheet;
+    if (!texture.loadFromFile(spritesheet)) {
+        throw runtime_error("Failed to load texture: " + spritesheet);
+    }
+    float characterX = texture.getSize().x/19.0;
+    float characterY = texture.getSize().y/19.0;
+    xChar = characterX;
+    yChar = characterY;
+    char ghost = link->getSymbol();
+    switch (ghost) {
+        case 'r':
+            x = 0;
+            y = 6;
+            break;
+        case 'p':
+            x = 1;
+            y = 6;
+            break;
+        case 'b':
+            x = 2;
+            y = 6;
+            break;
+        case 'o':
+            x = 3;
+            y = 6;
+            break;
+    }
+    /*sprite.setOrigin(xChar/2.0f,yChar/2.0f);*/
+    currentImage = sf::IntRect(characterX*x,characterY*y,characterX,characterY);
+    sprite.setTexture(texture);
+    sprite.setTextureRect(currentImage);
+    sprite.scale(1.8,1.8);
+}
+void GhostRender::render(sf::RenderWindow *window) {
+    auto Position = link->getPosition();
+    auto Pixels = camera.worldCoToPixelsCo(Position,0);
+    float x = get<0>(Pixels);
+    float y = get<1>(Pixels);
+    sprite.setPosition(x+12,y);
     window->draw(sprite);
 }
 /*auto worldPos = link->getPosition();

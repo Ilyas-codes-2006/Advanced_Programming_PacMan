@@ -16,12 +16,13 @@ public:
     shared_ptr<EntityModel> WallEntity(const tuple<float, float> &positie,char symbol) override;
     shared_ptr<EntityModel> CoinEntity(const tuple<float, float> &positie,char symbol) override;
     shared_ptr<EntityModel> FruitEntity(const tuple<float, float> &positie,char symbol) override;
+    shared_ptr<EntityModel> GhostEntity(const tuple<float, float> &positie,char symbol) override;
     shared_ptr<WallRender> WallView(shared_ptr<EntityModel> model, Camera &camera) override;
     shared_ptr<PacManRender> PacManView(shared_ptr<EntityModel> model, Camera &camera) override;
     shared_ptr<FloorRender> FloorView(shared_ptr<EntityModel> model, Camera &camera) override;
     shared_ptr<CoinRender> CoinView(shared_ptr<EntityModel> model, Camera &camera) override;
     shared_ptr<FruitRender> FruitView(shared_ptr<EntityModel> model, Camera &camera) override;
-    /*shared_ptr<Ghost> GhostEntity(const tuple<float, float> &positie) override;*/
+    shared_ptr<GhostRender> GhostView(shared_ptr<EntityModel> model, Camera &camera) override;
     ~ConcreteFactory() override = default;
 };
 
