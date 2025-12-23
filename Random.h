@@ -14,7 +14,6 @@ private:
     Random& operator=(const Random& random) = delete;
 public:
     static Random& getInstance();
-
 };
 
 

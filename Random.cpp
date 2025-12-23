@@ -6,5 +6,6 @@
 
 Random &Random::getInstance() {
     static Random instance;
+    instance.MersenneTw.seed(12345);
     return instance;
 }
