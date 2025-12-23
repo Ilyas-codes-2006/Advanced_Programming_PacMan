@@ -8,6 +8,7 @@
 
 #include "AbstractFactory.h"
 #include "Level.h"
+#include "Random.h"
 #include "Score.h"
 
 void World::addEntity(shared_ptr<EntityModel>& entity) {
@@ -295,13 +296,18 @@ void World::GhostMovement(float deltatime) {
                         possibleWays.push_back(way);
                     }
                 }
-                char cur = ghost->getcurrentDirection();
-                /*if (possibleWays.size() ==2) {
+                char cur;
+                if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
                     cur = possibleWays[0];
                 }
-                else if (possibleWays.size() ==3) {
-                    cur = possibleWays[1];
-                }*/
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }
                 /*ghost->setCurrentDirection()
                 char cur = possibleWays[0];
                 ghost->setCurrentDirection()*/

@@ -14,6 +14,8 @@ private:
     Random& operator=(const Random& random) = delete;
 public:
     static Random& getInstance();
+    int randomIndex(int start,int end);
+    bool probSwitch(float p);
 };
 
 
