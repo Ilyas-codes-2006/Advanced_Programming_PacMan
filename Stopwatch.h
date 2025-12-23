@@ -13,6 +13,8 @@ private:
     std::chrono::steady_clock::time_point currentTime;
     std::chrono::duration<float> deltaTime;
     Stopwatch() = default;
+    Stopwatch(const Stopwatch& stopwatch) = delete;
+    Stopwatch& operator=(const Stopwatch& stopwatch) = delete;
 public:
     static Stopwatch& getInstance();
     float tick();

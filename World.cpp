@@ -266,11 +266,76 @@ void World::updatePacman(float deltaTime) {
         pacman->notify(event);
     }
 }
+tuple<float, float> World::calcDirection(float step, char dir, tuple<float, float> pos) {
+    float x = get<0>(pos);
+    float y = get<1>(pos);
+    tuple<float,float> nextPos = pos;
+    switch (dir) {
+        case 'u': nextPos = {x,y+step}; break;
+        case 'd': nextPos = {x,y-step}; break;
+        case 'l': nextPos = {x-step,y}; break;
+        case 'r': nextPos = {x+step,y}; break;
+    }
+    return nextPos;
+}
+
 void World::GhostMovement(float deltatime) {
     time += deltatime;
     for (auto ghost: ghosts) {
         if (ghost->getSymbol()=='r') {
-            ghost->setnextDirection('u');
+            float speed = 0.3f;
+            float step = speed * deltatime;
+            auto pos = ghost->getPosition();
+            char dir = ghost->getcurrentDirection();
+            if (wallinDirection(dir)) {
+                vector<char> possibleWays;
+                for (auto way: directions) {
+                    auto nextPos = calcDirection(step,way,pos);
+                    if (canMovethroughcorridor(2.09,nextPos)) {
+                        possibleWays.push_back(way);
+                    }
+                }
+                char cur = ghost->getcurrentDirection();
+                /*if (possibleWays.size() ==2) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() ==3) {
+                    cur = possibleWays[1];
+                }*/
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()*/
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                /*Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);*/
+            }
+            else {
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (dir) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);*/
+            }
+        }
+        /*if (ghost->getSymbol()=='p') {
             float speed = 0.3f;
             float step = speed * deltatime;
             auto pos = ghost->getPosition();
@@ -298,7 +363,7 @@ void World::GhostMovement(float deltatime) {
                     ghost->setPrevPosition(pos);
                     ghost->setPosition(nextPos);
                     /*Event event(WhichEvent::Moved,ghost.get());
-                    ghost->notify(event);*/
+                    ghost->notify(event);#1#
                 }
             }
             else {
@@ -320,17 +385,119 @@ void World::GhostMovement(float deltatime) {
                 ghost->setPrevPosition(pos);
                 ghost->setPosition(nextPos);
                 /*Event event(WhichEvent::Moved,pacman.get());
-                pacman->notify(event);*/
+                pacman->notify(event);#1#
             }
         }
+        if (ghost->getSymbol()=='b') {
+            if (time >= 5.0f) {
+                float speed = 0.3f;
+            float step = speed * deltatime;
+            auto pos = ghost->getPosition();
+            char dir = ghost->getnextDirection();
+            if (wallinDirection(dir)) {
+                if (ghost->getcurrentDirection() == 'N') {
+                    return;
+                }
+                else {
+                    char cur = ghost->getcurrentDirection();
+                    float x = get<0>(pos);
+                    float y = get<1>(pos);
+                    tuple<float,float> nextPos = pos;
+                    switch (cur) {
+                        case 'u': nextPos = {x,y+step}; break;
+                        case 'd': nextPos = {x,y-step}; break;
+                        case 'l': nextPos = {x-step,y}; break;
+                        case 'r': nextPos = {x+step,y}; break;
+                        default: return;
+                    }
+                    if (!canMovethroughcorridor(2.09,nextPos)) {
+                        return;
+                    }
+
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextPos);
+                    /*Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);#1#
+                }
+            }
+            else {
+                ghost->setCurrentDirection(dir);
+                char cur = ghost->getcurrentDirection();
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (cur) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);#1#
+            }
+
+            }
+        }
+        if (ghost->getSymbol()=='o') {
+            if (time >= 10.0f) {
+              float speed = 0.3f;
+            float step = speed * deltatime;
+            auto pos = ghost->getPosition();
+            char dir = ghost->getnextDirection();
+            if (wallinDirection(dir)) {
+                if (ghost->getcurrentDirection() == 'N') {
+                    return;
+                }
+                else {
+                    char cur = ghost->getcurrentDirection();
+                    float x = get<0>(pos);
+                    float y = get<1>(pos);
+                    tuple<float,float> nextPos = pos;
+                    switch (cur) {
+                        case 'u': nextPos = {x,y+step}; break;
+                        case 'd': nextPos = {x,y-step}; break;
+                        case 'l': nextPos = {x-step,y}; break;
+                        case 'r': nextPos = {x+step,y}; break;
+                        default: return;
+                    }
+                    if (!canMovethroughcorridor(2.09,nextPos)) {
+                        return;
+                    }
+
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextPos);
+                    /*Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);#1#
+                }
+            }
+            else {
+                ghost->setCurrentDirection(dir);
+                char cur = ghost->getcurrentDirection();
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (cur) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);#1#
+            }
+            }
+        }*/
     }
 }
-
-
-
-
-
-
-
-
-

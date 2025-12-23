@@ -121,7 +121,7 @@ private:
     int y;
     int cycle = 0;
     float count = 0.0f;
-    float switchMouth = 0.003f;
+    float switchMouth = 0.004f;
 public:
     GhostRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {

@@ -88,13 +88,6 @@ void Ghost::setCurrentDirection(char current_direction) {
     currentDirection = current_direction;
 }
 
-char Ghost::getnextDirection() {
-    return nextDirection;
-}
-
-void Ghost::setnextDirection(char next_direction) {
-    nextDirection = next_direction;
-}
 tuple<float,float> Ghost::getcurrentPosition() {
     return current_position;
 }

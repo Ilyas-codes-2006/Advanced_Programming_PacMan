@@ -16,6 +16,7 @@ class World {
 private:
     vector<shared_ptr<Level>> levels;
     shared_ptr<AbstractFactory> factory;
+    vector<char> directions = {'u','d','l','r'};
     vector<shared_ptr<EntityModel>> entities;
     float time = 0.0f;
     vector<shared_ptr<EntityModel>> ghosts;
@@ -42,6 +43,7 @@ public:
     void clearEntities();
     void checkCollision();
     void checkEaten();
+    tuple<float,float> calcDirection(float step, char dir,tuple<float,float> pos);
     void GhostMovement(float deltatime);
     bool wallinDirection(char dir);
     float findCorridorCenter(char dir, tuple<float,float> position);

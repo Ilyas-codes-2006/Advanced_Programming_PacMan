@@ -3,3 +3,8 @@
 //
 
 #include "Random.h"
+
+Random &Random::getInstance() {
+    static Random instance;
+    return instance;
+}
