@@ -112,8 +112,8 @@ class Ghost: public EntityModel {
     char currentDirection = 'N';
     tuple<float,float> current_position;
     tuple<float,float> previous_position;
+    bool fear = false;
 public:
-
     Ghost(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
         if (getSymbol()=='r') {
