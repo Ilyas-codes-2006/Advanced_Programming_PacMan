@@ -11,12 +11,12 @@
 
 class ConcreteFactory: public AbstractFactory {
 public:
-    shared_ptr<EntityModel> FloorEntity(const tuple<float, float> &positie,char symbol) override;
-    shared_ptr<EntityModel> PacManEntity(const tuple<float, float> &positie,char symbol) override;
-    shared_ptr<EntityModel> WallEntity(const tuple<float, float> &positie,char symbol) override;
-    shared_ptr<EntityModel> CoinEntity(const tuple<float, float> &positie,char symbol) override;
-    shared_ptr<EntityModel> FruitEntity(const tuple<float, float> &positie,char symbol) override;
-    shared_ptr<EntityModel> GhostEntity(const tuple<float, float> &positie,char symbol) override;
+    shared_ptr<EntityModel> FloorEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) override;
+    shared_ptr<EntityModel> PacManEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) override;
+    shared_ptr<EntityModel> WallEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) override;
+    shared_ptr<EntityModel> CoinEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) override;
+    shared_ptr<EntityModel> FruitEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) override;
+    shared_ptr<EntityModel> GhostEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) override;
     shared_ptr<WallRender> WallView(shared_ptr<EntityModel> model, Camera &camera) override;
     shared_ptr<PacManRender> PacManView(shared_ptr<EntityModel> model, Camera &camera) override;
     shared_ptr<FloorRender> FloorView(shared_ptr<EntityModel> model, Camera &camera) override;

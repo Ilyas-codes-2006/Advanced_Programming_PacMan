@@ -44,51 +44,51 @@ void World::makeLevel(shared_ptr<Level> level) {
         char charEntity = get<2>(coord);
         switch (charEntity) {
             case '#':
-                entity = factory->WallEntity({coordX,coordY},'#');
+                entity = factory->WallEntity({coordX,coordY},'#',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 break;
             case 'P':
-                entity = factory->PacManEntity({coordX,coordY},'P');
+                entity = factory->PacManEntity({coordX,coordY},'P',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 pacman = entity;
                 break;
             case '_':
-                entity = factory->FloorEntity({coordX,coordY},'_');
+                entity = factory->FloorEntity({coordX,coordY},'_',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 break;
             case 'F':
-                entity = factory->FruitEntity({coordX,coordY},'F');
+                entity = factory->FruitEntity({coordX,coordY},'F',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 break;
             case '-':
-                entity = factory->CoinEntity({coordX,coordY},'-');
+                entity = factory->CoinEntity({coordX,coordY},'-',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 break;
             case 'r':
-                entity = factory->GhostEntity({coordX,coordY},'r');
+                entity = factory->GhostEntity({coordX,coordY},'r',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
                 break;
             case 'p':
-                entity = factory->GhostEntity({coordX,coordY},'p');
+                entity = factory->GhostEntity({coordX,coordY},'p',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
                 break;
             case 'b':
-                entity = factory->GhostEntity({coordX,coordY},'b');
+                entity = factory->GhostEntity({coordX,coordY},'b',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
                 break;
             case 'o':
-                entity = factory->GhostEntity({coordX,coordY},'o');
+                entity = factory->GhostEntity({coordX,coordY},'o',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
@@ -1406,12 +1406,10 @@ void World::CheckGhost() {
         float wMaxy = get<1>(ghostpos)-ghost->entity_height()/6;
         if (xMax > wMinx && xMin < wMaxx && yMax < wMiny && yMin > wMaxy) {
             if (ghost->getFearmode()) {
-                ghost->setInteracted(true);
-                ghosttodelete.push_back(ghost);
+                ghost->setPosition(ghost->original_pos());
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
             }
         }
-    }
-    for (auto ghostgone: ghosttodelete) {
-        removeEntity(ghostgone);
     }
 }

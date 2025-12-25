@@ -6,23 +6,23 @@
 
 #include "EntityView.h"
 
-shared_ptr<EntityModel> ConcreteFactory::PacManEntity(const tuple<float, float> &positie,char symbol) {
-    return make_shared<PacMan>(positie,symbol);
+shared_ptr<EntityModel> ConcreteFactory::PacManEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) {
+    return make_shared<PacMan>(positie,symbol,original);
 }
-shared_ptr<EntityModel> ConcreteFactory::WallEntity(const tuple<float, float> &positie,char symbol) {
-    return make_shared<Wall>(positie,symbol);
+shared_ptr<EntityModel> ConcreteFactory::WallEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) {
+    return make_shared<Wall>(positie,symbol,original);
 }
-shared_ptr<EntityModel> ConcreteFactory::FloorEntity(const tuple<float, float> &positie,char symbol) {
-    return make_shared<Floor>(positie,symbol);
+shared_ptr<EntityModel> ConcreteFactory::FloorEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) {
+    return make_shared<Floor>(positie,symbol,original);
 }
-shared_ptr<EntityModel> ConcreteFactory::CoinEntity(const tuple<float, float> &positie,char symbol) {
-    return make_shared<Coin>(positie,symbol);
+shared_ptr<EntityModel> ConcreteFactory::CoinEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) {
+    return make_shared<Coin>(positie,symbol,original);
 }
-shared_ptr<EntityModel> ConcreteFactory::FruitEntity(const tuple<float, float> &positie, char symbol) {
-    return make_shared<Fruit>(positie,symbol);
+shared_ptr<EntityModel> ConcreteFactory::FruitEntity(const tuple<float, float> &positie, char symbol,const tuple<float, float> &original) {
+    return make_shared<Fruit>(positie,symbol,original);
 }
-shared_ptr<EntityModel> ConcreteFactory::GhostEntity(const tuple<float, float> &positie, char symbol) {
-    return make_shared<Ghost>(positie,symbol);
+shared_ptr<EntityModel> ConcreteFactory::GhostEntity(const tuple<float, float> &positie, char symbol,const tuple<float, float> &original) {
+    return make_shared<Ghost>(positie,symbol,original);
 }
 shared_ptr<PacManRender> ConcreteFactory::PacManView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<PacManRender>(model,camera);

@@ -17,12 +17,12 @@ class Collectable;
 
 class AbstractFactory {
 public:
-    virtual shared_ptr<EntityModel> FloorEntity(const tuple<float,float>& positie,char symbol) = 0;
-    virtual shared_ptr<EntityModel> PacManEntity(const tuple<float,float>& positie,char symbol) = 0;
-    virtual shared_ptr<EntityModel> WallEntity(const tuple<float,float>& positie,char symbol) = 0;
-    virtual shared_ptr<EntityModel> CoinEntity(const tuple<float,float>& positie,char symbol) = 0;
-    virtual shared_ptr<EntityModel> FruitEntity(const tuple<float,float>& positie,char symbol) = 0;
-    virtual shared_ptr<EntityModel> GhostEntity(const tuple<float,float>& positie,char symbol) = 0;
+    virtual shared_ptr<EntityModel> FloorEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
+    virtual shared_ptr<EntityModel> PacManEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
+    virtual shared_ptr<EntityModel> WallEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
+    virtual shared_ptr<EntityModel> CoinEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
+    virtual shared_ptr<EntityModel> FruitEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
+    virtual shared_ptr<EntityModel> GhostEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
     virtual shared_ptr<PacManRender> PacManView(shared_ptr<EntityModel> model, Camera& camera) = 0;
     virtual shared_ptr<WallRender> WallView(shared_ptr<EntityModel> model, Camera& camera) = 0;
     virtual shared_ptr<FloorRender> FloorView(shared_ptr<EntityModel> model, Camera& camera) = 0;

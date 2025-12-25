@@ -14,14 +14,20 @@ using namespace std;
 class EntityModel: public Subject {
 private:
     tuple<float,float> position;
+    tuple<float,float> originalPos;
     float entityWidth;
     float entityHeight;
     bool interacted = false;
     char symbol;
 public:
-    EntityModel(const tuple<float, float> &position, char symbol)
+    EntityModel(const tuple<float, float> &position, char symbol,const tuple<float, float> &original)
         : position(position),
-          symbol(symbol) {
+          symbol(symbol),
+          originalPos(original){
+    }
+
+    [[nodiscard]] tuple<float, float> original_pos() const {
+        return originalPos;
     }
 
     [[nodiscard]] bool getInteracted() const {
@@ -90,10 +96,10 @@ class PacMan: public EntityModel {
     tuple<float,float> current_position;
     tuple<float,float> previous_position;
 public:
-
-    PacMan(const tuple<float, float> &position, char symbol)
-        : EntityModel(position, symbol) {
+    PacMan(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
+        : EntityModel(position, symbol, original) {
     }
+
     [[nodiscard]] char getcurrentDirection() const override;
 
     void setCurrentDirection(char currentDirection) override;
@@ -122,8 +128,8 @@ class Ghost: public EntityModel {
     tuple<float,float> previous_position;
     bool fearmode = false;
 public:
-    Ghost(const tuple<float, float> &position, char symbol)
-        : EntityModel(position, symbol) {
+    Ghost(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
+        : EntityModel(position, symbol, original) {
         if (getSymbol()=='r') {
             currentDirection = 'l';
         }
@@ -161,8 +167,8 @@ public:
 };
 class Wall: public EntityModel {
 public:
-    Wall(const tuple<float, float> &position, char symbol)
-        : EntityModel(position, symbol) {
+    Wall(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
+        : EntityModel(position, symbol, original) {
     }
 
     [[nodiscard]] char getcurrentDirection() const override{}
@@ -189,8 +195,8 @@ public:
 };
 class Floor: public EntityModel {
 public:
-    Floor(const tuple<float, float> &position, char symbol)
-        : EntityModel(position, symbol) {
+    Floor(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
+        : EntityModel(position, symbol, original) {
     }
 
     [[nodiscard]] char getcurrentDirection() const override{}
@@ -217,8 +223,8 @@ public:
 };
 class Fruit: public EntityModel {
 public:
-    Fruit(const tuple<float, float> &position, char symbol)
-        : EntityModel(position, symbol) {
+    Fruit(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
+        : EntityModel(position, symbol, original) {
     }
 
     [[nodiscard]] char getcurrentDirection() const override{}
@@ -245,10 +251,9 @@ public:
 };
 class Coin: public EntityModel {
 public:
-    Coin(const tuple<float, float> &position, char symbol)
-        : EntityModel(position, symbol) {
+    Coin(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
+        : EntityModel(position, symbol, original) {
     }
-
 
     [[nodiscard]] char getcurrentDirection() const override{}
 
