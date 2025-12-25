@@ -348,10 +348,32 @@ bool World::checkIntersection(char dir, tuple<float, float> pos, shared_ptr<Enti
     return false;
 }
 
+float World::manhattanDistance(tuple<float, float> pos, tuple<float, float> pos2) {
+    float x2 = get<0>(pos2);
+    float y2 = get<1>(pos2);
+    float x1 = get<0>(pos);
+    float y1 = get<1>(pos);
+
+    float manhattendistance = abs(x2-x1)+abs(y2-y1);
+    return manhattendistance;
+}
+
+tuple<float, float> World::pacmanNextpos(float step) {
+    auto pacpos = pacman->getPosition();
+    auto dir = pacman->getcurrentDirection();
+    if (dir == 'N') {
+        return pacpos;
+    }
+    else {
+        auto next = calcDirection(step,dir,pacpos);
+        return next;
+    }
+}
+
 
 void World::GhostMovement(float deltatime) {
     float step = 0.3f * deltatime;
-    /*time += deltatime;*/
+    time += deltatime;
     for (auto ghost: ghosts) {
         if (ghost->getSymbol()=='r') {
             /*float speed = 0.3f;
@@ -396,6 +418,8 @@ void World::GhostMovement(float deltatime) {
                 ghost->setPrevPosition(pos);
                 ghost->setPosition(nextpos);
                 ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
                 /*Event event(WhichEvent::Moved,ghost.get());
                 ghost->notify(event);*/
             }
@@ -415,6 +439,8 @@ void World::GhostMovement(float deltatime) {
                     ghost->setPrevPosition(pos);
                     ghost->setPosition(nextpos);
                     ghost->setCurrentDirection(cur);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
                 }
                 else {
                     cout << "chose to stay" << endl;
@@ -426,6 +452,8 @@ void World::GhostMovement(float deltatime) {
                     ghost->setPrevPosition(pos);
                     ghost->setPosition(nextpos);
                     ghost->setCurrentDirection(dir);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
                 }
             }
             else {
@@ -445,10 +473,768 @@ void World::GhostMovement(float deltatime) {
                 }
                 ghost->setPrevPosition(pos);
                 ghost->setPosition(nextPos);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
                 /*Event event(WhichEvent::Moved,pacman.get());
                 pacman->notify(event);*/
             }
         }
+        else if (ghost->getSymbol() == 'p') {
+            auto pos = ghost->getPosition();
+            char dir = ghost->getcurrentDirection();
+            auto pacmanPos = pacmanNextpos(step);
+            vector<char> possible;
+            for (auto way: directions) {
+                auto nextPos = calcDirection(step,way,pos);
+                if (!checkIntersection(way,pos,ghost)) {
+                    possible.push_back(way);
+                }
+            }
+            if (wallinDirectionGhost(dir,pos,ghost)) {
+                cout << "wall" << endl;
+                vector<char> possibleWays;
+                for (auto way: directions) {
+                    if (!wallinDirectionGhost(way,pos,ghost)) {
+                        possibleWays.push_back(way);
+                    }
+                }
+                cout << possibleWays.size() << endl;
+                char cur;
+                vector<tuple<char,float>> manhattenD;
+                for (auto next: possibleWays) {
+                    auto ghostpos = ghost->getPosition();
+                    auto nextGhost = calcDirection(step,next,ghostpos);
+                    float distance = manhattanDistance(nextGhost,pacmanPos);
+                    manhattenD.push_back({next,distance});
+                }
+                vector<char> minManhatten;
+                float min = get<1>(manhattenD[0]);
+                for (auto fast: manhattenD) {
+                    char symb = get<0>(fast);
+                    float manh = get<1>(fast);
+                    if (manh < min) {
+                        minManhatten.clear();
+                        min = get<1>(fast);
+                        minManhatten.push_back(symb);
+                    }
+                    else if (manh == min) {
+                        minManhatten.push_back(symb);
+                    }
+                }
+                if (minManhatten.size() == 1) {
+                    cur = minManhatten[0];
+                }
+                else {
+                    int num = Random::getInstance().randomIndex(0,minManhatten.size()-1);
+                    cur = minManhatten[num];
+                }
+                /*if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }*/
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()*/
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);*/
+            }
+            else if (possible.size()>=3) {
+                cout << possible.size() << endl;
+                char cur;
+                vector<tuple<char,float>> manhattenD;
+                for (auto next: possible) {
+                    auto ghostpos = ghost->getPosition();
+                    auto nextGhost = calcDirection(step,next,ghostpos);
+                    float distance = manhattanDistance(nextGhost,pacmanPos);
+                    manhattenD.push_back({next,distance});
+                }
+                vector<char> minManhatten;
+                float min = get<1>(manhattenD[0]);
+                for (auto fast: manhattenD) {
+                    char symb = get<0>(fast);
+                    float manh = get<1>(fast);
+                    if (manh < min) {
+                        minManhatten.clear();
+                        min = get<1>(fast);
+                        minManhatten.push_back(symb);
+                    }
+                    else if (manh == min) {
+                        minManhatten.push_back(symb);
+                    }
+                }
+                if (minManhatten.size() == 1) {
+                    cur = minManhatten[0];
+                }
+                else {
+                    int num = Random::getInstance().randomIndex(0,minManhatten.size()-1);
+                    cur = minManhatten[num];
+                }
+                cout << "best way = " << cur << endl;
+                /*if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }*/
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()*/
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*char cur = dir;
+                possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
+                if (Random::getInstance().probSwitch(0.5f)) {
+                    cout << "chose to switch" << endl;
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possible[num];
+                    cout << "to: " << cur << endl;
+                    auto nextpos = calcDirection(step,cur,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(cur);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }
+                else {
+                    cout << "chose to stay" << endl;
+                    cout << "to: " << dir << endl;
+                    auto nextpos = calcDirection(step,dir,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(dir);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }*/
+            }
+            else {
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (dir) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    cout << "wall" << endl;
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);*/
+            }
+        }
+        else if (ghost->getSymbol() == 'b' && time >= 5.0f) {
+            auto pos = ghost->getPosition();
+            char dir = ghost->getcurrentDirection();
+            auto pacmanPos = pacmanNextpos(step);
+            vector<char> possible;
+            for (auto way: directions) {
+                auto nextPos = calcDirection(step,way,pos);
+                if (!checkIntersection(way,pos,ghost)) {
+                    possible.push_back(way);
+                }
+            }
+            if (wallinDirectionGhost(dir,pos,ghost)) {
+                cout << "wall" << endl;
+                vector<char> possibleWays;
+                for (auto way: directions) {
+                    if (!wallinDirectionGhost(way,pos,ghost)) {
+                        possibleWays.push_back(way);
+                    }
+                }
+                cout << possibleWays.size() << endl;
+                char cur;
+                vector<tuple<char,float>> manhattenD;
+                for (auto next: possibleWays) {
+                    auto ghostpos = ghost->getPosition();
+                    auto nextGhost = calcDirection(step,next,ghostpos);
+                    float distance = manhattanDistance(nextGhost,pacmanPos);
+                    manhattenD.push_back({next,distance});
+                }
+                vector<char> minManhatten;
+                float min = get<1>(manhattenD[0]);
+                for (auto fast: manhattenD) {
+                    char symb = get<0>(fast);
+                    float manh = get<1>(fast);
+                    if (manh < min) {
+                        minManhatten.clear();
+                        min = get<1>(fast);
+                        minManhatten.push_back(symb);
+                    }
+                    else if (manh == min) {
+                        minManhatten.push_back(symb);
+                    }
+                }
+                if (minManhatten.size() == 1) {
+                    cur = minManhatten[0];
+                }
+                else {
+                    int num = Random::getInstance().randomIndex(0,minManhatten.size()-1);
+                    cur = minManhatten[num];
+                }
+                /*if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }*/
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()*/
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);*/
+            }
+            else if (possible.size()>=3) {
+                cout << possible.size() << endl;
+                char cur;
+                vector<tuple<char,float>> manhattenD;
+                for (auto next: possible) {
+                    auto ghostpos = ghost->getPosition();
+                    auto nextGhost = calcDirection(step,next,ghostpos);
+                    float distance = manhattanDistance(nextGhost,pacmanPos);
+                    manhattenD.push_back({next,distance});
+                }
+                vector<char> minManhatten;
+                float min = get<1>(manhattenD[0]);
+                for (auto fast: manhattenD) {
+                    char symb = get<0>(fast);
+                    float manh = get<1>(fast);
+                    if (manh < min) {
+                        minManhatten.clear();
+                        min = get<1>(fast);
+                        minManhatten.push_back(symb);
+                    }
+                    else if (manh == min) {
+                        minManhatten.push_back(symb);
+                    }
+                }
+                if (minManhatten.size() == 1) {
+                    cur = minManhatten[0];
+                }
+                else {
+                    int num = Random::getInstance().randomIndex(0,minManhatten.size()-1);
+                    cur = minManhatten[num];
+                }
+                cout << "best way = " << cur << endl;
+                /*if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }*/
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()*/
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*char cur = dir;
+                possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
+                if (Random::getInstance().probSwitch(0.5f)) {
+                    cout << "chose to switch" << endl;
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possible[num];
+                    cout << "to: " << cur << endl;
+                    auto nextpos = calcDirection(step,cur,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(cur);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }
+                else {
+                    cout << "chose to stay" << endl;
+                    cout << "to: " << dir << endl;
+                    auto nextpos = calcDirection(step,dir,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(dir);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }*/
+            }
+            else {
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (dir) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    cout << "wall" << endl;
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);*/
+            }
+        }
+        else if (ghost->getSymbol() == 'o' && time >= 10.0f) {
+            auto pos = ghost->getPosition();
+            char dir = ghost->getcurrentDirection();
+            auto pacmanPos = pacman->getPosition();
+            vector<char> possible;
+            for (auto way: directions) {
+                auto nextPos = calcDirection(step,way,pos);
+                if (!checkIntersection(way,pos,ghost)) {
+                    possible.push_back(way);
+                }
+            }
+            if (wallinDirectionGhost(dir,pos,ghost)) {
+                cout << "wall" << endl;
+                vector<char> possibleWays;
+                for (auto way: directions) {
+                    if (!wallinDirectionGhost(way,pos,ghost)) {
+                        possibleWays.push_back(way);
+                    }
+                }
+                cout << possibleWays.size() << endl;
+                char cur;
+                vector<tuple<char,float>> manhattenD;
+                for (auto next: possibleWays) {
+                    auto ghostpos = ghost->getPosition();
+                    auto nextGhost = calcDirection(step,next,ghostpos);
+                    float distance = manhattanDistance(nextGhost,pacmanPos);
+                    manhattenD.push_back({next,distance});
+                }
+                vector<char> minManhatten;
+                float min = get<1>(manhattenD[0]);
+                for (auto fast: manhattenD) {
+                    char symb = get<0>(fast);
+                    float manh = get<1>(fast);
+                    if (manh < min) {
+                        minManhatten.clear();
+                        min = get<1>(fast);
+                        minManhatten.push_back(symb);
+                    }
+                    else if (manh == min) {
+                        minManhatten.push_back(symb);
+                    }
+                }
+                if (minManhatten.size() == 1) {
+                    cur = minManhatten[0];
+                }
+                else {
+                    int num = Random::getInstance().randomIndex(0,minManhatten.size()-1);
+                    cur = minManhatten[num];
+                }
+                /*if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }*/
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()*/
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);*/
+            }
+            else if (possible.size()>=3) {
+                cout << possible.size() << endl;
+                char cur;
+                vector<tuple<char,float>> manhattenD;
+                for (auto next: possible) {
+                    auto ghostpos = ghost->getPosition();
+                    auto nextGhost = calcDirection(step,next,ghostpos);
+                    float distance = manhattanDistance(nextGhost,pacmanPos);
+                    manhattenD.push_back({next,distance});
+                }
+                vector<char> minManhatten;
+                float min = get<1>(manhattenD[0]);
+                for (auto fast: manhattenD) {
+                    char symb = get<0>(fast);
+                    float manh = get<1>(fast);
+                    if (manh < min) {
+                        minManhatten.clear();
+                        min = get<1>(fast);
+                        minManhatten.push_back(symb);
+                    }
+                    else if (manh == min) {
+                        minManhatten.push_back(symb);
+                    }
+                }
+                if (minManhatten.size() == 1) {
+                    cur = minManhatten[0];
+                }
+                else {
+                    int num = Random::getInstance().randomIndex(0,minManhatten.size()-1);
+                    cur = minManhatten[num];
+                }
+                cout << "best way = " << cur << endl;
+                /*if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }*/
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()*/
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*char cur = dir;
+                possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
+                if (Random::getInstance().probSwitch(0.5f)) {
+                    cout << "chose to switch" << endl;
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possible[num];
+                    cout << "to: " << cur << endl;
+                    auto nextpos = calcDirection(step,cur,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(cur);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }
+                else {
+                    cout << "chose to stay" << endl;
+                    cout << "to: " << dir << endl;
+                    auto nextpos = calcDirection(step,dir,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(dir);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }*/
+            }
+            else {
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (dir) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    cout << "wall" << endl;
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);*/
+            }
+        }
+        /*else if (ghost->getSymbol()=='b' && time >= 5.0f) {
+            auto pos = ghost->getPosition();
+            char dir = ghost->getcurrentDirection();
+            vector<char> possible;
+            for (auto way: directions) {
+                auto nextPos = calcDirection(step,way,pos);
+                if (!checkIntersection(way,pos,ghost)) {
+                    possible.push_back(way);
+                }
+            }
+            if (wallinDirectionGhost(dir,pos,ghost)) {
+                cout << "wall" << endl;
+                vector<char> possibleWays;
+                for (auto way: directions) {
+                    if (!wallinDirectionGhost(way,pos,ghost)) {
+                        possibleWays.push_back(way);
+                    }
+                }
+                cout << possibleWays.size() << endl;
+                char cur;
+                if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()#1#
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);#1#
+            }
+            else if (possible.size()>=3) {
+                cout << possible.size() << endl;
+                char cur = dir;
+                possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
+                if (Random::getInstance().probSwitch(0.5f)) {
+                    cout << "chose to switch" << endl;
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possible[num];
+                    cout << "to: " << cur << endl;
+                    auto nextpos = calcDirection(step,cur,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(cur);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }
+                else {
+                    cout << "chose to stay" << endl;
+                    cout << "to: " << dir << endl;
+                    auto nextpos = calcDirection(step,dir,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(dir);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }
+            }
+            else {
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (dir) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    cout << "wall" << endl;
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);#1#
+            }
+        }
+        else if (ghost->getSymbol() == 'o' && time >= 10.0f) {
+            auto pos = ghost->getPosition();
+            char dir = ghost->getcurrentDirection();
+            vector<char> possible;
+            for (auto way: directions) {
+                auto nextPos = calcDirection(step,way,pos);
+                if (!checkIntersection(way,pos,ghost)) {
+                    possible.push_back(way);
+                }
+            }
+            if (wallinDirectionGhost(dir,pos,ghost)) {
+                cout << "wall" << endl;
+                vector<char> possibleWays;
+                for (auto way: directions) {
+                    if (!wallinDirectionGhost(way,pos,ghost)) {
+                        possibleWays.push_back(way);
+                    }
+                }
+                cout << possibleWays.size() << endl;
+                char cur;
+                if (possibleWays.size() == 2) {
+                    int num = Random::getInstance().randomIndex(0,1);
+                    cur = possibleWays[num];
+                }
+                else if (possibleWays.size() == 1) {
+                    cur = possibleWays[0];
+                }
+                else if (possibleWays.size() == 3) {
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possibleWays[num];
+                }
+                /*ghost->setCurrentDirection()
+                char cur = possibleWays[0];
+                ghost->setCurrentDirection()#1#
+                auto nextpos = calcDirection(step,cur,pos);
+                if (!canMovethroughcorridor(2.09,nextpos)) {
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextpos);
+                ghost->setCurrentDirection(cur);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);#1#
+            }
+            else if (possible.size()>=3) {
+                cout << possible.size() << endl;
+                char cur = dir;
+                possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
+                if (Random::getInstance().probSwitch(0.5f)) {
+                    cout << "chose to switch" << endl;
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possible[num];
+                    cout << "to: " << cur << endl;
+                    auto nextpos = calcDirection(step,cur,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(cur);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }
+                else {
+                    cout << "chose to stay" << endl;
+                    cout << "to: " << dir << endl;
+                    auto nextpos = calcDirection(step,dir,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(dir);
+                    Event event(WhichEvent::Moved,ghost.get());
+                    ghost->notify(event);
+                }
+            }
+            else {
+                float x = get<0>(pos);
+                float y = get<1>(pos);
+                tuple<float,float> nextPos = pos;
+                switch (dir) {
+                    case 'u': nextPos = {x,y+step}; break;
+                    case 'd': nextPos = {x,y-step}; break;
+                    case 'l': nextPos = {x-step,y}; break;
+                    case 'r': nextPos = {x+step,y}; break;
+                    default: return;
+                }
+                if (!canMovethroughcorridor(2.09,nextPos)) {
+                    cout << "wall" << endl;
+                    return;
+                }
+                ghost->setPrevPosition(pos);
+                ghost->setPosition(nextPos);
+                Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);
+                /*Event event(WhichEvent::Moved,pacman.get());
+                pacman->notify(event);#1#
+            }
+        }*/
         /*if (ghost->getSymbol()=='p') {
             float speed = 0.3f;
             float step = speed * deltatime;

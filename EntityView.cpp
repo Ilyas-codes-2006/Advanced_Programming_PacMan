@@ -205,6 +205,57 @@ void GhostRender::render(sf::RenderWindow *window) {
     sprite.setPosition(x+12,y);
     window->draw(sprite);
 }
+void GhostRender::update(const Event& event) {
+    if (event.type==WhichEvent::Moved) {
+        char direction = link->getcurrentDirection();
+        switch (direction) {
+            case 'u':
+                y = 6;
+                break;
+            case 'd':
+                y = 2;
+                break;
+            case 'l':
+                y = 4;
+                break;
+            case 'r':
+                y = 0;
+                break;
+        }
+        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+        sprite.setTextureRect(currentImage);
+    }
+    /*if (count >= 0 && count < 3) {
+        spriteIndex = 1;
+        y = y + spriteIndex;
+
+        count++;
+        spriteIndex = 0;
+    }
+    if (count >= 3 && count < 6) {
+        spriteIndex = 2;
+        y = y + spriteIndex;
+        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+        sprite.setTexture(texture);
+        sprite.scale(2,2);
+        sprite.setTextureRect(currentImage);
+        count++;
+        spriteIndex = 0;
+    }
+    if (count >= 6 && count < 9) {
+        spriteIndex = 0;
+        y = y + spriteIndex;
+        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+        sprite.setTexture(texture);
+        sprite.scale(2,2);
+        sprite.setTextureRect(currentImage);
+        count++;
+        spriteIndex = 0;
+        if (count == 9) {
+            count = 0;
+        }
+    }*/
+}
 /*auto worldPos = link->getPosition();
     auto [pixelX,pixelY] = camera.worldCoToPixelsCo(worldPos,100);
     float halfSize = 50.0f;

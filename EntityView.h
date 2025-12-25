@@ -126,7 +126,7 @@ public:
     GhostRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {
     }
-    void update(const Event& event) override {}
+    void update(const Event& event) override;
     void setSprite(const string& spritesheet);
     void render(sf::RenderWindow *window) override;
 };

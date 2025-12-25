@@ -117,7 +117,7 @@ public:
     Ghost(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
         if (getSymbol()=='r') {
-            currentDirection = 'u';
+            currentDirection = 'l';
         }
         else if (getSymbol()=='p') {
             currentDirection = 'r';
