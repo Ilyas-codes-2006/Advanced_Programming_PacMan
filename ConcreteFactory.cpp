@@ -24,6 +24,9 @@ shared_ptr<EntityModel> ConcreteFactory::FruitEntity(const tuple<float, float> &
 shared_ptr<EntityModel> ConcreteFactory::GhostEntity(const tuple<float, float> &positie, char symbol,const tuple<float, float> &original) {
     return make_shared<Ghost>(positie,symbol,original);
 }
+shared_ptr<EntityModel> ConcreteFactory::SpawnEntity(const tuple<float, float> &positie, char symbol,const tuple<float, float> &original) {
+    return make_shared<Spawn>(positie,symbol,original);
+}
 shared_ptr<PacManRender> ConcreteFactory::PacManView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<PacManRender>(model,camera);
 }
@@ -41,6 +44,9 @@ shared_ptr<FruitRender> ConcreteFactory::FruitView(shared_ptr<EntityModel> model
 }
 shared_ptr<GhostRender> ConcreteFactory::GhostView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<GhostRender>(model,camera);
+}
+shared_ptr<SpawnRender> ConcreteFactory::SpawnView(shared_ptr<EntityModel> model, Camera &camera) {
+    return make_shared<SpawnRender>(model,camera);
 }
 
 

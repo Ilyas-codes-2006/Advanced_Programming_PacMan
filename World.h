@@ -20,7 +20,12 @@ private:
     vector<shared_ptr<EntityModel>> entities;
     float time = 0.0f;
     vector<shared_ptr<EntityModel>> ghosts;
+    vector<shared_ptr<EntityModel>> Spawn;
     shared_ptr<EntityModel> pacman;
+    int countr = 0;
+    int countp = 0;
+    int countb = 0;
+    int counto = 0;
     int currentLevel = 0;
 public:
     explicit World(const shared_ptr<AbstractFactory> &factory)

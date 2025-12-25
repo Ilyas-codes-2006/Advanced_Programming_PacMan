@@ -193,6 +193,34 @@ public:
 
     void update(float deltaTime) override {}
 };
+class Spawn: public EntityModel {
+public:
+    Spawn(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
+        : EntityModel(position, symbol, original) {
+    }
+
+    [[nodiscard]] char getcurrentDirection() const override{}
+
+    void setCurrentDirection(char currentDirection) override{}
+
+    [[nodiscard]] tuple<float,float> getcurrentPosition() override{}
+
+    void setCurrentPosition(tuple<float,float> cur) override {}
+
+    [[nodiscard]]  tuple<float,float> getPrevPosition() override {}
+
+    void setPrevPosition(tuple<float,float> prev) override {}
+
+    [[nodiscard]] char getnextDirection() override{}
+
+    void setnextDirection(char nextDirection) override{}
+
+    [[nodiscard]] bool getFearmode() override {}
+
+    void setFearmode(bool fear) override {}
+
+    void update(float deltaTime) override {}
+};
 class Floor: public EntityModel {
 public:
     Floor(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)

@@ -93,7 +93,12 @@ void World::makeLevel(shared_ptr<Level> level) {
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
                 break;
-
+            case 'S':
+                entity = factory->WallEntity({coordX,coordY},'S',{coordX,coordY});
+                entity->set_entity_height(level->entity_height());
+                entity->set_entity_width(level->entity_width());
+                Spawn.push_back(entity);
+                break;
         }
         addEntity(entity);
     }
@@ -376,6 +381,10 @@ void World::GhostMovement(float deltatime) {
     time += deltatime;
     for (auto ghost: ghosts) {
         if (ghost->getSymbol()=='r') {
+            if (countr == 0) {
+                ghost->setPosition(Spawn[0]->original_pos());
+                countr++;
+            }
             if (ghost->getFearmode()) {
                 step = 0.2f * deltatime;
                 auto pos = ghost->getPosition();
@@ -622,6 +631,10 @@ void World::GhostMovement(float deltatime) {
             }
         }
         else if (ghost->getSymbol() == 'p') {
+            if (countp == 0) {
+                ghost->setPosition(Spawn[1]->original_pos());
+                countp++;
+            }
             if (ghost->getFearmode()) {
                 step = 0.2f * deltatime;
                 auto pos = ghost->getPosition();
@@ -867,6 +880,10 @@ void World::GhostMovement(float deltatime) {
             }
         }
         else if (ghost->getSymbol() == 'b' && time >= 5.0f) {
+            if (countb == 0) {
+                ghost->setPosition(Spawn[0]->original_pos());
+                countb++;
+            }
             if (ghost->getFearmode()) {
                 step = 0.2f * deltatime;
                 auto pos = ghost->getPosition();
@@ -1112,6 +1129,10 @@ void World::GhostMovement(float deltatime) {
             }
         }
         else if (ghost->getSymbol() == 'o' && time >= 10.0f) {
+            if (counto == 0) {
+                ghost->setPosition(Spawn[1]->original_pos());
+                counto++;
+            }
             if (ghost->getFearmode()) {
                 step = 0.2f * deltatime;
                 auto pos = ghost->getPosition();
@@ -1407,6 +1428,21 @@ void World::CheckGhost() {
         if (xMax > wMinx && xMin < wMaxx && yMax < wMiny && yMin > wMaxy) {
             if (ghost->getFearmode()) {
                 ghost->setPosition(ghost->original_pos());
+                switch (ghost->getSymbol()) {
+                    case 'r':
+                        countr = 0;
+                        break;
+                    case 'p':
+                        countp = 0;
+                        break;
+                    case 'b':
+                        countb = 0;
+                        break;
+                    case 'o':
+                        counto = 0;
+                        break;
+                }
+                ghost->setFearmode(false);
                 Event event(WhichEvent::Moved,ghost.get());
                 ghost->notify(event);
             }

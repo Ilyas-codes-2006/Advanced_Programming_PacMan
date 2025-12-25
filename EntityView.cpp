@@ -111,6 +111,17 @@ void WallRender::render(sf::RenderWindow *window) {
     wall.setPosition(x,y);
     window->draw(wall);
 }
+
+void SpawnRender::render(sf::RenderWindow *window) {
+    auto Position = link->getPosition();
+    auto Pixels = camera.worldCoToPixelsCo(Position,0);
+    float x = get<0>(Pixels);
+    float y = get<1>(Pixels);
+    /*floor.setOrigin(floor.getSize().x/2,floor.getSize().y/2);*/
+    floor.setPosition(x,y);
+    window->draw(floor);
+}
+
 void FloorRender::render(sf::RenderWindow *window) {
     auto Position = link->getPosition();
     auto Pixels = camera.worldCoToPixelsCo(Position,0);

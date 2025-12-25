@@ -83,6 +83,9 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
         else if (symbol == '_') {
             views.push_back(factory->FloorView(entity, camera));
         }
+        else if (symbol == 'S') {
+            views.push_back(factory->SpawnView(entity,camera));
+        }
     }
     for (auto& entity : world->getEntities()) {
         char symbol = entity->getSymbol();

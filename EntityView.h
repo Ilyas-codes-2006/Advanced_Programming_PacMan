@@ -79,6 +79,17 @@ public:
     void update(const Event& event) override {}
     void render(sf::RenderWindow* window) override;
 };
+class SpawnRender : public EntityView {
+private:
+    sf::RectangleShape floor;
+public:
+    SpawnRender(shared_ptr<EntityModel> model, Camera &camera) : EntityView(model, camera) {
+        floor.setSize(sf::Vector2f(95, 91));
+        floor.setFillColor(sf::Color::Black);
+    }
+    void update(const Event& event) override {}
+    void render(sf::RenderWindow* window) override;
+};
 class CoinRender : public EntityView {
 private:
     sf::Texture texture;
