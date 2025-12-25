@@ -103,6 +103,14 @@ tuple<float,float> Ghost::getPrevPosition() {
 void Ghost::setPrevPosition(tuple<float,float> prev) {
     previous_position = prev;
 }
+bool Ghost::getFearmode() {
+    return fearmode;
+}
+void Ghost::setFearmode(bool fear) {
+    fearmode = fear;
+}
+
+
 /*shared_ptr<EntityModel> Coin::interacts(shared_ptr<EntityModel> pacman) {
     if (pacman->getPosition() == this->getPosition()) {
         setInteracted(true);

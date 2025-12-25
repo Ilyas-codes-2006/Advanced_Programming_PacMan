@@ -64,6 +64,10 @@ public:
 
     virtual void setPrevPosition(tuple<float,float> prev) = 0;
 
+    [[nodiscard]] virtual bool getFearmode() = 0;
+
+    virtual void setFearmode(bool fear) = 0;
+
     virtual void update(float deltaTime) = 0;
 
     tuple<float, float> getPosition() const {
@@ -106,13 +110,17 @@ public:
 
     void setPrevPosition(tuple<float,float> prev) override;
 
+    [[nodiscard]] bool getFearmode() override {}
+
+    void setFearmode(bool fear) override {}
+
     void update(float deltaTime) override;
 };
 class Ghost: public EntityModel {
     char currentDirection = 'N';
     tuple<float,float> current_position;
     tuple<float,float> previous_position;
-    bool fear = false;
+    bool fearmode = false;
 public:
     Ghost(const tuple<float, float> &position, char symbol)
         : EntityModel(position, symbol) {
@@ -145,6 +153,10 @@ public:
 
     void setPrevPosition(tuple<float,float> prev) override;
 
+    [[nodiscard]] bool getFearmode() override;
+
+    void setFearmode(bool fear) override;
+
     void update(float deltaTime) override;
 };
 class Wall: public EntityModel {
@@ -169,6 +181,10 @@ public:
 
     void setnextDirection(char nextDirection) override{}
 
+    [[nodiscard]] bool getFearmode() override {}
+
+    void setFearmode(bool fear) override {}
+
     void update(float deltaTime) override {}
 };
 class Floor: public EntityModel {
@@ -192,6 +208,11 @@ public:
     [[nodiscard]] char getnextDirection() override{}
 
     void setnextDirection(char nextDirection) override{}
+
+    [[nodiscard]] bool getFearmode() override {}
+
+    void setFearmode(bool fear) override {}
+
     void update(float deltaTime) override {}
 };
 class Fruit: public EntityModel {
@@ -215,6 +236,10 @@ public:
     void setPrevPosition(tuple<float,float> prev) override {}
 
     void setnextDirection(char nextDirection) override{}
+
+    [[nodiscard]] bool getFearmode() override {}
+
+    void setFearmode(bool fear) override {}
 
     void update(float deltaTime) override {}
 };
@@ -240,6 +265,10 @@ public:
     [[nodiscard]] char getnextDirection() override{}
 
     void setnextDirection(char nextDirection) override{}
+
+    [[nodiscard]] bool getFearmode() override {}
+
+    void setFearmode(bool fear) override {}
 
     void update(float deltaTime) override {}
 };

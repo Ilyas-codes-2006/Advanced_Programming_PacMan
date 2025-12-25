@@ -132,6 +132,9 @@ void FruitRender::setSprite(const string &spritesheet) {
     sprite.setScale(2.7,2.7);
 }
 void FruitRender::render(sf::RenderWindow *window) {
+    if (link->getInteracted()) {
+        return;
+    }
     auto Position = link->getPosition();
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
@@ -198,6 +201,9 @@ void GhostRender::setSprite(const string &spritesheet) {
     sprite.scale(1.8,1.8);
 }
 void GhostRender::render(sf::RenderWindow *window) {
+    if (link->getInteracted()) {
+        return;
+    }
     auto Position = link->getPosition();
     auto Pixels = camera.worldCoToPixelsCo(Position,0);
     float x = get<0>(Pixels);
@@ -206,24 +212,42 @@ void GhostRender::render(sf::RenderWindow *window) {
     window->draw(sprite);
 }
 void GhostRender::update(const Event& event) {
-    if (event.type==WhichEvent::Moved) {
-        char direction = link->getcurrentDirection();
-        switch (direction) {
-            case 'u':
-                y = 6;
-                break;
-            case 'd':
-                y = 2;
-                break;
-            case 'l':
-                y = 4;
-                break;
-            case 'r':
-                y = 0;
-                break;
+    if (link->getFearmode()==true) {
+        if (event.type==WhichEvent::FearMode) {
+            x = 0;
+            y = 11;
+            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+            sprite.setTextureRect(currentImage);
         }
-        currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
-        sprite.setTextureRect(currentImage);
+    }
+    else {
+        if (event.type==WhichEvent::Moved) {
+            if (link->getFearmode()==true) {
+                x = 0;
+                y = 11;
+                currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+                sprite.setTextureRect(currentImage);
+            }
+            else {
+                char direction = link->getcurrentDirection();
+                switch (direction) {
+                    case 'u':
+                        y = 6;
+                        break;
+                    case 'd':
+                        y = 2;
+                        break;
+                    case 'l':
+                        y = 4;
+                        break;
+                    case 'r':
+                        y = 0;
+                        break;
+                }
+                currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+                sprite.setTextureRect(currentImage);
+            }
+        }
     }
     /*if (count >= 0 && count < 3) {
         spriteIndex = 1;

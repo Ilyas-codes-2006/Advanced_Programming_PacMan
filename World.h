@@ -43,6 +43,8 @@ public:
     void clearEntities();
     void checkCollision();
     void checkEaten();
+    void checkEatenFruit();
+    void CheckGhost();
     tuple<float,float> calcDirection(float step, char dir,tuple<float,float> pos);
     void GhostMovement(float deltatime);
     bool wallinDirectionGhost(char dir, tuple<float,float> pos,shared_ptr<EntityModel> ghost);
