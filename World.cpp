@@ -280,22 +280,100 @@ tuple<float, float> World::calcDirection(float step, char dir, tuple<float, floa
     return nextPos;
 }
 
+bool World::wallinDirectionGhost(char dir, tuple<float, float> pos, shared_ptr<EntityModel> ghost) {
+    float x = get<0>(pos);
+    float y = get<1>(pos);
+    float entityW = ghost->entity_width();
+    float entityH = ghost->entity_height();
+    switch (dir) {
+        case 'u':
+            y+=entityH/2;
+            break;
+        case 'd':
+            y-=entityH/2;
+            break;
+        case 'l':
+            x-=entityW/2;
+            break;
+        case 'r':
+            x+=entityW/2;
+            break;
+    }
+    for (auto& entity : entities) {
+        if (entity->getSymbol() == '#') {
+            auto wall = entity->getPosition();
+            float wMinx = get<0>(wall)-entity->entity_width()/1.9978;
+            float wMaxx = get<0>(wall)+entity->entity_width()/1.9978;
+            float wMiny = get<1>(wall)-entity->entity_height()/1.9978;
+            float wMaxy = get<1>(wall)+entity->entity_height()/1.9978;
+            if (x >= wMinx && x <= wMaxx && y >= wMiny && y <= wMaxy) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+bool World::checkIntersection(char dir, tuple<float, float> pos, shared_ptr<EntityModel> ghost) {
+    float x = get<0>(pos);
+    float y = get<1>(pos);
+    float entityW = ghost->entity_width();
+    float entityH = ghost->entity_height();
+    switch (dir) {
+        case 'u':
+            y+=entityH/2;
+            break;
+        case 'd':
+            y-=entityH/2;
+            break;
+        case 'l':
+            x-=entityW/2;
+            break;
+        case 'r':
+            x+=entityW/2;
+            break;
+    }
+    for (auto& entity : entities) {
+        if (entity->getSymbol() == '#') {
+            auto wall = entity->getPosition();
+            float wMinx = get<0>(wall)-entity->entity_width()/1.001;
+            float wMaxx = get<0>(wall)+entity->entity_width()/1.001;
+            float wMiny = get<1>(wall)-entity->entity_height()/1.001;
+            float wMaxy = get<1>(wall)+entity->entity_height()/1.001;
+            if (x >= wMinx && x <= wMaxx && y >= wMiny && y <= wMaxy) {
+                return true;
+            }
+        }
+    }
+    return false;
+}
+
+
 void World::GhostMovement(float deltatime) {
-    time += deltatime;
+    float step = 0.3f * deltatime;
+    /*time += deltatime;*/
     for (auto ghost: ghosts) {
         if (ghost->getSymbol()=='r') {
-            float speed = 0.3f;
-            float step = speed * deltatime;
+            /*float speed = 0.3f;
+            float step = speed * deltatime;*/
             auto pos = ghost->getPosition();
             char dir = ghost->getcurrentDirection();
-            if (wallinDirection(dir)) {
+            vector<char> possible;
+            for (auto way: directions) {
+                auto nextPos = calcDirection(step,way,pos);
+                if (!checkIntersection(way,pos,ghost)) {
+                    possible.push_back(way);
+                }
+            }
+            if (wallinDirectionGhost(dir,pos,ghost)) {
+                cout << "wall" << endl;
                 vector<char> possibleWays;
                 for (auto way: directions) {
-                    auto nextPos = calcDirection(step,way,pos);
-                    if (canMovethroughcorridor(2.09,nextPos)) {
+                    if (!wallinDirectionGhost(way,pos,ghost)) {
                         possibleWays.push_back(way);
                     }
                 }
+                cout << possibleWays.size() << endl;
                 char cur;
                 if (possibleWays.size() == 2) {
                     int num = Random::getInstance().randomIndex(0,1);
@@ -321,6 +399,35 @@ void World::GhostMovement(float deltatime) {
                 /*Event event(WhichEvent::Moved,ghost.get());
                 ghost->notify(event);*/
             }
+            else if (possible.size()>=3) {
+                cout << possible.size() << endl;
+                char cur = dir;
+                possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
+                if (Random::getInstance().probSwitch(0.5f)) {
+                    cout << "chose to switch" << endl;
+                    int num = Random::getInstance().randomIndex(0,2);
+                    cur = possible[num];
+                    cout << "to: " << cur << endl;
+                    auto nextpos = calcDirection(step,cur,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(cur);
+                }
+                else {
+                    cout << "chose to stay" << endl;
+                    cout << "to: " << dir << endl;
+                    auto nextpos = calcDirection(step,dir,pos);
+                    if (!canMovethroughcorridor(2.09,nextpos)) {
+                        return;
+                    }
+                    ghost->setPrevPosition(pos);
+                    ghost->setPosition(nextpos);
+                    ghost->setCurrentDirection(dir);
+                }
+            }
             else {
                 float x = get<0>(pos);
                 float y = get<1>(pos);
@@ -333,6 +440,7 @@ void World::GhostMovement(float deltatime) {
                     default: return;
                 }
                 if (!canMovethroughcorridor(2.09,nextPos)) {
+                    cout << "wall" << endl;
                     return;
                 }
                 ghost->setPrevPosition(pos);

@@ -45,6 +45,8 @@ public:
     void checkEaten();
     tuple<float,float> calcDirection(float step, char dir,tuple<float,float> pos);
     void GhostMovement(float deltatime);
+    bool wallinDirectionGhost(char dir, tuple<float,float> pos,shared_ptr<EntityModel> ghost);
+    bool checkIntersection(char dir, tuple<float,float> pos,shared_ptr<EntityModel> ghost);
     bool wallinDirection(char dir);
     float findCorridorCenter(char dir, tuple<float,float> position);
     bool canMovethroughcorridor(float hitbox, tuple<float,float> position);

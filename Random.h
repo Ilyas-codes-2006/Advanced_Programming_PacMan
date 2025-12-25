@@ -9,7 +9,7 @@
 class Random {
 private:
     std::mt19937 MersenneTw;
-    Random() = default;
+    Random() : MersenneTw(std::random_device{}()) {}
     Random(const Random& random) = delete;
     Random& operator=(const Random& random) = delete;
 public:

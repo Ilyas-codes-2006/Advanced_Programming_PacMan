@@ -120,7 +120,7 @@ public:
             currentDirection = 'u';
         }
         else if (getSymbol()=='p') {
-            currentDirection = 'u';
+            currentDirection = 'r';
         }
         else if (getSymbol()=='b') {
             currentDirection = 'r';
