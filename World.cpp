@@ -868,7 +868,7 @@ void World::GhostMovement(float deltatime) {
         }
         else if (ghost->getSymbol() == 'b' && time >= 5.0f) {
             if (ghost->getFearmode()) {
-                step = 0.15f * deltatime;
+                step = 0.2f * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 auto pacmanPos = pacmanNextpos(step);
