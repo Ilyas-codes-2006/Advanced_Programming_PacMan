@@ -29,6 +29,8 @@ public:
         return link;
     }
 
+    virtual void setSprite(const string& spritesheet) = 0;
+
     virtual void render(sf::RenderWindow* window) = 0;
 
     virtual void update(const Event& event) override {}
@@ -54,7 +56,7 @@ public:
         : EntityView(link, camera) {
     }
     void update(const Event& event) override;
-    void setSprite(const string& spritesheet);
+    void setSprite(const string& spritesheet) override;
     void render(sf::RenderWindow *window) override;
 };
 class FloorRender : public EntityView {
@@ -65,6 +67,7 @@ public:
         floor.setSize(sf::Vector2f(95, 91));
         floor.setFillColor(sf::Color::Black);
     }
+    void setSprite(const string& spritesheet) override {}
     void update(const Event& event) override {}
     void render(sf::RenderWindow* window) override;
 };
@@ -76,6 +79,7 @@ public:
         wall.setSize(sf::Vector2f(95, 91));
         wall.setFillColor(sf::Color::Blue);
     }
+    void setSprite(const string& spritesheet) override {}
     void update(const Event& event) override {}
     void render(sf::RenderWindow* window) override;
 };
@@ -87,6 +91,7 @@ public:
         floor.setSize(sf::Vector2f(95, 91));
         floor.setFillColor(sf::Color::Black);
     }
+    void setSprite(const string& spritesheet) override {}
     void update(const Event& event) override {}
     void render(sf::RenderWindow* window) override;
 };
@@ -102,7 +107,7 @@ public:
         : EntityView(link, camera) {
     }
     void update(const Event& event) override {}
-    void setSprite(const string& spritesheet);
+    void setSprite(const string& spritesheet) override;
     void render(sf::RenderWindow *window) override;
 };
 class FruitRender : public EntityView {
@@ -117,7 +122,7 @@ public:
         : EntityView(link, camera) {
     }
     void update(const Event& event) override {}
-    void setSprite(const string& spritesheet);
+    void setSprite(const string& spritesheet) override;
     void render(sf::RenderWindow *window) override;
 };
 class GhostRender : public EntityView {
@@ -138,7 +143,7 @@ public:
         : EntityView(link, camera) {
     }
     void update(const Event& event) override;
-    void setSprite(const string& spritesheet);
+    void setSprite(const string& spritesheet) override;
     void render(sf::RenderWindow *window) override;
 };
 

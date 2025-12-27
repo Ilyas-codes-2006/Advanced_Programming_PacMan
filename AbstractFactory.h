@@ -24,13 +24,13 @@ public:
     virtual shared_ptr<EntityModel> FruitEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
     virtual shared_ptr<EntityModel> GhostEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
     virtual shared_ptr<EntityModel> SpawnEntity(const tuple<float,float>& positie,char symbol,const tuple<float, float> &original) = 0;
-    virtual shared_ptr<PacManRender> PacManView(shared_ptr<EntityModel> model, Camera& camera) = 0;
-    virtual shared_ptr<WallRender> WallView(shared_ptr<EntityModel> model, Camera& camera) = 0;
-    virtual shared_ptr<FloorRender> FloorView(shared_ptr<EntityModel> model, Camera& camera) = 0;
-    virtual shared_ptr<CoinRender> CoinView(shared_ptr<EntityModel> model, Camera& camera) = 0;
-    virtual shared_ptr<FruitRender> FruitView(shared_ptr<EntityModel> model, Camera& camera) = 0;
-    virtual shared_ptr<GhostRender> GhostView(shared_ptr<EntityModel> model, Camera& camera) = 0;
-    virtual shared_ptr<SpawnRender> SpawnView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<EntityView> PacManView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<EntityView> WallView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<EntityView> FloorView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<EntityView> CoinView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<EntityView> FruitView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<EntityView> GhostView(shared_ptr<EntityModel> model, Camera& camera) = 0;
+    virtual shared_ptr<EntityView> SpawnView(shared_ptr<EntityModel> model, Camera& camera) = 0;
 
 
     virtual ~AbstractFactory() = default;
