@@ -246,7 +246,7 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     return true;
 }
 void World::updatePacman(float deltaTime) {
-    float speed = 0.8;
+    float speed = 0.5;
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();
@@ -403,7 +403,7 @@ tuple<float, float> World::pacmanNextpos(float step) {
 
 
 void World::GhostMovement(float deltatime) {
-    float step = 0.3f * deltatime;
+    float step = 0.5f * deltatime;
     time += deltatime;
     for (auto ghost: ghosts) {
         if (ghost->getFearmode()) {
@@ -423,7 +423,7 @@ void World::GhostMovement(float deltatime) {
                 countr++;
             }
             if (ghost->getFearmode()) {
-                step = 0.2f * deltatime;
+                step = 0.3f * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 vector<char> possible;
@@ -1462,6 +1462,9 @@ void World::reset() {
     counto = 0;
     for (auto ghost: ghosts) {
         time  = 0;
+        ghost->setFearmode(false);
+        Event event(WhichEvent::Moved,ghost.get());
+        ghost->notify(event);
         ghost->setPosition(ghost->original_pos());
         ghost->setCurrentDirection('u');
     }
