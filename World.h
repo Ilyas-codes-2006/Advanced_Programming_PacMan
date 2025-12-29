@@ -19,8 +19,11 @@ private:
     vector<char> directions = {'u','d','l','r'};
     vector<shared_ptr<EntityModel>> entities;
     float time = 0.0f;
+    float levelDone = false;
     vector<shared_ptr<EntityModel>> ghosts;
     vector<shared_ptr<EntityModel>> Spawn;
+    vector<shared_ptr<EntityModel>> ToBeEaten;
+    int pacHItOnce = 0;
     shared_ptr<EntityModel> pacman;
     int countr = 0;
     int countp = 0;
@@ -42,9 +45,16 @@ public:
     [[nodiscard]] vector<shared_ptr<EntityModel>> getEntities() const {
         return entities;
     }
+
+    [[nodiscard]] float getLevelDone() const {
+        return levelDone;
+    }
+
     void levelFinished();
+    void reset();
     void addEntity(shared_ptr<EntityModel>& entity);
     void removeEntity(shared_ptr<EntityModel>& entity);
+    void removeEatenEntity(shared_ptr<EntityModel>& entity);
     void clearEntities();
     void checkCollision();
     void checkEaten();

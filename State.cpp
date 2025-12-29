@@ -65,7 +65,6 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     scoreTxt.setFillColor(sf::Color(255, 255, 0));
     scoreTxt.setPosition(100,window->getSize().y-80);
     lives.setFont(font);
-    lives.setString("Lives Remaining: 3");
     lives.setCharacterSize(50);
     lives.setFillColor(sf::Color(255, 255, 0));
     lives.setPosition(window->getSize().x/2+500,window->getSize().y-80);
@@ -101,8 +100,8 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
             CoinView->setSprite("../PacMan.png");
             views.push_back(CoinView);
         }
-
     }
+    world->getPacman()->attach(score.get());
     auto pacView = factory->PacManView(world->getPacman(), camera);
     pacView->setSprite("../PacMan.png");
     views.push_back(pacView);
@@ -133,6 +132,7 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
             views.push_back(Ghostview);
         }
     }
+    lives.setString("Lives Remaining: " + std::to_string(world->getPacman()->getlives()));
 }
 
 void LevelState::Input(sf::Event *event) {
@@ -155,15 +155,21 @@ void LevelState::Input(sf::Event *event) {
     }
 }
 void LevelState::update() {
-    float deltatime = Stopwatch::getInstance().tick();
-    world->updatePacman(deltatime);
-    /*world->getPacman()->update(deltatime);*/
-    /*world->checkCollision();*/
-    world->GhostMovement(deltatime);
-    world->checkEatenFruit();
-    world->checkEaten();
-    world->CheckGhost();
-    scoreTxt.setString("Score: " + std::to_string(score->getScore()));
+    if (!world->getLevelDone() && world->getPacman()->getlives() != 0) {
+        lives.setString("Lives Remaining: " + std::to_string(world->getPacman()->getlives()));
+        float deltatime = Stopwatch::getInstance().tick();
+        world->updatePacman(deltatime);
+        /*world->getPacman()->update(deltatime);*/
+        /*world->checkCollision();*/
+        world->GhostMovement(deltatime);
+        world->checkEatenFruit();
+        world->checkEaten();
+        world->CheckGhost();
+        scoreTxt.setString("Score: " + std::to_string(score->getScore()));
+    }
+    else {
+        window->close();
+    }
 }
 void LevelState::render() {
     window->clear();

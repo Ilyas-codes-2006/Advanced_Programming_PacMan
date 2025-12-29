@@ -15,7 +15,7 @@ void World::addEntity(shared_ptr<EntityModel>& entity) {
     entities.push_back(entity);
 }
 void World::removeEntity(shared_ptr<EntityModel>& entity) {
-    for (auto it = entities.begin(); it != entities.end(); ++it) {
+    for (auto it = entities.begin(); it != entities.end(); it++) {
         if (it->get() == entity.get()) {
             entities.erase(it);
             break;
@@ -63,11 +63,13 @@ void World::makeLevel(shared_ptr<Level> level) {
                 entity = factory->FruitEntity({coordX,coordY},'F',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
+                ToBeEaten.push_back(entity);
                 break;
             case '-':
                 entity = factory->CoinEntity({coordX,coordY},'-',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
+                ToBeEaten.push_back(entity);
                 break;
             case 'r':
                 entity = factory->GhostEntity({coordX,coordY},'r',{coordX,coordY});
@@ -123,7 +125,17 @@ void World::checkCollision() {
         }
     }
 }
+void World::removeEatenEntity(shared_ptr<EntityModel> &entity) {
+    for (auto it = ToBeEaten.begin(); it != ToBeEaten.end(); it++) {
+        if (it->get() == entity.get()) {
+            ToBeEaten.erase(it);
+            break;
+        }
+    }
+}
+
 void World::checkEaten() {
+    bool eaten = false;
     auto pac = pacman->getPosition();
     float xMin = get<0>(pac)-pacman->entity_width()/6;
     float xMax = get<0>(pac)+pacman->entity_width()/6;
@@ -139,6 +151,7 @@ void World::checkEaten() {
             float wMaxy = get<1>(coin)-entity->entity_height()/6;
             if (xMax > wMinx && xMin < wMaxx && yMax < wMiny && yMin > wMaxy) {
                 cout << "eaten" << endl;
+                eaten = true;
                 entity->setInteracted(true);
                 Event event(WhichEvent::CoinPoint,entity.get());
                 entity->notify(event);
@@ -147,8 +160,21 @@ void World::checkEaten() {
             }
         }
     }
-    for (auto coin: coins) {
-        removeEntity(coin);
+    if (eaten) {
+        for (auto coin: coins) {
+            removeEatenEntity(coin);
+        }
+
+        for (auto coin: coins) {
+            removeEntity(coin);
+        }
+    }
+    else {
+        Event event(WhichEvent::NotEaten,pacman.get());
+        pacman->notify(event);
+    }
+    if (ToBeEaten.empty()) {
+        levelDone = true;
     }
 }
 /*float World::findCorridorCenter(char dir, tuple<float,float> position) {
@@ -220,7 +246,7 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     return true;
 }
 void World::updatePacman(float deltaTime) {
-    float speed = 0.3f;
+    float speed = 0.8;
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();
@@ -382,7 +408,7 @@ void World::GhostMovement(float deltatime) {
     for (auto ghost: ghosts) {
         if (ghost->getFearmode()) {
             ghost->setFeartime(ghost->getFeartime()+deltatime);
-            if (ghost->getFeartime() >= 15.0) {
+            if (ghost->getFeartime() >= 10.0) {
                 ghost->setFeartime(0.0);
                 ghost->setFearmode(false);
                 /*Event event(WhichEvent::Moved,ghost.get());
@@ -1412,17 +1438,39 @@ void World::checkEatenFruit() {
                 fruits.push_back(entity);
                 for (auto ghost: ghosts) {
                     ghost->setFearmode(true);
+                    ghost->setFeartime(0.0);
                     Event event2(WhichEvent::FearMode,entity.get());
                     ghost->notify(event2);
                 }
-                /*score.addPoints();*/
             }
         }
     }
     for (auto fruit: fruits) {
+        removeEatenEntity(fruit);
+    }
+    for (auto fruit: fruits) {
         removeEntity(fruit);
     }
+    if (ToBeEaten.empty()) {
+        levelDone = true;
+    }
 }
+void World::reset() {
+    countr = 0;
+    countp = 0;
+    countb = 0;
+    counto = 0;
+    for (auto ghost: ghosts) {
+        time  = 0;
+        ghost->setPosition(ghost->original_pos());
+        ghost->setCurrentDirection('u');
+    }
+    pacman->setPosition(pacman->original_pos());
+    pacman->setLives(pacman->getlives()-1);
+    pacman->setCurrentDirection('N');
+    pacman->setnextDirection('N');
+}
+
 void World::CheckGhost() {
     auto pac = pacman->getPosition();
     float xMin = get<0>(pac)-pacman->entity_width()/6;
@@ -1455,7 +1503,12 @@ void World::CheckGhost() {
                 }
                 ghost->setFearmode(false);
                 Event event(WhichEvent::Moved,ghost.get());
+                Event event2(WhichEvent::GhostEaten,ghost.get());
                 ghost->notify(event);
+                ghost->notify(event2);
+            }
+            else {
+                reset();
             }
         }
     }

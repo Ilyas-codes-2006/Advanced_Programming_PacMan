@@ -86,8 +86,11 @@ public:
 
     void setPosition(const tuple<float, float> &position) {
         this->position = position;
-        /*notify();*/
     }
+
+    [[nodiscard]] virtual int getlives() = 0;
+
+    virtual void setLives(int life) = 0;
 
     [[nodiscard]] char getSymbol() const {
         return symbol;
@@ -97,12 +100,17 @@ public:
 class PacMan: public EntityModel {
     char currentDirection = 'N';
     char nextDirection = 'N';
+    int lives = 3;
     tuple<float,float> current_position;
     tuple<float,float> previous_position;
 public:
     PacMan(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
         : EntityModel(position, symbol, original) {
     }
+
+    [[nodiscard]] int getlives() override;
+
+    void setLives(int life) override;
 
     [[nodiscard]] char getcurrentDirection() const override;
 
@@ -140,18 +148,22 @@ public:
     Ghost(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
         : EntityModel(position, symbol, original) {
         if (getSymbol()=='r') {
-            currentDirection = 'l';
+            currentDirection = 'u';
         }
         else if (getSymbol()=='p') {
-            currentDirection = 'r';
+            currentDirection = 'u';
         }
         else if (getSymbol()=='b') {
-            currentDirection = 'r';
+            currentDirection = 'u';
         }
         else if (getSymbol()=='o') {
-            currentDirection = 'l';
+            currentDirection = 'u';
         }
     }
+
+    [[nodiscard]] int getlives() override {}
+
+    void setLives(int life) override {}
 
     [[nodiscard]] bool getFearmode() override;
 
@@ -209,6 +221,10 @@ public:
 
     void setFeartime(float time) override {}
 
+    [[nodiscard]] int getlives() override {}
+
+    void setLives(int life) override {}
+
     void update(float deltaTime) override {}
 };
 class Spawn: public EntityModel {
@@ -241,6 +257,10 @@ public:
 
     void setFeartime(float time) override {}
 
+    [[nodiscard]] int getlives() override {}
+
+    void setLives(int life) override {}
+
     void update(float deltaTime) override {}
 };
 class Floor: public EntityModel {
@@ -270,6 +290,10 @@ public:
     void setFearmode(bool fear) override {}
 
     [[nodiscard]] float getFeartime() override {}
+
+    [[nodiscard]] int getlives() override {}
+
+    void setLives(int life) override {}
 
     void setFeartime(float time) override {}
 
@@ -303,6 +327,10 @@ public:
 
     [[nodiscard]] float getFeartime() override {}
 
+    [[nodiscard]] int getlives() override {}
+
+    void setLives(int life) override {}
+
     void setFeartime(float time) override {}
 
     void update(float deltaTime) override {}
@@ -334,6 +362,10 @@ public:
     void setFearmode(bool fear) override {}
 
     [[nodiscard]] float getFeartime() override {}
+
+    [[nodiscard]] int getlives() override {}
+
+    void setLives(int life) override {}
 
     void setFeartime(float time) override {}
 

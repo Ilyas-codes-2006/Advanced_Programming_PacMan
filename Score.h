@@ -9,7 +9,10 @@
 
 class Score : public Observer{
 private:
+    int add = 100;
     int score = 0;
+    int oneTime = 0;
+    float timeLasteaten = 0.0;
 public:
     [[nodiscard]] int getScore() const {
         return score;

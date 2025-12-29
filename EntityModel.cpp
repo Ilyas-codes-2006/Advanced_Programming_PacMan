@@ -115,6 +115,14 @@ void Ghost::setFeartime(float fear) {
 float Ghost::getFeartime() {
     return feartime;
 }
+int PacMan::getlives() {
+    return lives;
+}
+void PacMan::setLives(int life) {
+    lives = life;
+}
+
+
 
 
 

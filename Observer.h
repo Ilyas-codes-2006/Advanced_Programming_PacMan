@@ -16,6 +16,10 @@ enum class WhichEvent {
     FruitGone,
     FearMode,
     DirectionSwitch,
+    GhostEaten,
+    LevelCleared,
+    NotEaten,
+    ResetGhost,
 };
 struct Event {
     WhichEvent type;
