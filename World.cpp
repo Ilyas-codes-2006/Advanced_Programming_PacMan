@@ -380,6 +380,17 @@ void World::GhostMovement(float deltatime) {
     float step = 0.3f * deltatime;
     time += deltatime;
     for (auto ghost: ghosts) {
+        if (ghost->getFearmode()) {
+            ghost->setFeartime(ghost->getFeartime()+deltatime);
+            if (ghost->getFeartime() >= 15.0) {
+                ghost->setFeartime(0.0);
+                ghost->setFearmode(false);
+                /*Event event(WhichEvent::Moved,ghost.get());
+                ghost->notify(event);*/
+            }
+        }
+    }
+    for (auto ghost: ghosts) {
         if (ghost->getSymbol()=='r') {
             if (countr == 0) {
                 ghost->setPosition(Spawn[0]->original_pos());

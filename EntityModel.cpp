@@ -109,6 +109,14 @@ bool Ghost::getFearmode() {
 void Ghost::setFearmode(bool fear) {
     fearmode = fear;
 }
+void Ghost::setFeartime(float fear) {
+    feartime = fear;
+}
+float Ghost::getFeartime() {
+    return feartime;
+}
+
+
 
 
 /*shared_ptr<EntityModel> Coin::interacts(shared_ptr<EntityModel> pacman) {

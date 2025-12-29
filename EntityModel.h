@@ -74,6 +74,10 @@ public:
 
     virtual void setFearmode(bool fear) = 0;
 
+    [[nodiscard]] virtual float getFeartime() = 0;
+
+    virtual void setFeartime(float time) = 0;
+
     virtual void update(float deltaTime) = 0;
 
     tuple<float, float> getPosition() const {
@@ -120,6 +124,10 @@ public:
 
     void setFearmode(bool fear) override {}
 
+    [[nodiscard]] float getFeartime() override {}
+
+    void setFeartime(float time) override {}
+
     void update(float deltaTime) override;
 };
 class Ghost: public EntityModel {
@@ -127,6 +135,7 @@ class Ghost: public EntityModel {
     tuple<float,float> current_position;
     tuple<float,float> previous_position;
     bool fearmode = false;
+    float feartime;
 public:
     Ghost(const tuple<float, float> &position, char symbol, const tuple<float, float> &original)
         : EntityModel(position, symbol, original) {
@@ -143,6 +152,11 @@ public:
             currentDirection = 'l';
         }
     }
+
+    [[nodiscard]] bool getFearmode() override;
+
+    void setFearmode(bool fear) override;
+
     [[nodiscard]] char getcurrentDirection() const override;
 
     void setCurrentDirection(char currentDirection) override;
@@ -159,9 +173,9 @@ public:
 
     void setPrevPosition(tuple<float,float> prev) override;
 
-    [[nodiscard]] bool getFearmode() override;
+    [[nodiscard]] float getFeartime() override;
 
-    void setFearmode(bool fear) override;
+    void setFeartime(float time) override;
 
     void update(float deltaTime) override;
 };
@@ -191,6 +205,10 @@ public:
 
     void setFearmode(bool fear) override {}
 
+    [[nodiscard]] float getFeartime() override {}
+
+    void setFeartime(float time) override {}
+
     void update(float deltaTime) override {}
 };
 class Spawn: public EntityModel {
@@ -218,6 +236,10 @@ public:
     [[nodiscard]] bool getFearmode() override {}
 
     void setFearmode(bool fear) override {}
+
+    [[nodiscard]] float getFeartime() override {}
+
+    void setFeartime(float time) override {}
 
     void update(float deltaTime) override {}
 };
@@ -247,6 +269,10 @@ public:
 
     void setFearmode(bool fear) override {}
 
+    [[nodiscard]] float getFeartime() override {}
+
+    void setFeartime(float time) override {}
+
     void update(float deltaTime) override {}
 };
 class Fruit: public EntityModel {
@@ -275,6 +301,10 @@ public:
 
     void setFearmode(bool fear) override {}
 
+    [[nodiscard]] float getFeartime() override {}
+
+    void setFeartime(float time) override {}
+
     void update(float deltaTime) override {}
 };
 class Coin: public EntityModel {
@@ -302,6 +332,10 @@ public:
     [[nodiscard]] bool getFearmode() override {}
 
     void setFearmode(bool fear) override {}
+
+    [[nodiscard]] float getFeartime() override {}
+
+    void setFeartime(float time) override {}
 
     void update(float deltaTime) override {}
 };

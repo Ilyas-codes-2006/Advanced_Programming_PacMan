@@ -241,6 +241,21 @@ void GhostRender::update(const Event& event) {
             }
             else {
                 char direction = link->getcurrentDirection();
+                char ghost = link->getSymbol();
+                switch (ghost) {
+                    case 'r':
+                        x = 0;
+                        break;
+                    case 'p':
+                        x = 1;
+                        break;
+                    case 'b':
+                        x = 2;
+                        break;
+                    case 'o':
+                        x = 3;
+                        break;
+                }
                 switch (direction) {
                     case 'u':
                         y = 6;
