@@ -45,6 +45,34 @@ public:
     void update() override;
     void render() override;
 };
+class VictoryState: public State {
+private:
+    sf::Text VictoryText;
+    sf::RectangleShape BackButton;
+    sf::Text BackButtonText;
+    sf::Text Score;
+    sf::Font font;
+    int ScoreOfTheGame;
+public:
+    VictoryState(sf::RenderWindow *window, StateManager *stateManager,int ScoreOfTheGame);
+    void Input(sf::Event *event) override;
+    void update() override;
+    void render() override;
+};
+class GameOverState: public State {
+private:
+    sf::Text GameOverText;
+    sf::RectangleShape BackButton;
+    sf::Text BackButtonText;
+    sf::Text Score;
+    sf::Font font;
+    int ScoreOfTheGame;
+public:
+    GameOverState(sf::RenderWindow *window, StateManager *stateManager,int ScoreOfTheGame);
+    void Input(sf::Event *event) override;
+    void update() override;
+    void render() override;
+};
 class LevelState: public State {
 private:
     sf::Text scoreTxt;
@@ -53,8 +81,8 @@ private:
     shared_ptr<ConcreteFactory> factory;
     shared_ptr<World> world;
     Camera camera;
-    shared_ptr<Score> score;
     vector<shared_ptr<EntityView>> views;
+    shared_ptr<Score> score;
 public:
     LevelState(sf::RenderWindow *window, StateManager *stateManager);
     [[nodiscard]] vector<shared_ptr<EntityView>> getViews() const {

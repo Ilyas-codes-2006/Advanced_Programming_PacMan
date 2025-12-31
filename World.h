@@ -24,6 +24,7 @@ private:
     vector<shared_ptr<EntityModel>> Spawn;
     vector<shared_ptr<EntityModel>> ToBeEaten;
     int pacHItOnce = 0;
+    bool won = false;
     shared_ptr<EntityModel> pacman;
     int countr = 0;
     int countp = 0;
@@ -40,6 +41,10 @@ public:
 
     [[nodiscard]] shared_ptr<EntityModel> getPacman() const {
         return pacman;
+    }
+
+    [[nodiscard]] bool getWon() const {
+        return won;
     }
 
     [[nodiscard]] vector<shared_ptr<EntityModel>> getEntities() const {

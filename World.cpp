@@ -164,7 +164,6 @@ void World::checkEaten() {
         for (auto coin: coins) {
             removeEatenEntity(coin);
         }
-
         for (auto coin: coins) {
             removeEntity(coin);
         }
@@ -175,6 +174,7 @@ void World::checkEaten() {
     }
     if (ToBeEaten.empty()) {
         levelDone = true;
+        won = true;
     }
 }
 /*float World::findCorridorCenter(char dir, tuple<float,float> position) {
@@ -1453,6 +1453,7 @@ void World::checkEatenFruit() {
     }
     if (ToBeEaten.empty()) {
         levelDone = true;
+        won = true;
     }
 }
 void World::reset() {

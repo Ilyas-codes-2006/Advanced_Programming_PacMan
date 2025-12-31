@@ -55,6 +55,98 @@ void MenuState::render() {
     window->draw(playButtonText);
     window->draw(highScores);
 }
+VictoryState::VictoryState(sf::RenderWindow *window,StateManager *stateManager, int ScoreOfTheGame) : State(window,stateManager), ScoreOfTheGame(ScoreOfTheGame) {
+    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
+        cout << "Error loading font!" << endl;
+    }
+
+    VictoryText.setFont(font);
+    VictoryText.setString("YOU WON!");
+    VictoryText.setCharacterSize(60);
+    VictoryText.setFillColor(sf::Color(255, 255, 0));
+    VictoryText.setPosition(160, 30);
+
+    BackButton.setSize(sf::Vector2f(200, 60));
+    BackButton.setFillColor(sf::Color::Blue);
+    BackButton.setPosition(200, 150);
+
+    BackButtonText.setFont(font);
+    BackButtonText.setString("Return to home menu");
+    BackButtonText.setCharacterSize(15);
+    BackButtonText.setFillColor(sf::Color::White);
+    BackButtonText.setPosition(200,150);
+
+    Score.setFont(font);
+    Score.setString("Score: " + to_string(ScoreOfTheGame));
+    Score.setCharacterSize(25);
+    Score.setFillColor(sf::Color::Yellow);
+    Score.setPosition(270, 225);
+}
+
+void VictoryState::Input(sf::Event *event) {
+    if (event->type == sf::Event::MouseButtonPressed) {
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+        if (BackButton.getGlobalBounds().contains(static_cast<float>(mousePosition.x),static_cast<float>(mousePosition.y))) {
+            stateManager->pop();
+            stateManager->pop();
+        }
+    }
+}
+void VictoryState::update() {
+    BackButton.setFillColor(sf::Color(255, 255, 0));
+}
+void VictoryState::render() {
+    window->draw(VictoryText);
+    window->draw(BackButton);
+    window->draw(BackButtonText);
+    window->draw(Score);
+}
+GameOverState::GameOverState(sf::RenderWindow *window,StateManager *stateManager, int ScoreOfTheGame) : State(window,stateManager) , ScoreOfTheGame(ScoreOfTheGame){
+    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
+        cout << "Error loading font!" << endl;
+    }
+
+    GameOverText.setFont(font);
+    GameOverText.setString("YOU LOST!");
+    GameOverText.setCharacterSize(60);
+    GameOverText.setFillColor(sf::Color(255, 255, 0));
+    GameOverText.setPosition(160, 30);
+
+    BackButton.setSize(sf::Vector2f(200, 60));
+    BackButton.setFillColor(sf::Color::Blue);
+    BackButton.setPosition(200, 150);
+
+    BackButtonText.setFont(font);
+    BackButtonText.setString("Return to home menu");
+    BackButtonText.setCharacterSize(50);
+    BackButtonText.setFillColor(sf::Color::White);
+    BackButtonText.setPosition(200,200);
+
+    Score.setFont(font);
+    Score.setString("Score: " + to_string(ScoreOfTheGame));
+    Score.setCharacterSize(25);
+    Score.setFillColor(sf::Color::Yellow);
+    Score.setPosition(270, 225);
+}
+
+void GameOverState::Input(sf::Event *event) {
+    if (event->type == sf::Event::MouseButtonPressed) {
+        sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
+        if (BackButton.getGlobalBounds().contains(static_cast<float>(mousePosition.x),static_cast<float>(mousePosition.y))) {
+            stateManager->pop();
+            stateManager->pop();
+        }
+    }
+}
+void GameOverState::update() {
+    BackButton.setFillColor(sf::Color(255, 255, 0));
+}
+void GameOverState::render() {
+    window->draw(GameOverText);
+    window->draw(BackButton);
+    window->draw(BackButtonText);
+    window->draw(Score);
+}
 LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager), camera(window->getSize().x,window->getSize().y) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
@@ -168,8 +260,16 @@ void LevelState::update() {
         scoreTxt.setString("Score: " + std::to_string(score->getScore()));
     }
     else {
-        highscore.change(score->getScore());
-        window->close();
+        if (world->getWon()) {
+            int GameScore = score->getScore();
+            highscore.change(GameScore);
+            stateManager->push(make_unique<VictoryState>(window,stateManager,GameScore));
+        }
+        else {
+            int GameScore = score->getScore();
+            highscore.change(GameScore);
+            stateManager->push(make_unique<GameOverState>(window,stateManager,GameScore));
+        }
     }
 }
 void LevelState::render() {
