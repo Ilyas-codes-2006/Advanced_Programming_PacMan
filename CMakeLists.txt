@@ -38,5 +38,7 @@ add_executable(AdvancedProgramming_PacMan main.cpp
         Score.h
         Random.cpp
         Random.h
+        Highscore.cpp
+        Highscore.h
 )
 target_link_libraries(AdvancedProgramming_PacMan sfml-graphics sfml-window sfml-system)

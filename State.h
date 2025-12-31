@@ -10,6 +10,7 @@
 #include <memory>
 
 #include "ConcreteFactory.h"
+#include "Highscore.h"
 #include "Score.h"
 #include "World.h"
 class EntityView;
@@ -20,6 +21,7 @@ class State {
 protected:
     sf::RenderWindow* window;
     StateManager* stateManager;
+    Highscore highscore;
 public:
     State(sf::RenderWindow *window, StateManager *stateManager)
         : window(window),

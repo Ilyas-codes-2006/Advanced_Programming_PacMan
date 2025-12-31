@@ -6,7 +6,7 @@
 
 #include "Game.h"
 #include "StateManager.h"
-
+#include "Highscore.h"
 MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager){
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
@@ -32,9 +32,9 @@ MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : Stat
     );
 
     highScores.setFont(font);
-    highScores.setString("1. ---\n2. ---\n3. ---\n4. ---\n5. ---");
+    highScores.setString("Top 1:   " + to_string(highscore.getHighscores()[0])+ "\nTop 2:   "+ to_string(highscore.getHighscores()[1])+"\nTop 3:   "+ to_string(highscore.getHighscores()[2])+"\nTop 4:   " + to_string(highscore.getHighscores()[3])+"\nTop 5:   " + to_string(highscore.getHighscores()[4]));
     highScores.setCharacterSize(25);
-    highScores.setFillColor(sf::Color::White);
+    highScores.setFillColor(sf::Color::Yellow);
     highScores.setPosition(270, 225);
 }
 
@@ -168,6 +168,7 @@ void LevelState::update() {
         scoreTxt.setString("Score: " + std::to_string(score->getScore()));
     }
     else {
+        highscore.change(score->getScore());
         window->close();
     }
 }
