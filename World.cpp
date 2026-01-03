@@ -35,7 +35,6 @@ void World::levelFinished() {
     currentLevel++;
 }
 void World::makeLevel(shared_ptr<Level> level) {
-    clearEntities();
     auto map = level->getLevelMapping();
     for (auto coord: map) {
         shared_ptr<EntityModel> entity;
@@ -63,6 +62,7 @@ void World::makeLevel(shared_ptr<Level> level) {
                     entity->set_entity_width(level->entity_width());
                     entity->setLives(pacmanlives);
                     pacman = entity;
+                    addEntity(pacman);
                 }
                 break;
             case '_':
@@ -264,7 +264,7 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     return true;
 }
 void World::updatePacman(float deltaTime) {
-    float speed = 0.8;
+    float speed = 0.99999;
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();

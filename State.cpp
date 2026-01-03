@@ -345,7 +345,7 @@ void LevelState::update() {
     }
     else {
         if (world->getWon()) {
-            if (world->getCurLevel() == 4) {
+            if (world->getCurLevel() == 3) {
                 int GameScore = score->getScore();
                 highscore.change(GameScore);
                 stateManager->push(make_unique<VictoryState>(window,stateManager,GameScore));
