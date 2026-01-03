@@ -23,6 +23,7 @@ private:
     vector<shared_ptr<EntityModel>> ghosts;
     vector<shared_ptr<EntityModel>> Spawn;
     vector<shared_ptr<EntityModel>> ToBeEaten;
+    int pacmanlives;
     int pacHItOnce = 0;
     bool won = false;
     shared_ptr<EntityModel> pacman;
@@ -36,6 +37,75 @@ public:
         : factory(factory) {
     }
     shared_ptr<Level> getCurrentLevel();
+
+    [[nodiscard]] int getCurLevel() const {
+        return currentLevel;
+    }
+
+    void setCurrentLevel(int current_level) {
+        currentLevel = current_level;
+    }
+
+    void set_time(float time) {
+        this->time = time;
+    }
+
+    void set_level_done(float level_done) {
+        levelDone = level_done;
+    }
+
+    void set_ghosts(const vector<shared_ptr<EntityModel>> &ghosts) {
+        this->ghosts = ghosts;
+    }
+
+    void set_spawn(const vector<shared_ptr<EntityModel>> &spawn) {
+        Spawn = spawn;
+    }
+
+    void set_to_be_eaten(const vector<shared_ptr<EntityModel>> &to_be_eaten) {
+        ToBeEaten = to_be_eaten;
+    }
+
+    void set_pac_h_it_once(int pac_h_it_once) {
+        pacHItOnce = pac_h_it_once;
+    }
+
+    void set_won(bool won) {
+        this->won = won;
+    }
+
+    void set_pacman(const shared_ptr<EntityModel> &pacman) {
+        this->pacman = pacman;
+    }
+
+    void set_countr(int countr) {
+        this->countr = countr;
+    }
+
+    void set_countp(int countp) {
+        this->countp = countp;
+    }
+
+    void set_countb(int countb) {
+        this->countb = countb;
+    }
+
+    void set_counto(int counto) {
+        this->counto = counto;
+    }
+
+    [[nodiscard]] vector<shared_ptr<EntityModel>> getGhosts() const {
+        return ghosts;
+    }
+
+    [[nodiscard]] vector<shared_ptr<EntityModel>> getSpawn() const {
+        return Spawn;
+    }
+
+    [[nodiscard]] vector<shared_ptr<EntityModel>> getToBeEaten() const {
+        return ToBeEaten;
+    }
+
     void addLevel(shared_ptr<Level>& level);
     void makeLevel(shared_ptr<Level> level);
 
@@ -49,6 +119,10 @@ public:
 
     [[nodiscard]] vector<shared_ptr<EntityModel>> getEntities() const {
         return entities;
+    }
+
+    void setEntities(const vector<shared_ptr<EntityModel>> &entities) {
+        this->entities = entities;
     }
 
     [[nodiscard]] float getLevelDone() const {

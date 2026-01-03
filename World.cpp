@@ -47,62 +47,80 @@ void World::makeLevel(shared_ptr<Level> level) {
                 entity = factory->WallEntity({coordX,coordY},'#',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
+                addEntity(entity);
                 break;
             case 'P':
-                entity = factory->PacManEntity({coordX,coordY},'P',{coordX,coordY});
-                entity->set_entity_height(level->entity_height());
-                entity->set_entity_width(level->entity_width());
-                pacman = entity;
+                if (currentLevel == 0) {
+                    entity = factory->PacManEntity({coordX,coordY},'P',{coordX,coordY});
+                    entity->set_entity_height(level->entity_height());
+                    entity->set_entity_width(level->entity_width());
+                    pacman = entity;
+                    addEntity(entity);
+                }
+                else {
+                    entity = factory->PacManEntity({coordX,coordY},'P',{coordX,coordY});
+                    entity->set_entity_height(level->entity_height());
+                    entity->set_entity_width(level->entity_width());
+                    entity->setLives(pacmanlives);
+                    pacman = entity;
+                }
                 break;
             case '_':
                 entity = factory->FloorEntity({coordX,coordY},'_',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
+                addEntity(entity);
                 break;
             case 'F':
                 entity = factory->FruitEntity({coordX,coordY},'F',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ToBeEaten.push_back(entity);
+                addEntity(entity);
                 break;
             case '-':
                 entity = factory->CoinEntity({coordX,coordY},'-',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ToBeEaten.push_back(entity);
+                addEntity(entity);
                 break;
             case 'r':
                 entity = factory->GhostEntity({coordX,coordY},'r',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
+                addEntity(entity);
                 break;
             case 'p':
                 entity = factory->GhostEntity({coordX,coordY},'p',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
+                addEntity(entity);
                 break;
             case 'b':
                 entity = factory->GhostEntity({coordX,coordY},'b',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
+                addEntity(entity);
                 break;
             case 'o':
                 entity = factory->GhostEntity({coordX,coordY},'o',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 ghosts.push_back(entity);
+                addEntity(entity);
                 break;
             case 'S':
                 entity = factory->WallEntity({coordX,coordY},'S',{coordX,coordY});
                 entity->set_entity_height(level->entity_height());
                 entity->set_entity_width(level->entity_width());
                 Spawn.push_back(entity);
+                addEntity(entity);
                 break;
         }
-        addEntity(entity);
     }
 }
 void World::checkCollision() {
@@ -246,7 +264,7 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     return true;
 }
 void World::updatePacman(float deltaTime) {
-    float speed = 0.5;
+    float speed = 0.8;
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();
@@ -423,7 +441,7 @@ void World::GhostMovement(float deltatime) {
                 countr++;
             }
             if (ghost->getFearmode()) {
-                step = 0.3f * deltatime;
+                step = 0.4f * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 vector<char> possible;
@@ -673,7 +691,7 @@ void World::GhostMovement(float deltatime) {
                 countp++;
             }
             if (ghost->getFearmode()) {
-                step = 0.2f * deltatime;
+                step = 0.4f * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 auto pacmanPos = pacmanNextpos(step);
@@ -1471,6 +1489,7 @@ void World::reset() {
     }
     pacman->setPosition(pacman->original_pos());
     pacman->setLives(pacman->getlives()-1);
+    pacmanlives = pacman->getlives();
     pacman->setCurrentDirection('N');
     pacman->setnextDirection('N');
 }

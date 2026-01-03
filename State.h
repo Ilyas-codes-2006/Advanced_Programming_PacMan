@@ -89,6 +89,8 @@ public:
         return views;
     }
     void Input(sf::Event *event) override;
+    void newLevel(int levelNumber);
+    void clearEverything();
     void update() override;
     void render() override;
 };

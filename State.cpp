@@ -87,8 +87,7 @@ void VictoryState::Input(sf::Event *event) {
     if (event->type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
         if (BackButton.getGlobalBounds().contains(static_cast<float>(mousePosition.x),static_cast<float>(mousePosition.y))) {
-            stateManager->pop();
-            stateManager->pop();
+            window->close();
         }
     }
 }
@@ -133,8 +132,7 @@ void GameOverState::Input(sf::Event *event) {
     if (event->type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
         if (BackButton.getGlobalBounds().contains(static_cast<float>(mousePosition.x),static_cast<float>(mousePosition.y))) {
-            stateManager->pop();
-            stateManager->pop();
+            window->close();
         }
     }
 }
@@ -163,68 +161,154 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     score = make_shared<Score>();
     factory = make_shared<ConcreteFactory>();
     world = make_shared<World>(factory);
-    auto level = make_shared<Level>("../levelTest.txt",camera);
-    world->addLevel(level);
-    world->makeLevel(world->getCurrentLevel());
-    for (auto& entity : world->getEntities()) {
-        char symbol = entity->getSymbol();
-        if (symbol == '#') {
-            views.push_back(factory->WallView(entity, camera));
-        }
-        else if (symbol == '_') {
-            views.push_back(factory->FloorView(entity, camera));
-        }
-        else if (symbol == 'S') {
-            views.push_back(factory->SpawnView(entity,camera));
-        }
-    }
-    for (auto& entity : world->getEntities()) {
-        char symbol = entity->getSymbol();
-        if (symbol == 'F') {
-            entity->attach(score.get());
-            auto FruitView = factory->FruitView(entity,camera);
-            FruitView->setSprite("../PacMan.png");
-            views.push_back(FruitView);
-        }
-        else if (symbol == '-') {
-            entity->attach(score.get());
-            auto CoinView = factory->CoinView(entity,camera);
-            CoinView->setSprite("../PacMan.png");
-            views.push_back(CoinView);
-        }
-    }
-    world->getPacman()->attach(score.get());
-    auto pacView = factory->PacManView(world->getPacman(), camera);
-    pacView->setSprite("../PacMan.png");
-    views.push_back(pacView);
-    for (auto& entity : world->getEntities()) {
-        char symbol = entity->getSymbol();
-        if (symbol == 'r') {
-            entity->attach(score.get());
-            auto Ghostview = factory->GhostView(entity,camera);
-            Ghostview->setSprite("../PacMan.png");
-            views.push_back(Ghostview);
-        }
-        else if (symbol == 'p') {
-            entity->attach(score.get());
-            auto Ghostview = factory->GhostView(entity,camera);
-            Ghostview->setSprite("../PacMan.png");
-            views.push_back(Ghostview);
-        }
-        else if (symbol == 'b') {
-            entity->attach(score.get());
-            auto Ghostview = factory->GhostView(entity,camera);
-            Ghostview->setSprite("../PacMan.png");
-            views.push_back(Ghostview);
-        }
-        else if (symbol == 'o') {
-            entity->attach(score.get());
-            auto Ghostview = factory->GhostView(entity,camera);
-            Ghostview->setSprite("../PacMan.png");
-            views.push_back(Ghostview);
-        }
-    }
+    newLevel(0);
     lives.setString("Lives Remaining: " + std::to_string(world->getPacman()->getlives()));
+}
+
+void LevelState::newLevel(int levelNumber) {
+    if (levelNumber == 0) {
+        auto level = make_shared<Level>("../levelTest.txt",camera);
+        world->addLevel(level);
+        world->setCurrentLevel(levelNumber);
+        world->makeLevel(world->getCurrentLevel());
+        for (auto& entity : world->getEntities()) {
+            char symbol = entity->getSymbol();
+            if (symbol == '#') {
+                views.push_back(factory->WallView(entity, camera));
+            }
+            else if (symbol == '_') {
+                views.push_back(factory->FloorView(entity, camera));
+            }
+            else if (symbol == 'S') {
+                views.push_back(factory->SpawnView(entity,camera));
+            }
+        }
+        for (auto& entity : world->getEntities()) {
+            char symbol = entity->getSymbol();
+            if (symbol == 'F') {
+                entity->attach(score.get());
+                auto FruitView = factory->FruitView(entity,camera);
+                FruitView->setSprite("../PacMan.png");
+                views.push_back(FruitView);
+            }
+            else if (symbol == '-') {
+                entity->attach(score.get());
+                auto CoinView = factory->CoinView(entity,camera);
+                CoinView->setSprite("../PacMan.png");
+                views.push_back(CoinView);
+            }
+        }
+        world->getPacman()->attach(score.get());
+        auto pacView = factory->PacManView(world->getPacman(), camera);
+        pacView->setSprite("../PacMan.png");
+        views.push_back(pacView);
+        for (auto& entity : world->getEntities()) {
+            char symbol = entity->getSymbol();
+            if (symbol == 'r') {
+                entity->attach(score.get());
+                auto Ghostview = factory->GhostView(entity,camera);
+                Ghostview->setSprite("../PacMan.png");
+                views.push_back(Ghostview);
+            }
+            else if (symbol == 'p') {
+                entity->attach(score.get());
+                auto Ghostview = factory->GhostView(entity,camera);
+                Ghostview->setSprite("../PacMan.png");
+                views.push_back(Ghostview);
+            }
+            else if (symbol == 'b') {
+                entity->attach(score.get());
+                auto Ghostview = factory->GhostView(entity,camera);
+                Ghostview->setSprite("../PacMan.png");
+                views.push_back(Ghostview);
+            }
+            else if (symbol == 'o') {
+                entity->attach(score.get());
+                auto Ghostview = factory->GhostView(entity,camera);
+                Ghostview->setSprite("../PacMan.png");
+                views.push_back(Ghostview);
+            }
+        }
+    }
+    else {
+        clearEverything();
+        auto level = make_shared<Level>("../levelTest.txt",camera);
+        world->addLevel(level);
+        world->setCurrentLevel(levelNumber);
+        world->makeLevel(world->getCurrentLevel());
+        for (auto& entity : world->getEntities()) {
+            char symbol = entity->getSymbol();
+            if (symbol == '#') {
+                views.push_back(factory->WallView(entity, camera));
+            }
+            else if (symbol == '_') {
+                views.push_back(factory->FloorView(entity, camera));
+            }
+            else if (symbol == 'S') {
+                views.push_back(factory->SpawnView(entity,camera));
+            }
+        }
+        for (auto& entity : world->getEntities()) {
+            char symbol = entity->getSymbol();
+            if (symbol == 'F') {
+                entity->attach(score.get());
+                auto FruitView = factory->FruitView(entity,camera);
+                FruitView->setSprite("../PacMan.png");
+                views.push_back(FruitView);
+            }
+            else if (symbol == '-') {
+                entity->attach(score.get());
+                auto CoinView = factory->CoinView(entity,camera);
+                CoinView->setSprite("../PacMan.png");
+                views.push_back(CoinView);
+            }
+        }
+        world->getPacman()->attach(score.get());
+        auto pacView = factory->PacManView(world->getPacman(), camera);
+        pacView->setSprite("../PacMan.png");
+        views.push_back(pacView);
+        for (auto& entity : world->getEntities()) {
+            char symbol = entity->getSymbol();
+            if (symbol == 'r') {
+                entity->attach(score.get());
+                auto Ghostview = factory->GhostView(entity,camera);
+                Ghostview->setSprite("../PacMan.png");
+                views.push_back(Ghostview);
+            }
+            else if (symbol == 'p') {
+                entity->attach(score.get());
+                auto Ghostview = factory->GhostView(entity,camera);
+                Ghostview->setSprite("../PacMan.png");
+                views.push_back(Ghostview);
+            }
+            else if (symbol == 'b') {
+                entity->attach(score.get());
+                auto Ghostview = factory->GhostView(entity,camera);
+                Ghostview->setSprite("../PacMan.png");
+                views.push_back(Ghostview);
+            }
+            else if (symbol == 'o') {
+                entity->attach(score.get());
+                auto Ghostview = factory->GhostView(entity,camera);
+                Ghostview->setSprite("../PacMan.png");
+                views.push_back(Ghostview);
+            }
+        }
+    }
+}
+void LevelState::clearEverything() {
+    views.clear();
+    world->setEntities({});
+    world->set_ghosts({});
+    world->set_to_be_eaten({});
+    world->set_spawn({});
+    world->set_time(0.0f);
+    world->set_level_done(false);
+    world->set_pac_h_it_once(0);
+    world->set_countb(0);
+    world->set_counto(0);
+    world->set_countp(0);
+    world->set_countr(0);
 }
 
 void LevelState::Input(sf::Event *event) {
@@ -261,9 +345,17 @@ void LevelState::update() {
     }
     else {
         if (world->getWon()) {
-            int GameScore = score->getScore();
-            highscore.change(GameScore);
-            stateManager->push(make_unique<VictoryState>(window,stateManager,GameScore));
+            if (world->getCurLevel() == 4) {
+                int GameScore = score->getScore();
+                highscore.change(GameScore);
+                stateManager->push(make_unique<VictoryState>(window,stateManager,GameScore));
+            }
+            else {
+                world->setCurrentLevel(world->getCurLevel()+1);
+                int nextLevel = world->getCurLevel();
+                world->set_won(false);
+                newLevel(nextLevel);
+            }
         }
         else {
             int GameScore = score->getScore();
