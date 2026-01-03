@@ -18,6 +18,7 @@ private:
 public:
     static Stopwatch& getInstance();
     float tick();
+    void reset();
 };
 
 

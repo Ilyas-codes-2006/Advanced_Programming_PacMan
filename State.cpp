@@ -405,12 +405,14 @@ PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : 
 void PausedState::Input(sf::Event *event) {
     if (event->type == sf::Event::KeyPressed) {
         if (event->key.code == sf::Keyboard::Escape) {
+            Stopwatch::getInstance().reset();
             stateManager->pop();
         }
     }
     if (event->type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
         if (resume.getGlobalBounds().contains(mousePosition.x, mousePosition.y)) {
+            Stopwatch::getInstance().reset();
             stateManager->pop();
         }
         if (QuitGame.getGlobalBounds().contains(mousePosition.x, mousePosition.y)) {

@@ -14,3 +14,6 @@ float Stopwatch::tick() {
     previousTime = currentTime;
     return deltaTime.count();
 }
+void Stopwatch::reset() {
+    previousTime = std::chrono::steady_clock::now();
+}
