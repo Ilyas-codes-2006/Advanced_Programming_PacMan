@@ -46,6 +46,10 @@ public:
         currentLevel = current_level;
     }
 
+    void set_pacmanlives(int pacmanlives) {
+        this->pacmanlives = pacmanlives;
+    }
+
     void set_time(float time) {
         this->time = time;
     }

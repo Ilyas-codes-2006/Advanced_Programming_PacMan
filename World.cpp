@@ -264,7 +264,7 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     return true;
 }
 void World::updatePacman(float deltaTime) {
-    float speed = 0.6;
+    float speed = 0.8;
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();

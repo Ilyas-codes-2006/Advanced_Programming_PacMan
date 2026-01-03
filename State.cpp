@@ -351,6 +351,7 @@ void LevelState::update() {
                 stateManager->push(make_unique<VictoryState>(window,stateManager,GameScore));
             }
             else {
+                world->set_pacmanlives(world->getPacman()->getlives());
                 world->setCurrentLevel(world->getCurLevel()+1);
                 int nextLevel = world->getCurLevel();
                 world->set_won(false);
