@@ -264,7 +264,7 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     return true;
 }
 void World::updatePacman(float deltaTime) {
-    float speed = 0.8;
+    float speed = 0.6;
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();
@@ -421,12 +421,14 @@ tuple<float, float> World::pacmanNextpos(float step) {
 
 
 void World::GhostMovement(float deltatime) {
-    float step = 0.5f * deltatime;
+    float difficultytime = currentLevel;
+    float difficulty = currentLevel/0.6;
+    float step = (0.5f + difficulty/10) * deltatime;
     time += deltatime;
     for (auto ghost: ghosts) {
         if (ghost->getFearmode()) {
             ghost->setFeartime(ghost->getFeartime()+deltatime);
-            if (ghost->getFeartime() >= 10.0) {
+            if (ghost->getFeartime() >= 10.0-difficultytime) {
                 ghost->setFeartime(0.0);
                 ghost->setFearmode(false);
                 /*Event event(WhichEvent::Moved,ghost.get());
@@ -441,7 +443,7 @@ void World::GhostMovement(float deltatime) {
                 countr++;
             }
             if (ghost->getFearmode()) {
-                step = 0.4f * deltatime;
+                step = (0.4f + difficulty/10) * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 vector<char> possible;
@@ -691,7 +693,7 @@ void World::GhostMovement(float deltatime) {
                 countp++;
             }
             if (ghost->getFearmode()) {
-                step = 0.4f * deltatime;
+                step = (0.4f + difficulty/10) * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 auto pacmanPos = pacmanNextpos(step);
@@ -940,7 +942,7 @@ void World::GhostMovement(float deltatime) {
                 countb++;
             }
             if (ghost->getFearmode()) {
-                step = 0.2f * deltatime;
+                step = (0.4f +difficulty/10) * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 auto pacmanPos = pacmanNextpos(step);
@@ -1189,7 +1191,7 @@ void World::GhostMovement(float deltatime) {
                 counto++;
             }
             if (ghost->getFearmode()) {
-                step = 0.2f * deltatime;
+                step = (0.4f + difficulty/10) * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 auto pacmanPos = pacman->getPosition();
