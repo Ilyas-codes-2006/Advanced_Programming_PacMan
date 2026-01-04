@@ -41,6 +41,9 @@ shared_ptr<Level> World::getCurrentLevel() {
 void World::addLevel(shared_ptr<Level> &level) {
     levels.push_back(level);
 }
+void World::levelFinished() {
+    currentLevel++;
+}
 /**
  * @Functionality Makes a new Level
  *
@@ -293,7 +296,7 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     return true;
 }
 void World::updatePacman(float deltaTime) {
-    float speed = 0.99999;
+    float speed = 0.999;
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();
