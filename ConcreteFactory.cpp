@@ -5,7 +5,14 @@
 #include "ConcreteFactory.h"
 
 #include "EntityView.h"
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 shared_ptr<EntityModel> ConcreteFactory::PacManEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) {
     return make_shared<PacMan>(positie,symbol,original);
 }

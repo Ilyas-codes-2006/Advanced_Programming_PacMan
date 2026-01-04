@@ -273,7 +273,14 @@ bool World::wallinDirection(char dir) {
     }
     return false;
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     float x = get<0>(position);
     float y = get<1>(position);
@@ -295,6 +302,14 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     }
     return true;
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void World::updatePacman(float deltaTime) {
     float speed = 0.999;
     float step = speed * deltaTime;
@@ -348,6 +363,14 @@ void World::updatePacman(float deltaTime) {
         pacman->notify(event);
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 tuple<float, float> World::calcDirection(float step, char dir, tuple<float, float> pos) {
     float x = get<0>(pos);
     float y = get<1>(pos);
@@ -360,7 +383,14 @@ tuple<float, float> World::calcDirection(float step, char dir, tuple<float, floa
     }
     return nextPos;
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 bool World::wallinDirectionGhost(char dir, tuple<float, float> pos, shared_ptr<EntityModel> ghost) {
     float x = get<0>(pos);
     float y = get<1>(pos);
@@ -394,7 +424,14 @@ bool World::wallinDirectionGhost(char dir, tuple<float, float> pos, shared_ptr<E
     }
     return false;
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 bool World::checkIntersection(char dir, tuple<float, float> pos, shared_ptr<EntityModel> ghost) {
     float x = get<0>(pos);
     float y = get<1>(pos);
@@ -428,7 +465,14 @@ bool World::checkIntersection(char dir, tuple<float, float> pos, shared_ptr<Enti
     }
     return false;
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 float World::manhattanDistance(tuple<float, float> pos, tuple<float, float> pos2) {
     float x2 = get<0>(pos2);
     float y2 = get<1>(pos2);
@@ -438,7 +482,14 @@ float World::manhattanDistance(tuple<float, float> pos, tuple<float, float> pos2
     float manhattendistance = abs(x2-x1)+abs(y2-y1);
     return manhattendistance;
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 tuple<float, float> World::pacmanNextpos(float step) {
     auto pacpos = pacman->getPosition();
     auto dir = pacman->getcurrentDirection();
@@ -450,8 +501,14 @@ tuple<float, float> World::pacmanNextpos(float step) {
         return next;
     }
 }
-
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void World::GhostMovement(float deltatime) {
     float difficultytime = currentLevel;
     float difficulty = currentLevel/0.9-0.5*(currentLevel);
@@ -505,20 +562,6 @@ void World::GhostMovement(float deltatime) {
                         int num = Random::getInstance().randomIndex(0,2);
                         cur = possibleWays[num];
                     }
-                    /*switch (cur) {
-                        case 'u':
-                            cur = 'd';
-                            break;
-                        case 'd':
-                            cur = 'u';
-                            break;
-                        case 'l':
-                            cur = 'r';
-                            break;
-                        case 'r':
-                            cur = 'l';
-                            break;
-                    }*/
                     auto nextpos = calcDirection(step,cur,pos);
                     if (!canMovethroughcorridor(2.09,nextpos)) {
                         return;
@@ -530,27 +573,11 @@ void World::GhostMovement(float deltatime) {
                     ghost->notify(event);
                 }
                 else if (possible.size()>=3) {
-                    /*cout << possible.size() << endl;*/
                     char cur = dir;
                     possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
                     if (Random::getInstance().probSwitch(0.5f)) {
-                        /*cout << "chose to switch" << endl;*/
                         int num = Random::getInstance().randomIndex(0,2);
                         cur = possible[num];
-                        /*switch (cur) {
-                            case 'u':
-                                cur = 'd';
-                                break;
-                            case 'd':
-                                cur = 'u';
-                                break;
-                            case 'l':
-                                cur = 'r';
-                                break;
-                            case 'r':
-                                cur = 'l';
-                                break;
-                        }*/
                         auto nextpos = calcDirection(step,cur,pos);
                         if (!canMovethroughcorridor(2.09,nextpos)) {
                             return;
@@ -562,22 +589,6 @@ void World::GhostMovement(float deltatime) {
                         ghost->notify(event);
                     }
                     else {
-                        /*cout << "chose to stay" << endl;
-                        cout << "to: " << dir << endl;*/
-                        /*switch (dir) {
-                            case 'u':
-                                dir = 'd';
-                                break;
-                            case 'd':
-                                dir = 'u';
-                                break;
-                            case 'l':
-                                dir = 'r';
-                                break;
-                            case 'r':
-                                dir = 'l';
-                                break;
-                        }*/
                         auto nextpos = calcDirection(step,dir,pos);
                         if (!canMovethroughcorridor(2.09,nextpos)) {
                             return;
@@ -593,20 +604,6 @@ void World::GhostMovement(float deltatime) {
                     float x = get<0>(pos);
                     float y = get<1>(pos);
                     tuple<float,float> nextPos = pos;
-                    /*switch (dir) {
-                        case 'u':
-                            dir = 'd';
-                            break;
-                        case 'd':
-                            dir = 'u';
-                            break;
-                        case 'l':
-                            dir = 'r';
-                            break;
-                        case 'r':
-                            dir = 'l';
-                            break;
-                    }*/
                     switch (dir) {
                         case 'u': nextPos = {x,y+step}; break;
                         case 'd': nextPos = {x,y-step}; break;
@@ -634,14 +631,12 @@ void World::GhostMovement(float deltatime) {
                     }
                 }
                 if (wallinDirectionGhost(dir,pos,ghost)) {
-                    /*cout << "wall" << endl;*/
                     vector<char> possibleWays;
                     for (auto way: directions) {
                         if (!wallinDirectionGhost(way,pos,ghost)) {
                             possibleWays.push_back(way);
                         }
                     }
-                    /*cout << possibleWays.size() << endl;*/
                     char cur;
                     if (possibleWays.size() == 2) {
                         int num = Random::getInstance().randomIndex(0,1);
@@ -665,7 +660,6 @@ void World::GhostMovement(float deltatime) {
                     ghost->notify(event);
                 }
                 else if (possible.size()>=3) {
-                    /*cout << possible.size() << endl;*/
                     char cur = dir;
                     possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
                     if (Random::getInstance().probSwitch(0.5f)) {
@@ -684,8 +678,6 @@ void World::GhostMovement(float deltatime) {
                         ghost->notify(event);
                     }
                     else {
-                        /*cout << "chose to stay" << endl;
-                        cout << "to: " << dir << endl;*/
                         auto nextpos = calcDirection(step,dir,pos);
                         if (!canMovethroughcorridor(2.09,nextpos)) {
                             return;
@@ -709,7 +701,6 @@ void World::GhostMovement(float deltatime) {
                         default: return;
                     }
                     if (!canMovethroughcorridor(2.09,nextPos)) {
-                        /*cout << "wall" << endl;*/
                         return;
                     }
                     ghost->setPrevPosition(pos);
@@ -1468,6 +1459,14 @@ void World::GhostMovement(float deltatime) {
         }
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void World::checkEatenFruit() {
     auto pac = pacman->getPosition();
     float xMin = get<0>(pac)-pacman->entity_width()/6;
@@ -1508,6 +1507,14 @@ void World::checkEatenFruit() {
         won = true;
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void World::reset() {
     countr = 0;
     countp = 0;
@@ -1527,7 +1534,14 @@ void World::reset() {
     pacman->setCurrentDirection('N');
     pacman->setnextDirection('N');
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void World::CheckGhost() {
     auto pac = pacman->getPosition();
     float xMin = get<0>(pac)-pacman->entity_width()/6;

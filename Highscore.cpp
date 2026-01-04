@@ -8,7 +8,14 @@
 #include <fstream>
 #include <iostream>
 
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 Highscore::Highscore() {
     ifstream filename(highscores);
     if (!filename.is_open()) {
@@ -25,6 +32,14 @@ Highscore::Highscore() {
     highscoresVector = test;
     filename.close();
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void Highscore::change(int highscore) {
     vector<int> backup;
     vector<int> newScore;
@@ -50,6 +65,14 @@ void Highscore::change(int highscore) {
         changeFile(newScore);
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void Highscore::changeFile(vector<int> newHighScores) {
     ofstream filename(highscores);
     for (auto score: newHighScores) {

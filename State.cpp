@@ -8,6 +8,14 @@
 #include "Highscore.h"
 
 using namespace std;
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager){
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
@@ -38,7 +46,14 @@ MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : Stat
     highScores.setFillColor(sf::Color::Yellow);
     highScores.setPosition(270, 225);
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void MenuState::Input(sf::Event *event) {
     if (event->type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
@@ -47,15 +62,39 @@ void MenuState::Input(sf::Event *event) {
         }
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void MenuState::update() {
     playButton.setFillColor(sf::Color(255, 255, 0));
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void MenuState::render() {
     window->draw(titleText);
     window->draw(playButton);
     window->draw(playButtonText);
     window->draw(highScores);
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 VictoryState::VictoryState(sf::RenderWindow *window,StateManager *stateManager, int ScoreOfTheGame) : State(window,stateManager), ScoreOfTheGame(ScoreOfTheGame) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
@@ -83,7 +122,14 @@ VictoryState::VictoryState(sf::RenderWindow *window,StateManager *stateManager, 
     Score.setFillColor(sf::Color::Yellow);
     Score.setPosition(270, 225);
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void VictoryState::Input(sf::Event *event) {
     if (event->type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
@@ -92,15 +138,39 @@ void VictoryState::Input(sf::Event *event) {
         }
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void VictoryState::update() {
     BackButton.setFillColor(sf::Color(255, 255, 0));
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void VictoryState::render() {
     window->draw(VictoryText);
     window->draw(BackButton);
     window->draw(BackButtonText);
     window->draw(Score);
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 GameOverState::GameOverState(sf::RenderWindow *window,StateManager *stateManager, int ScoreOfTheGame) : State(window,stateManager) , ScoreOfTheGame(ScoreOfTheGame){
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
@@ -128,7 +198,14 @@ GameOverState::GameOverState(sf::RenderWindow *window,StateManager *stateManager
     Score.setFillColor(sf::Color::Yellow);
     Score.setPosition(270, 225);
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void GameOverState::Input(sf::Event *event) {
     if (event->type == sf::Event::MouseButtonPressed) {
         sf::Vector2i mousePosition = sf::Mouse::getPosition(*window);
@@ -137,15 +214,39 @@ void GameOverState::Input(sf::Event *event) {
         }
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void GameOverState::update() {
     BackButton.setFillColor(sf::Color(255, 255, 0));
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void GameOverState::render() {
     window->draw(GameOverText);
     window->draw(BackButton);
     window->draw(BackButtonText);
     window->draw(Score);
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager), camera(window->getSize().x,window->getSize().y) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
@@ -165,7 +266,14 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
     newLevel(0);
     lives.setString("Lives Remaining: " + std::to_string(world->getPacman()->getlives()));
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void LevelState::newLevel(int levelNumber) {
     if (levelNumber == 0) {
         auto level = make_shared<Level>("../levelTest.txt",camera);
@@ -297,6 +405,14 @@ void LevelState::newLevel(int levelNumber) {
         }
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void LevelState::clearEverything() {
     views.clear();
     world->setEntities({});
@@ -311,7 +427,14 @@ void LevelState::clearEverything() {
     world->set_countp(0);
     world->set_countr(0);
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void LevelState::Input(sf::Event *event) {
     if (event->type == sf::Event::KeyPressed) {
         if (event->key.code == sf::Keyboard::Escape) {
@@ -331,6 +454,14 @@ void LevelState::Input(sf::Event *event) {
         }
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void LevelState::update() {
     if (!world->getLevelDone() && world->getPacman()->getlives() != 0) {
         lives.setString("Lives Remaining: " + std::to_string(world->getPacman()->getlives()));
@@ -366,6 +497,14 @@ void LevelState::update() {
         }
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void LevelState::render() {
     window->clear();
     for (auto& view : views) {
@@ -374,6 +513,14 @@ void LevelState::render() {
     window->draw(lives);
     window->draw(scoreTxt);
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : State(window,stateManager) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")) {
         cout << "Error loading font!" << endl;
@@ -403,7 +550,14 @@ PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : 
     ExitToDesktop.setFillColor(sf::Color::White);
     ExitToDesktop.setPosition(180, 290);
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void PausedState::Input(sf::Event *event) {
     if (event->type == sf::Event::KeyPressed) {
         if (event->key.code == sf::Keyboard::Escape) {
@@ -426,8 +580,24 @@ void PausedState::Input(sf::Event *event) {
         }
     }
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void PausedState::update() {
 }
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void PausedState::render() {
     window->draw(paused);
     window->draw(resume);
