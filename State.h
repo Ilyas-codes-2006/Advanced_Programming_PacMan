@@ -77,7 +77,7 @@ private:
     sf::Text scoreTxt;
     sf::Text lives;
     sf::Font font;
-    shared_ptr<ConcreteFactory> factory;
+    shared_ptr<AbstractFactory> factory;
     shared_ptr<World> world;
     Camera camera;
     vector<shared_ptr<EntityView>> views;

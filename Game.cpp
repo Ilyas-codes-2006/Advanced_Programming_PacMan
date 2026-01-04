@@ -25,59 +25,6 @@ Game::Game(sf::RenderWindow* window) {
  * eatenEntities and also all the entities.
  */
 void Game::update() {
-    /*auto concreteFactory = make_shared<ConcreteFactory>();
-    World world(concreteFactory);
-    Camera camera(window->getSize().x,window->getSize().y);
-    auto level = make_shared<Level>("../levelTest.txt",camera);
-    world.makeLevel(level);
-    /*for (auto& entity : world.getEntities()) {
-        auto pos = entity->getPosition();
-        cout << "Entity at (" << get<0>(pos) << ", " << get<1>(pos) << ")" << entity->getSymbol() <<  endl;
-    }#1#
-    for (auto& entity : world.getEntities()) {
-        char symbol = entity->getSymbol();
-        if (symbol == 'P') {
-            views.push_back(concreteFactory->FloorView(entity, camera));
-            auto pacView = concreteFactory->PacManView(entity, camera);
-            pacView->setSprite("../PacMan.png",17,0);
-            views.push_back(pacView);
-        }
-        else if (symbol == '#') {
-            views.push_back(concreteFactory->WallView(entity, camera));
-        }
-        else if (symbol == '_') {
-            views.push_back(concreteFactory->FloorView(entity, camera));
-        }
-        else if (symbol == 'F') {
-            views.push_back(concreteFactory->FloorView(entity, camera));
-            auto FruitView = concreteFactory->FruitView(entity,camera);
-            FruitView->setSprite("../PacMan.png",8,5);
-            views.push_back(FruitView);
-        }
-        else if (symbol == '-') {
-            views.push_back(concreteFactory->FloorView(entity, camera));
-            auto CoinView = concreteFactory->CoinView(entity,camera);
-            CoinView->setSprite("../PacMan.png",8,5);
-            views.push_back(CoinView);
-        }
-    }*/
-    /*while (window->isOpen()) {
-        sf::Event event;
-        while (window->pollEvent(event)) {
-            if (event.type == sf::Event::Closed) {
-                window->close();
-            }
-        }
-
-        window->clear(sf::Color::White);
-
-        for (auto& view : views) {
-            view->render(window);
-        }
-
-        window->display();
-    }*/
-
     stateManager.push(make_unique<MenuState>(window,&stateManager));
     while (window->isOpen()) {
         sf::Event event;
