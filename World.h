@@ -145,6 +145,10 @@ public:
     void checkEaten();
     void checkEatenFruit();
     void CheckGhost();
+    void redMovement(char s, float deltatime,float difficulty, float step);
+    void pinkMovement(char s, float deltatime,float difficulty, float step);
+    void blueMovement(char s, float deltatime,float difficulty, float step);
+    void orangeMovement(char s, float deltatime, float difficulty, float step);
     tuple<float,float> calcDirection(float step, char dir,tuple<float,float> pos);
     void GhostMovement(float deltatime);
     bool wallinDirectionGhost(char dir, tuple<float,float> pos,shared_ptr<EntityModel> ghost);

@@ -501,32 +501,9 @@ tuple<float, float> World::pacmanNextpos(float step) {
         return next;
     }
 }
-/**
- * @Functionality Pacman eats coin
- *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
- */
-void World::GhostMovement(float deltatime) {
-    float difficultytime = currentLevel;
-    float difficulty = currentLevel/0.9-0.5*(currentLevel);
-    float step = (0.5f + difficulty/10) * deltatime;
-    time += deltatime;
+void World::redMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
-        if (ghost->getFearmode()) {
-            ghost->setFeartime(ghost->getFeartime()+deltatime);
-            if (ghost->getFeartime() >= 5-difficultytime) {
-                ghost->setFeartime(0.0);
-                ghost->setFearmode(false);
-                /*Event event(WhichEvent::Moved,ghost.get());
-                ghost->notify(event);*/
-            }
-        }
-    }
-    for (auto ghost: ghosts) {
-        if (ghost->getSymbol()=='r') {
+        if (ghost->getSymbol() == s) {
             if (countr == 0) {
                 ghost->setPosition(Spawn[0]->original_pos());
                 countr++;
@@ -710,7 +687,12 @@ void World::GhostMovement(float deltatime) {
                 }
             }
         }
-        else if (ghost->getSymbol() == 'p') {
+    }
+}
+
+void World::pinkMovement(char s, float deltatime, float difficulty, float step) {
+    for (auto ghost: ghosts) {
+        if (ghost->getSymbol() == s) {
             if (countp == 0) {
                 ghost->setPosition(Spawn[1]->original_pos());
                 countp++;
@@ -959,7 +941,11 @@ void World::GhostMovement(float deltatime) {
                 }
             }
         }
-        else if (ghost->getSymbol() == 'b' && time >= 5.0f) {
+    }
+}
+void World::blueMovement(char s, float deltatime, float difficulty, float step) {
+    for (auto ghost: ghosts) {
+        if (ghost->getSymbol() == s) {
             if (countb == 0) {
                 ghost->setPosition(Spawn[0]->original_pos());
                 countb++;
@@ -1208,7 +1194,11 @@ void World::GhostMovement(float deltatime) {
                 }
             }
         }
-        else if (ghost->getSymbol() == 'o' && time >= 10.0f) {
+    }
+}
+void World::orangeMovement(char s, float deltatime, float difficulty, float step) {
+    for (auto ghost: ghosts) {
+        if (ghost->getSymbol() == s) {
             if (counto == 0) {
                 ghost->setPosition(Spawn[1]->original_pos());
                 counto++;
@@ -1456,6 +1446,43 @@ void World::GhostMovement(float deltatime) {
                     ghost->notify(event);
                 }
             }
+        }
+    }
+}
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
+void World::GhostMovement(float deltatime) {
+    float difficultytime = currentLevel;
+    float difficulty = currentLevel/0.9-0.5*(currentLevel);
+    float step = (0.5f + difficulty/10) * deltatime;
+    time += deltatime;
+    for (auto ghost: ghosts) {
+        if (ghost->getFearmode()) {
+            ghost->setFeartime(ghost->getFeartime()+deltatime);
+            if (ghost->getFeartime() >= 5-difficultytime) {
+                ghost->setFeartime(0.0);
+                ghost->setFearmode(false);
+            }
+        }
+    }
+    for (auto ghost: ghosts) {
+        if (ghost->getSymbol()=='r') {
+            redMovement('r',deltatime,difficulty,step);
+        }
+        else if (ghost->getSymbol() == 'p') {
+            pinkMovement('p',deltatime,difficulty,step);
+        }
+        else if (ghost->getSymbol() == 'b' && time >= 5.0f) {
+            blueMovement('b',deltatime,difficulty,step);
+        }
+        else if (ghost->getSymbol() == 'o' && time >= 10.0f) {
+            orangeMovement('o',deltatime,difficulty,step);
         }
     }
 }
