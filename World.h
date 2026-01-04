@@ -8,7 +8,6 @@
 #include <vector>
 #include <iostream>
 #include "AbstractFactory.h"
-using namespace std;
 class Level;
 class Score;
 class EntityModel;
@@ -19,7 +18,7 @@ private:
     vector<char> directions = {'u','d','l','r'};
     vector<shared_ptr<EntityModel>> entities;
     float time = 0.0f;
-    float levelDone = false;
+    bool levelDone = false;
     vector<shared_ptr<EntityModel>> ghosts;
     vector<shared_ptr<EntityModel>> Spawn;
     vector<shared_ptr<EntityModel>> ToBeEaten;
@@ -36,6 +35,9 @@ public:
     explicit World(const shared_ptr<AbstractFactory> &factory)
         : factory(factory) {
     }
+
+    ~World() = default;
+
     shared_ptr<Level> getCurrentLevel();
 
     [[nodiscard]] int getCurLevel() const {
@@ -133,7 +135,6 @@ public:
         return levelDone;
     }
 
-    void levelFinished();
     void reset();
     void addEntity(shared_ptr<EntityModel>& entity);
     void removeEntity(shared_ptr<EntityModel>& entity);

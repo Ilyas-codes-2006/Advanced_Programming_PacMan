@@ -3,13 +3,13 @@
 //
 
 #include "World.h"
-
 #include <cmath>
-
 #include "AbstractFactory.h"
 #include "Level.h"
 #include "Random.h"
 #include "Score.h"
+
+using namespace std;
 
 void World::addEntity(shared_ptr<EntityModel>& entity) {
     entities.push_back(entity);
@@ -25,15 +25,28 @@ void World::removeEntity(shared_ptr<EntityModel>& entity) {
 void World::clearEntities() {
     entities.clear();
 }
+/**
+ * @Functionality Gives the currentLevel
+ *
+ * @Explanation /
+ */
 shared_ptr<Level> World::getCurrentLevel() {
     return levels[currentLevel];
 }
+/**
+ * @Functionality Adds a new level
+ *
+ * @Explanation /
+ */
 void World::addLevel(shared_ptr<Level> &level) {
     levels.push_back(level);
 }
-void World::levelFinished() {
-    currentLevel++;
-}
+/**
+ * @Functionality Makes a new Level
+ *
+ * @Explanation Level gives me the coordinate of every character.
+ * Based on the character it makes the right entity.
+ */
 void World::makeLevel(shared_ptr<Level> level) {
     auto map = level->getLevelMapping();
     for (auto coord: map) {
@@ -123,6 +136,13 @@ void World::makeLevel(shared_ptr<Level> level) {
         }
     }
 }
+/**
+ * @Functionality We will check if PacMan collides with a wall
+ *
+ * @Explanation I make use of 2 hitboxes, one is for pacman and one is for the wall
+ * If pacman just touches the other hitbox he will stop by giving himself his previous
+ * position. We won't only use this function to make the full collision though.
+ */
 void World::checkCollision() {
     auto pac = pacman->getPosition();
     float xMin = get<0>(pac)-pacman->entity_width()/2.5;
@@ -143,6 +163,12 @@ void World::checkCollision() {
         }
     }
 }
+/**
+ * @Functionality This function erases de Entity from all the entities that
+ * can be eaten.
+ *
+ * @Explanation /
+ */
 void World::removeEatenEntity(shared_ptr<EntityModel> &entity) {
     for (auto it = ToBeEaten.begin(); it != ToBeEaten.end(); it++) {
         if (it->get() == entity.get()) {
@@ -151,7 +177,14 @@ void World::removeEatenEntity(shared_ptr<EntityModel> &entity) {
         }
     }
 }
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 void World::checkEaten() {
     bool eaten = false;
     auto pac = pacman->getPosition();
@@ -195,18 +228,14 @@ void World::checkEaten() {
         won = true;
     }
 }
-/*float World::findCorridorCenter(char dir, tuple<float,float> position) {
-    float entityW = pacman->entity_width();
-    float entityH = pacman->entity_height();
-    if (dir == 'u' || dir == 'd') {
-
-    }
-    else if (dir == 'l' || dir == 'r') {
-
-    }
-}*/
-
-
+/**
+ * @Functionality Pacman eats coin
+ *
+ * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * so it only triggers when we are almost in the middle. We also make use of an event here.
+ * To tell our view that the coin needs to disappear. The coin itself gets deleted from
+ * eatenEntities and also all the entities.
+ */
 bool World::wallinDirection(char dir) {
     auto pos = pacman->getPosition();
     float x = get<0>(pos);
@@ -422,13 +451,13 @@ tuple<float, float> World::pacmanNextpos(float step) {
 
 void World::GhostMovement(float deltatime) {
     float difficultytime = currentLevel;
-    float difficulty = currentLevel/0.6;
+    float difficulty = currentLevel/0.9-0.5*(currentLevel);
     float step = (0.5f + difficulty/10) * deltatime;
     time += deltatime;
     for (auto ghost: ghosts) {
         if (ghost->getFearmode()) {
             ghost->setFeartime(ghost->getFeartime()+deltatime);
-            if (ghost->getFeartime() >= 10.0-difficultytime) {
+            if (ghost->getFeartime() >= 5-difficultytime) {
                 ghost->setFeartime(0.0);
                 ghost->setFearmode(false);
                 /*Event event(WhichEvent::Moved,ghost.get());

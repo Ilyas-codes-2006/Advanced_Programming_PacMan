@@ -14,7 +14,6 @@
 #include "Score.h"
 #include "World.h"
 class EntityView;
-using namespace std;
 class StateManager;
 class Game;
 class State {

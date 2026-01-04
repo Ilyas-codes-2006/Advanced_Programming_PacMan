@@ -225,8 +225,23 @@ void GhostRender::render(sf::RenderWindow *window) {
 void GhostRender::update(const Event& event) {
     if (link->getFearmode()==true) {
         if (event.type==WhichEvent::FearMode) {
+            int pos = 0;
             x = 0;
             y = 11;
+            /*count2+=Stopwatch::getInstance().tick();
+            if (count2 >= switchMouth2) {
+                switch (cycle2) {
+                    case 0:
+                        y = pos+1;
+                        cycle2++;
+                        break;
+                    case 1:
+                        y = pos;
+                        cycle2 = 0;
+                        break;
+                }
+                count2 = 0.0f;
+            }*/
             currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
             sprite.setTextureRect(currentImage);
         }
@@ -234,8 +249,23 @@ void GhostRender::update(const Event& event) {
     else {
         if (event.type==WhichEvent::Moved) {
             if (link->getFearmode()==true) {
+                int pos = 0;
                 x = 0;
                 y = 11;
+                /*count2+=Stopwatch::getInstance().tick();
+                if (count2 >= switchMouth2) {
+                    switch (cycle2) {
+                        case 0:
+                            y = pos+1;
+                            cycle2++;
+                            break;
+                        case 1:
+                            y = pos;
+                            cycle2 = 0;
+                            break;
+                    }
+                    count2 = 0.0f;
+                }*/
                 currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
                 sprite.setTextureRect(currentImage);
             }
@@ -256,19 +286,34 @@ void GhostRender::update(const Event& event) {
                         x = 3;
                         break;
                 }
+                int pos = 0;
                 switch (direction) {
                     case 'u':
-                        y = 6;
+                        pos = 6;
                         break;
                     case 'd':
-                        y = 2;
+                        pos = 2;
                         break;
                     case 'l':
-                        y = 4;
+                        pos = 4;
                         break;
                     case 'r':
-                        y = 0;
+                        pos = 0;
                         break;
+                }
+                count+=Stopwatch::getInstance().tick();
+                if (count >= switchMouth) {
+                    switch (cycle) {
+                        case 0:
+                            y = pos+1;
+                            cycle++;
+                            break;
+                        case 1:
+                            y = pos;
+                            cycle = 0;
+                            break;
+                    }
+                    count = 0.0f;
                 }
                 currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
                 sprite.setTextureRect(currentImage);

@@ -3,10 +3,11 @@
 //
 
 #include "State.h"
-
 #include "Game.h"
 #include "StateManager.h"
 #include "Highscore.h"
+
+using namespace std;
 MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager){
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
