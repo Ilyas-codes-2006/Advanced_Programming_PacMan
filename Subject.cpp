@@ -3,34 +3,25 @@
 //
 #include "Subject.h"
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Add an observer.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We push an observer to the vector.
  */
 void Subject::attach(Observer *observer) {
     observers.push_back(observer);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Delete an observer.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We delete an observer from the vector.
  */
 void Subject::detach(Observer *observer) {
     observers.erase(std::remove(observers.begin(),observers.end(),observer),observers.end());
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We notify what event happened.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation The observer calls the right update based on the event given. This is because we implemented proper polymorphism.
  */
 void Subject::notify(const Event& event) {
     for (auto observer: observers) {

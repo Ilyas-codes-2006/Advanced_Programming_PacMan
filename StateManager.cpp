@@ -4,23 +4,17 @@
 
 #include "StateManager.h"
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Push the state.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation /
  */
 void StateManager::push(unique_ptr<State> state) {
     states.push(move(state));
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Pop a state.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation /
  */
 void StateManager::pop() {
     if (!states.empty()) {
@@ -28,12 +22,9 @@ void StateManager::pop() {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Get the top state.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We check which state is at the top and we check the correct implementation.
  */
 void StateManager::whichInput(sf::Event *event) {
     if (!states.empty()) {
@@ -41,12 +32,9 @@ void StateManager::whichInput(sf::Event *event) {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Get the top state.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We check which state is at the top and we check the correct implementation.
  */
 void StateManager::whichUpdate() {
     if (!states.empty()) {
@@ -54,12 +42,9 @@ void StateManager::whichUpdate() {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Get the top state.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We check which state is at the top and we check the correct implementation.
  */
 void StateManager::whichRender() {
     if (!states.empty()) {
