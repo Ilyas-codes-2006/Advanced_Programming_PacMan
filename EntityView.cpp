@@ -329,19 +329,19 @@ void GhostRender::update(const Event& event) {
                 int pos = 0;
                 switch (direction) {
                     case 'u':
-                        pos = 6;
+                        y = 6;
                         break;
                     case 'd':
-                        pos = 2;
+                        y = 2;
                         break;
                     case 'l':
-                        pos = 4;
+                        y = 4;
                         break;
                     case 'r':
-                        pos = 0;
+                        y = 0;
                         break;
                 }
-                count+=Stopwatch::getInstance().tick();
+                /*count+=Stopwatch::getInstance().tick();
                 if (count >= switchMouth) {
                     switch (cycle) {
                         case 0:
@@ -354,7 +354,7 @@ void GhostRender::update(const Event& event) {
                             break;
                     }
                     count = 0.0f;
-                }
+                }*/
                 currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
                 sprite.setTextureRect(currentImage);
             }

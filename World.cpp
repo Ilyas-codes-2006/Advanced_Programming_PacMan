@@ -311,7 +311,7 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
  * eatenEntities and also all the entities.
  */
 void World::updatePacman(float deltaTime) {
-    float speed = 0.999;
+    float speed = 0.65;
     float step = speed * deltaTime;
     auto pos = pacman->getPosition();
     char dir = pacman->getnextDirection();
