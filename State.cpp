@@ -97,9 +97,9 @@ VictoryState::VictoryState(sf::RenderWindow *window,StateManager *stateManager, 
 
     BackButtonText.setFont(font);
     BackButtonText.setString("Return to home menu");
-    BackButtonText.setCharacterSize(15);
-    BackButtonText.setFillColor(sf::Color::White);
-    BackButtonText.setPosition(200,150);
+    BackButtonText.setCharacterSize(20);
+    BackButtonText.setFillColor(sf::Color::Black);
+    BackButtonText.setPosition(200,175);
 
     Score.setFont(font);
     Score.setString("Score: " + to_string(ScoreOfTheGame));
@@ -161,9 +161,9 @@ GameOverState::GameOverState(sf::RenderWindow *window,StateManager *stateManager
 
     BackButtonText.setFont(font);
     BackButtonText.setString("Return to home menu");
-    BackButtonText.setCharacterSize(15);
-    BackButtonText.setFillColor(sf::Color::White);
-    BackButtonText.setPosition(200,150);
+    BackButtonText.setCharacterSize(20);
+    BackButtonText.setFillColor(sf::Color::Black);
+    BackButtonText.setPosition(200,175);
 
     Score.setFont(font);
     Score.setString("Score: " + to_string(ScoreOfTheGame));
