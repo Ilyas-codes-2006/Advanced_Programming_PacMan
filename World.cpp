@@ -1564,12 +1564,11 @@ void World::reset() {
     pacman->setnextDirection('N');
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We check collision with ghosts.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We also make use of hitboxes here just like walls only here they are smaller to give the player more chance to escape.
+ * There are 2 ways this could go: If the ghost touched is in fearmode. The ghost goes to the spawnpoint and starts to chase again. But when
+ * the ghost is not in fearmode, pacman loses a life and every entity goes to its rightous place. Only the ToBeEaten entities do not get affected.
  */
 void World::CheckGhost() {
     auto pac = pacman->getPosition();
