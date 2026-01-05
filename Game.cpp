@@ -6,23 +6,17 @@
 #include <iostream>
 using namespace std;
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The Sfml window gets made.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation /
  */
 Game::Game(sf::RenderWindow* window) {
     this->window = window;
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The main game loop.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation Looping till the game ends.
  */
 void Game::update() {
     stateManager.push(make_unique<MenuState>(window,&stateManager));

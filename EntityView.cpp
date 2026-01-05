@@ -6,35 +6,30 @@
 
 #include "EntityModel.h"
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We take the right sprite for Pacman in the beginning of the game.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation /
  */
 void PacManRender::setSprite(const string &spritesheet) {
     spridesheet = spritesheet;
     if (!texture.loadFromFile(spritesheet)) {
         throw runtime_error("Failed to load texture: " + spritesheet);
     }
+    //the spritesheet is a 19x19 with 19 sprites per line so if divide it with 19 we get the correct size of 1 sprite
+    //with that we can find the correct sprite with x and y who are the column and row!
     float characterX = texture.getSize().x/19.0;
     float characterY = texture.getSize().y/19.0;
     xChar = characterX;
     yChar = characterY;
-    /*sprite.setOrigin(xChar/2.0f,yChar/2.0f);*/
     currentImage = sf::IntRect(characterX*x,characterY*y,characterX,characterY);
     sprite.setTexture(texture);
     sprite.setTextureRect(currentImage);
     sprite.scale(2,2);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We render Pacman on the screen
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We change the coord of the entity to pixels and we set the right position on the window
  */
 void PacManRender::render(sf::RenderWindow *window) {
     auto Position = link->getPosition();
@@ -45,12 +40,11 @@ void PacManRender::render(sf::RenderWindow *window) {
     window->draw(sprite);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We check the direction of pacman and based on that we give the right sprites.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation In this function the mouth needs to close and open while moving. I did discuss how to do this with chatGPT and he
+ * advised me to make use of a cycle that loops through the three sprites. You cqn also see the use of Event only if the even type is
+ * move we move and cycle the sprite but when were not moving it doesnt cycle.
  */
 void PacManRender::update(const Event& event) {
     if (event.type==WhichEvent::Moved) {
@@ -93,12 +87,9 @@ void PacManRender::update(const Event& event) {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We render wall on the screen
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We change the coord of the entity to pixels and we set the right position on the window
  */
 void WallRender::render(sf::RenderWindow *window) {
     auto Position = link->getPosition();
@@ -110,12 +101,9 @@ void WallRender::render(sf::RenderWindow *window) {
     window->draw(wall);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We render the spawnpoint on the screen
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We change the coord of the entity to pixels and we set the right position on the window
  */
 void SpawnRender::render(sf::RenderWindow *window) {
     auto Position = link->getPosition();
@@ -127,12 +115,9 @@ void SpawnRender::render(sf::RenderWindow *window) {
     window->draw(floor);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We render floor on the screen
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We change the coord of the entity to pixels and we set the right position on the window
  */
 void FloorRender::render(sf::RenderWindow *window) {
     auto Position = link->getPosition();
@@ -144,12 +129,9 @@ void FloorRender::render(sf::RenderWindow *window) {
     window->draw(floor);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We take the right sprite for the fruit in the beginning of the game.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation /
  */
 void FruitRender::setSprite(const string &spritesheet) {
     if (!texture.loadFromFile(spritesheet)) {
@@ -163,12 +145,9 @@ void FruitRender::setSprite(const string &spritesheet) {
     sprite.setScale(2.7,2.7);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We render fruit on the screen
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We change the coord of the entity to pixels and we set the right position on the window
  */
 void FruitRender::render(sf::RenderWindow *window) {
     if (link->getInteracted()) {
@@ -183,12 +162,9 @@ void FruitRender::render(sf::RenderWindow *window) {
     window->draw(sprite);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We take the right sprite for the coin in the beginning of the game.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation /
  */
 void CoinRender::setSprite(const string &spritesheet) {
     if (!texture.loadFromFile(spritesheet)) {
@@ -202,12 +178,9 @@ void CoinRender::setSprite(const string &spritesheet) {
     sprite.setScale(1.2,1.2);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We render coin on the screen
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We change the coord of the entity to pixels and we set the right position on the window
  */
 void CoinRender::render(sf::RenderWindow *window) {
     if (link->getInteracted()) {
@@ -222,12 +195,9 @@ void CoinRender::render(sf::RenderWindow *window) {
     window->draw(sprite);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We take the right sprite for the ghost in the beginning of the game.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation /
  */
 void GhostRender::setSprite(const string &spritesheet) {
     spridesheet = spritesheet;
@@ -257,19 +227,15 @@ void GhostRender::setSprite(const string &spritesheet) {
             y = 6;
             break;
     }
-    /*sprite.setOrigin(xChar/2.0f,yChar/2.0f);*/
     currentImage = sf::IntRect(characterX*x,characterY*y,characterX,characterY);
     sprite.setTexture(texture);
     sprite.setTextureRect(currentImage);
     sprite.scale(1.8,1.8);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We render ghost on the screen
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We change the coord of the entity to pixels and we set the right position on the window
  */
 void GhostRender::render(sf::RenderWindow *window) {
     if (link->getInteracted()) {
@@ -283,17 +249,15 @@ void GhostRender::render(sf::RenderWindow *window) {
     window->draw(sprite);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We check the direction of the ghost and based on that we give the right sprites.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation The ghost uses multiple events to change the sprites. Namely the fear sprites and the normal sprites.
+ * So when based on the event given in World the sprites changes. I wanted to use the same implementation for changing the sprites to seem like
+ * they float but it doesn't work and due to ti,e restrictions I could not fix it. SO they move like a static sprite in the right direction.
  */
 void GhostRender::update(const Event& event) {
     if (link->getFearmode()==true) {
         if (event.type==WhichEvent::FearMode) {
-            int pos = 0;
             x = 0;
             y = 11;
             currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
@@ -303,7 +267,6 @@ void GhostRender::update(const Event& event) {
     else {
         if (event.type==WhichEvent::Moved) {
             if (link->getFearmode()==true) {
-                int pos = 0;
                 x = 0;
                 y = 11;
                 currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
@@ -326,7 +289,6 @@ void GhostRender::update(const Event& event) {
                         x = 3;
                         break;
                 }
-                int pos = 0;
                 switch (direction) {
                     case 'u':
                         y = 6;
@@ -341,23 +303,43 @@ void GhostRender::update(const Event& event) {
                         y = 0;
                         break;
                 }
-                /*count+=Stopwatch::getInstance().tick();
-                if (count >= switchMouth) {
-                    switch (cycle) {
-                        case 0:
-                            y = pos+1;
-                            cycle++;
-                            break;
-                        case 1:
-                            y = pos;
-                            cycle = 0;
-                            break;
-                    }
-                    count = 0.0f;
-                }*/
                 currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
                 sprite.setTextureRect(currentImage);
             }
+        }
+        else if (event.type==WhichEvent::changeGhost){
+            char direction = link->getcurrentDirection();
+            char ghost = link->getSymbol();
+            switch (ghost) {
+                case 'r':
+                    x = 0;
+                    break;
+                case 'p':
+                    x = 1;
+                    break;
+                case 'b':
+                    x = 2;
+                    break;
+                case 'o':
+                    x = 3;
+                    break;
+            }
+            switch (direction) {
+                case 'u':
+                    y = 6;
+                    break;
+                case 'd':
+                    y = 2;
+                    break;
+                case 'l':
+                    y = 4;
+                    break;
+                case 'r':
+                    y = 0;
+                    break;
+            }
+            currentImage = sf::IntRect(xChar*x,yChar*y,xChar,yChar);
+            sprite.setTextureRect(currentImage);
         }
     }
 }

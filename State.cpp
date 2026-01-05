@@ -9,12 +9,9 @@
 
 using namespace std;
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The menu state gets made.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We use sfml utilities to help us fill in the color writing it on the window.
  */
 MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager){
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
@@ -88,12 +85,9 @@ void MenuState::render() {
     window->draw(highScores);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The victory state gets made.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We use sfml utilities to help us fill in the color writing it on the window.
  */
 VictoryState::VictoryState(sf::RenderWindow *window,StateManager *stateManager, int ScoreOfTheGame) : State(window,stateManager), ScoreOfTheGame(ScoreOfTheGame) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
@@ -164,12 +158,9 @@ void VictoryState::render() {
     window->draw(Score);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The gameover state gets made.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We use sfml utilities to help us fill in the color writing it on the window.
  */
 GameOverState::GameOverState(sf::RenderWindow *window,StateManager *stateManager, int ScoreOfTheGame) : State(window,stateManager) , ScoreOfTheGame(ScoreOfTheGame){
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
@@ -188,9 +179,9 @@ GameOverState::GameOverState(sf::RenderWindow *window,StateManager *stateManager
 
     BackButtonText.setFont(font);
     BackButtonText.setString("Return to home menu");
-    BackButtonText.setCharacterSize(50);
+    BackButtonText.setCharacterSize(15);
     BackButtonText.setFillColor(sf::Color::White);
-    BackButtonText.setPosition(200,200);
+    BackButtonText.setPosition(200,150);
 
     Score.setFont(font);
     Score.setString("Score: " + to_string(ScoreOfTheGame));
@@ -484,8 +475,6 @@ void LevelState::update() {
         lives.setString("Lives Remaining: " + std::to_string(world->getPacman()->getlives()));
         float deltatime = Stopwatch::getInstance().tick();
         world->updatePacman(deltatime);
-        /*world->getPacman()->update(deltatime);*/
-        /*world->checkCollision();*/
         world->GhostMovement(deltatime);
         world->checkEatenFruit();
         world->checkEaten();
@@ -505,6 +494,7 @@ void LevelState::update() {
                 int nextLevel = world->getCurLevel();
                 world->set_won(false);
                 newLevel(nextLevel);
+                Stopwatch::getInstance().reset();
             }
         }
         else {
@@ -531,12 +521,9 @@ void LevelState::render() {
     window->draw(scoreTxt);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The pause state gets made.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We use sfml utilities to help us fill in the color writing it on the window.
  */
 PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : State(window,stateManager) {
     if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")) {

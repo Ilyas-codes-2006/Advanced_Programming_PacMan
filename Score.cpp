@@ -8,16 +8,15 @@
 
 #include "Stopwatch.h"
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The score gets updated.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We also make use of the events here because Score is an observer.
+ * Based on what thing you eat, you get a score. For coins I made a way to decrease/increase the value. So when the lastTimEaten is below
+ * 1 we add 10 points to every point added and we reset the timer. But for every time not eating we divide the points given by 10 and we reset the timer.
  */
 void Score::update(const Event &event) {
     if (event.type == WhichEvent::CoinPoint) {
-        if (timeLasteaten < 5.0) {
+        if (timeLasteaten < 1.0) {
             add += 10;
             timeLasteaten = 0;
         }

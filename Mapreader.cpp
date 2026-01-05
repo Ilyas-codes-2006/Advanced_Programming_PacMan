@@ -4,12 +4,9 @@
 
 #include "Mapreader.h"
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We read the map from a .txt file.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We read a rectangular type map and we give every char its coord we then return this vector to a level object.
  */
 vector<tuple<float, float, char>> Mapreader::readMap(Camera camera) {
     ifstream input(filename);

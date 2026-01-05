@@ -1468,6 +1468,8 @@ void World::GhostMovement(float deltatime) {
             if (ghost->getFeartime() >= 5-difficultytime) {
                 ghost->setFeartime(0.0);
                 ghost->setFearmode(false);
+                Event event(WhichEvent::changeGhost,ghost.get());
+                ghost->notify(event);
             }
         }
     }

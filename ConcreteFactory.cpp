@@ -6,12 +6,10 @@
 
 #include "EntityView.h"
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We make every correct entity.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation I make use of a symbol that gets read in World::makeLevel. Based on that symbol the correct derived class
+ * is called. Because EntityModel has proper polymorphism we get the correct logic data for every entity after it's made.
  */
 shared_ptr<EntityModel> ConcreteFactory::PacManEntity(const tuple<float, float> &positie,char symbol,const tuple<float, float> &original) {
     return make_shared<PacMan>(positie,symbol,original);
@@ -34,6 +32,12 @@ shared_ptr<EntityModel> ConcreteFactory::GhostEntity(const tuple<float, float> &
 shared_ptr<EntityModel> ConcreteFactory::SpawnEntity(const tuple<float, float> &positie, char symbol,const tuple<float, float> &original) {
     return make_shared<Spawn>(positie,symbol,original);
 }
+/**
+ * @Functionality We make every correct view.
+ *
+ * @Explanation Based on the model you in the argument you create the correct view.
+ * Because EntityView has proper polymorphism we get the correct view data for every entity after it's made.
+ */
 shared_ptr<EntityView> ConcreteFactory::PacManView(shared_ptr<EntityModel> model, Camera &camera) {
     return make_shared<PacManRender>(model,camera);
 }

@@ -78,8 +78,6 @@ public:
 
     virtual void setFeartime(float time) = 0;
 
-    virtual void update(float deltaTime) = 0;
-
     tuple<float, float> getPosition() const {
         return position;
     }
@@ -135,8 +133,6 @@ public:
     [[nodiscard]] float getFeartime() override {}
 
     void setFeartime(float time) override {}
-
-    void update(float deltaTime) override;
 };
 class Ghost: public EntityModel {
     char currentDirection = 'N';
@@ -189,7 +185,6 @@ public:
 
     void setFeartime(float time) override;
 
-    void update(float deltaTime) override;
 };
 class Wall: public EntityModel {
 public:
@@ -225,7 +220,6 @@ public:
 
     void setLives(int life) override {}
 
-    void update(float deltaTime) override {}
 };
 class Spawn: public EntityModel {
 public:
@@ -261,7 +255,6 @@ public:
 
     void setLives(int life) override {}
 
-    void update(float deltaTime) override {}
 };
 class Floor: public EntityModel {
 public:
@@ -296,8 +289,6 @@ public:
     void setLives(int life) override {}
 
     void setFeartime(float time) override {}
-
-    void update(float deltaTime) override {}
 };
 class Fruit: public EntityModel {
 public:
@@ -333,7 +324,6 @@ public:
 
     void setFeartime(float time) override {}
 
-    void update(float deltaTime) override {}
 };
 class Coin: public EntityModel {
 public:
@@ -368,8 +358,6 @@ public:
     void setLives(int life) override {}
 
     void setFeartime(float time) override {}
-
-    void update(float deltaTime) override {}
 };
 
 

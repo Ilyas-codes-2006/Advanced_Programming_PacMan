@@ -9,6 +9,13 @@
 
 class EntityModel;
 
+/**
+* @Functionality The logic of an event.
+*
+* @Explanation THe enum class WhichEvent works together with the struct Event. AN event is defined by its description.
+* A.k.a. the Whichevent type. We also need to know which entity caused this event so we also return a raw pointer to the correct
+* entity.
+*/
 enum class WhichEvent {
     Moved,
     CoinPoint,
@@ -20,6 +27,7 @@ enum class WhichEvent {
     LevelCleared,
     NotEaten,
     ResetGhost,
+    changeGhost
 };
 struct Event {
     WhichEvent type;

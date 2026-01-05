@@ -4,36 +4,29 @@
 
 #include "Random.h"
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We return the instance needed for a Singleton.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation /
  */
 Random &Random::getInstance() {
     static Random instance;
     return instance;
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We return a random number between start and end.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We use this function while were doing the ghost AI. The ghost gives how many ways he can go to. Stores them in a vector.
+ * Then we retun a random index for that vector and the way is chosen.
  */
 int Random::randomIndex(int start, int end) {
     std::uniform_int_distribution<int> dist(start,end);
     return dist(MersenneTw);
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The 50/50 for changing ways.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation We also use this function for ghost AI. SO we call this function to see the 50/50 chance if a ghost wants to change
+ * ways or not.
  */
 bool Random::probSwitch(float p) {
     std::uniform_real_distribution<float> dist(0.0f,1.0f);

@@ -9,12 +9,9 @@
 #include <iostream>
 
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We read all the highscores of the game from a .txt file.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation AI advised me to use greater<>{} as its a great way to sort something from big to small in one line.
  */
 Highscore::Highscore() {
     ifstream filename(highscores);
@@ -33,12 +30,10 @@ Highscore::Highscore() {
     filename.close();
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Change the highscore or not.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation This function gets called when the game ends and it directly checks if the new score is high enough to be in the top 5.
+ * If so we delete the one who is now basically the 6th highest score.
  */
 void Highscore::change(int highscore) {
     vector<int> backup;
@@ -66,12 +61,9 @@ void Highscore::change(int highscore) {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The Highscore stats get updated.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation The .txt file gets updated with the newhighscores vector.
  */
 void Highscore::changeFile(vector<int> newHighScores) {
     ofstream filename(highscores);

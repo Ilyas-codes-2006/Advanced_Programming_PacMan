@@ -18,7 +18,7 @@ private:
     vector<char> directions = {'u','d','l','r'};
     vector<shared_ptr<EntityModel>> entities;
     float time = 0.0f;
-    float levelDone = false;
+    bool levelDone = false;
     vector<shared_ptr<EntityModel>> ghosts;
     vector<shared_ptr<EntityModel>> Spawn;
     vector<shared_ptr<EntityModel>> ToBeEaten;
