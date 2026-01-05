@@ -50,7 +50,7 @@ private:
     int y = 0;
     int cycle = 0;
     float count = 0.0f;
-    float switchMouth = 0.003f;
+    float switchMouth = 0.002f;
 public:
     PacManRender(const shared_ptr<EntityModel> &link, Camera &camera)
         : EntityView(link, camera) {

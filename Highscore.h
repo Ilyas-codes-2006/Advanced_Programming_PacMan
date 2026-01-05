@@ -11,7 +11,7 @@ using namespace std;
 
 class Highscore {
 private:
-    string highscores = "C:/Users/Youssef/Advanced_Programming_PacMan/Highscores.txt";
+    string highscores = "../Highscores.txt";
     vector<int> highscoresVector;
 public:
     Highscore();

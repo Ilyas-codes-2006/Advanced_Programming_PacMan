@@ -14,7 +14,7 @@ using namespace std;
  * @Explanation We use sfml utilities to help us fill in the color writing it on the window.
  */
 MenuState::MenuState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager){
-    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
+    if (!font.loadFromFile("../UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
     }
 
@@ -81,7 +81,7 @@ void MenuState::render() {
  * @Explanation We use sfml utilities to help us fill in the color writing it on the window.
  */
 VictoryState::VictoryState(sf::RenderWindow *window,StateManager *stateManager, int ScoreOfTheGame) : State(window,stateManager), ScoreOfTheGame(ScoreOfTheGame) {
-    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
+    if (!font.loadFromFile("../UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
     }
 
@@ -145,7 +145,7 @@ void VictoryState::render() {
  * @Explanation We use sfml utilities to help us fill in the color writing it on the window.
  */
 GameOverState::GameOverState(sf::RenderWindow *window,StateManager *stateManager, int ScoreOfTheGame) : State(window,stateManager) , ScoreOfTheGame(ScoreOfTheGame){
-    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
+    if (!font.loadFromFile("../UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
     }
 
@@ -209,7 +209,7 @@ void GameOverState::render() {
  * @Explanation /
  */
 LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : State(window,stateManager), camera(window->getSize().x,window->getSize().y) {
-    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")){
+    if (!font.loadFromFile("../UF15XRU Arial.ttf")){
         cout << "Error loading font!" << endl;
     }
     scoreTxt.setFont(font);
@@ -481,7 +481,7 @@ void LevelState::render() {
  * @Explanation We use sfml utilities to help us fill in the color writing it on the window.
  */
 PausedState::PausedState(sf::RenderWindow* window,StateManager *stateManager) : State(window,stateManager) {
-    if (!font.loadFromFile("C:/Users/Youssef/Advanced_Programming_PacMan/UF15XRU Arial.ttf")) {
+    if (!font.loadFromFile("../UF15XRU Arial.ttf")) {
         cout << "Error loading font!" << endl;
     }
 
