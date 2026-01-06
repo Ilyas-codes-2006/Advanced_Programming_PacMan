@@ -143,6 +143,9 @@ public:
     void checkEaten();
     void checkEatenFruit();
     void CheckGhost();
+    void ghostMovementMDmax(float step, shared_ptr<EntityModel> ghost,bool next);
+    void ghostMovementMDmin(float step, shared_ptr<EntityModel> ghost, bool next);
+    void ghostMovementRed(float step,shared_ptr<EntityModel> ghost);
     void redMovement(char s, float deltatime,float difficulty, float step);
     void pinkMovement(char s, float deltatime,float difficulty, float step);
     void blueMovement(char s, float deltatime,float difficulty, float step);
