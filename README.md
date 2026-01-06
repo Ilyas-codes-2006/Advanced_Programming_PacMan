@@ -1,42 +1,40 @@
 Ilyas Sefiani
 s0244917
 
-X -> Implemented
-
 Core Game Requirements:
-- Startup screen + scoreboard  [X] 
-- Maze & collision correctness [X]
-- Smooth continuous movement [X] (almost correct: adressing it in the video)
-- Ghost AI (4 modes, Manhattan distance, direction locking) [X]
-- Coin/fruit score modifiers [X]
-- Fear mode + ghost reversal [X]
-- Level clearing + scaling difficulty [X]
-- Life system & game over [X]
+- [X]  Startup screen + scoreboard  
+- [X] Maze & collision correctness 
+- [X] Smooth continuous movement (almost correct: adressing it in the video)
+- [X] Ghost AI (4 modes, Manhattan distance, direction locking)
+- [ ] Coin/fruit score modifiers 
+- [X] Fear mode + ghost reversal 
+- [X] Level clearing + scaling difficulty 
+- [X] Life system & game over 
 
 Soft. Design & Code Arch.:
-- Clear MVC separation [X]
-- Patterns: MVC, Observer, Abstract Factory, Singleton, State [X]
-- Logic as standalone library [ ]
-- Camera & normalized coords [X] (this affects the smooth conntinious movement:
+- [X] Clear MVC separation 
+- [X] Patterns: MVC, Observer, Abstract Factory, Singleton, State 
+- [ ] Logic as standalone library
+- [X] Camera & normalized coords (this affects the smooth conntinious movement:
 - adressing it in the video)
-- Good polymorphism & extensibility [X]
+- [X] Good polymorphism & extensibility 
 
 Project Defence Video
-- 3 min gameplay demo [X]
-- 7 min technical explanation [X]
+- [X] 3 min gameplay demo 
+- [X] 7 min technical explanation 
 
 Documentation
-- ~2 page report [X]
-- Design rationale [X]
-- Comments & API docs [X] (doxygen and comments)
+- [X] ~2 page report 
+- [X] Design rationale 
+- [X] Comments & API docs (doxygen and comments)
 
 Bonus Features
-- Extra gameplay/visuals [ ]
-- Sounds/music [ ]
-- Smarter AI (BFS, A*) [ ]
-- Procedural maps [ ]
-- Multithreading [ ]
-- Extra design patterns [ ]
+- [ ] Extra gameplay/visuals 
+- [ ] Sounds/music 
+- [ ] Smarter AI (BFS, A*) 
+- [ ] Procedural maps 
+- [ ] Multithreading 
+- [ ] Extra design patterns 
 
 Explanation for every class:
 
