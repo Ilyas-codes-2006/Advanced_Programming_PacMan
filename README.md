@@ -1,7 +1,44 @@
 Ilyas Sefiani
 s0244917
 
-Explanation for every class
+X -> Implemented
+
+Core Game Requirements:
+- Startup screen + scoreboard  [X] 
+- Maze & collision correctness [X]
+- Smooth continuous movement [X] (almost correct: adressing it in the video)
+- Ghost AI (4 modes, Manhattan distance, direction locking) [X]
+- Coin/fruit score modifiers [X]
+- Fear mode + ghost reversal [X]
+- Level clearing + scaling difficulty [X]
+- Life system & game over [X]
+
+Soft. Design & Code Arch.:
+- Clear MVC separation [X]
+- Patterns: MVC, Observer, Abstract Factory, Singleton, State [X]
+- Logic as standalone library [ ]
+- Camera & normalized coords [X] (this affects the smooth conntinious movement:
+- adressing it in the video)
+- Good polymorphism & extensibility [X]
+
+Project Defence Video
+- 3 min gameplay demo [X]
+- 7 min technical explanation [X]
+
+Documentation
+- ~2 page report [X]
+- Design rationale [X]
+- Comments & API docs [X] (doxygen and comments)
+
+Bonus Features
+- Extra gameplay/visuals [ ]
+- Sounds/music [ ]
+- Smarter AI (BFS, A*) [ ]
+- Procedural maps [ ]
+- Multithreading [ ]
+- Extra design patterns [ ]
+
+Explanation for every class:
 
 AbstactFactory:
 
