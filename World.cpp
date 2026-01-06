@@ -479,24 +479,28 @@ tuple<float, float> World::pacmanNextpos(float step) {
  */
 void World::redMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
+        //Check to leave
         if (ghost->getSymbol() == s) {
             if (countr == 0) {
                 ghost->setPosition(Spawn[0]->original_pos());
                 countr++;
             }
+            //Movement in fearmode
             if (ghost->getFearmode()) {
                 step = (0.4f + difficulty/10) * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 vector<char> possible;
+                //We check if we passed an intersection, if so add the ways we can go
                 for (auto way: directions) {
                     if (!checkIntersection(way,pos,ghost)) {
                         possible.push_back(way);
                     }
                 }
+                //If there is a wall in front of the ghost
                 if (wallinDirectionGhost(dir,pos,ghost)) {
-                    /*cout << "wall" << endl;*/
                     vector<char> possibleWays;
+                    //Check all the ways we can go after colliding
                     for (auto way: directions) {
                         if (!wallinDirectionGhost(way,pos,ghost)) {
                             possibleWays.push_back(way);
@@ -504,6 +508,7 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
                     }
                     cout << possibleWays.size() << endl;
                     char cur;
+                    //We use random to choose a random free way!
                     if (possibleWays.size() == 2) {
                         int num = Random::getInstance().randomIndex(0,1);
                         cur = possibleWays[num];
@@ -525,9 +530,11 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
                     Event event(WhichEvent::Moved,ghost.get());
                     ghost->notify(event);
                 }
+                //If we don't collide and there are more then 3 ways to choose from
                 else if (possible.size()>=3) {
                     char cur = dir;
                     possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
+                    //We delete the way the ghost was already going then we take a 50/50 chance with the random class!
                     if (Random::getInstance().probSwitch(0.5f)) {
                         int num = Random::getInstance().randomIndex(0,2);
                         cur = possible[num];
@@ -541,6 +548,7 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
                         Event event(WhichEvent::Moved,ghost.get());
                         ghost->notify(event);
                     }
+                    //Or else we just continue the way the ghost was going.
                     else {
                         auto nextpos = calcDirection(step,dir,pos);
                         if (!canMovethroughcorridor(2.09,nextpos)) {
@@ -554,6 +562,7 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
                     }
                 }
                 else {
+                    //Or else we just continue the way the ghost was going.
                     float x = get<0>(pos);
                     float y = get<1>(pos);
                     tuple<float,float> nextPos = pos;
@@ -575,6 +584,7 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
                 }
             }
             else {
+                //We do the same only now red isn't in fearmode anymore.
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 vector<char> possible;
@@ -616,10 +626,8 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
                     char cur = dir;
                     possible.erase(std::remove(possible.begin(), possible.end(), dir), possible.end());
                     if (Random::getInstance().probSwitch(0.5f)) {
-                        /*cout << "chose to switch" << endl;*/
                         int num = Random::getInstance().randomIndex(0,2);
                         cur = possible[num];
-                        /*cout << "to: " << cur << endl;*/
                         auto nextpos = calcDirection(step,cur,pos);
                         if (!canMovethroughcorridor(2.09,nextpos)) {
                             return;
@@ -672,10 +680,11 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
  * the manhattan distance with pacmans nextPosition and choose the shortest distance.
  * The only difference is that pink always starts at the beginning of the game, while
 * blue starts after 5 seconds. If they are in fearmode they will choose the way with
- * the longest manhatten distance.
+ * the longest manhatten distance. The commentary is the same as in Red.
  */
 void World::pinkMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
+        //Check to leave
         if (ghost->getSymbol() == s) {
             if (countp == 0) {
                 ghost->setPosition(Spawn[1]->original_pos());
@@ -693,14 +702,14 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
                     }
                 }
                 if (wallinDirectionGhost(dir,pos,ghost)) {
-                    cout << "wall" << endl;
                     vector<char> possibleWays;
+                    //We check all the ways to go after colliding.
                     for (auto way: directions) {
                         if (!wallinDirectionGhost(way,pos,ghost)) {
                             possibleWays.push_back(way);
                         }
                     }
-                    cout << possibleWays.size() << endl;
+                    //calculate every manhattenDistance for every free way
                     char cur;
                     vector<tuple<char,float>> manhattenD;
                     for (auto next: possibleWays) {
@@ -709,6 +718,7 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
                         float distance = manhattanDistance(nextGhost,pacmanPos);
                         manhattenD.push_back({next,distance});
                     }
+                    //find the biggest distance
                     vector<char> maxManhatten;
                     float max = get<1>(manhattenD[0]);
                     for (auto fast: manhattenD) {
@@ -723,13 +733,16 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
                             maxManhatten.push_back(symb);
                         }
                     }
+                    //f there is one the biggest
                     if (maxManhatten.size() == 1) {
                         cur = maxManhatten[0];
                     }
+                    //if there are multiple manhattan distances the same (very unlikely)
                     else {
                         int num = Random::getInstance().randomIndex(0,maxManhatten.size()-1);
                         cur = maxManhatten[num];
                     }
+                    //Move the ghost
                     auto nextpos = calcDirection(step,cur,pos);
                     if (!canMovethroughcorridor(2.09,nextpos)) {
                         return;
@@ -740,6 +753,7 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
                     Event event(WhichEvent::Moved,ghost.get());
                     ghost->notify(event);
                 }
+                //basically the same implementation only now we calculate the manhattan distance when we find an intersection
                 else if (possible.size()>=3) {
                     cout << possible.size() << endl;
                     char cur;
@@ -782,6 +796,7 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
                     Event event(WhichEvent::Moved,ghost.get());
                     ghost->notify(event);
                 }
+                //We just keeping moving otherwise
                 else {
                     float x = get<0>(pos);
                     float y = get<1>(pos);
@@ -804,6 +819,7 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
                 }
             }
             else {
+                //We do the exact same as in fearmode only now we find the smallest manhattan distance when calculating.
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
                 auto pacmanPos = pacmanNextpos(step);
@@ -830,6 +846,7 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
                         float distance = manhattanDistance(nextGhost,pacmanPos);
                         manhattenD.push_back({next,distance});
                     }
+                    //smallest manhattan distance
                     vector<char> minManhatten;
                     float min = get<1>(manhattenD[0]);
                     for (auto fast: manhattenD) {
@@ -934,7 +951,7 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
  * the manhattan distance with pacmans nextPosition and choose the shortest distance.
  * The only difference is that pink always starts at the beginning of the game, while
  * blue starts after 5 seconds. If they are in fearmode they will choose the way with
- * the longest manhatten distance.
+ * the longest manhatten distance. Blue works the same as pink. No comments needed.
  */
 void World::blueMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
@@ -1207,6 +1224,7 @@ void World::orangeMovement(char s, float deltatime, float difficulty, float step
                 step = (0.4f + difficulty/10) * deltatime;
                 auto pos = ghost->getPosition();
                 char dir = ghost->getcurrentDirection();
+                //We use PacMans position to calculate the smallest/biggest Manhattan Distance.
                 auto pacmanPos = pacman->getPosition();
                 vector<char> possible;
                 for (auto way: directions) {
