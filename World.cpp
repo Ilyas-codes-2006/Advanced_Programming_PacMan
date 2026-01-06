@@ -473,7 +473,9 @@ tuple<float, float> World::pacmanNextpos(float step) {
 /**
  * @Functionality Movement of the red ghost.
  *
- * @Explanation /
+ * @Explanation Red is the one that is locked to moving in a fixed direction.
+ * If he reaches a corner/intersection it will choose to keep moving or change direction.
+ * We use the random class for this.
  */
 void World::redMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
@@ -666,7 +668,11 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
 /**
  * @Functionality Movement of the pink ghost.
  *
- * @Explanation /
+ * @Explanation The pinkGhost and the blueGHost move the same way. THey both calculate
+ * the manhattan distance with pacmans nextPosition and choose the shortest distance.
+ * The only difference is that pink always starts at the beginning of the game, while
+* blue starts after 5 seconds. If they are in fearmode they will choose the way with
+ * the longest manhatten distance.
  */
 void World::pinkMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
@@ -924,7 +930,11 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
 /**
  * @Functionality Movement of the blue ghost.
  *
- * @Explanation /
+ * @Explanation The pinkGhost and the blueGHost move the same way. THey both calculate
+ * the manhattan distance with pacmans nextPosition and choose the shortest distance.
+ * The only difference is that pink always starts at the beginning of the game, while
+ * blue starts after 5 seconds. If they are in fearmode they will choose the way with
+ * the longest manhatten distance.
  */
 void World::blueMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
@@ -1182,7 +1192,9 @@ void World::blueMovement(char s, float deltatime, float difficulty, float step) 
 /**
  * @Functionality Movement of the orange ghost.
  *
- * @Explanation /
+ * @Explanation The orange ghost also makes use of the manhattanDistance, but he compares
+ * it with pacmans Position not the nextPosition. If they are in fearmode they will choose the way with
+ * the longest manhattan distance.
  */
 void World::orangeMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
