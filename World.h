@@ -135,13 +135,11 @@ public:
         return levelDone;
     }
 
-    void levelFinished();
     void reset();
     void addEntity(shared_ptr<EntityModel>& entity);
     void removeEntity(shared_ptr<EntityModel>& entity);
     void removeEatenEntity(shared_ptr<EntityModel>& entity);
     void clearEntities();
-    void checkCollision();
     void checkEaten();
     void checkEatenFruit();
     void CheckGhost();

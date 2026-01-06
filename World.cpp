@@ -11,9 +11,19 @@
 
 using namespace std;
 
+/**
+ * @Functionality Adds an entity to world.
+ *
+ * @Explanation /
+ */
 void World::addEntity(shared_ptr<EntityModel>& entity) {
     entities.push_back(entity);
 }
+/**
+ * @Functionality Removes the entity from world.
+ *
+ * @Explanation /
+ */
 void World::removeEntity(shared_ptr<EntityModel>& entity) {
     for (auto it = entities.begin(); it != entities.end(); it++) {
         if (it->get() == entity.get()) {
@@ -22,6 +32,11 @@ void World::removeEntity(shared_ptr<EntityModel>& entity) {
         }
     }
 }
+/**
+ * @Functionality Clears all the entities.
+ *
+ * @Explanation /
+ */
 void World::clearEntities() {
     entities.clear();
 }
@@ -34,15 +49,12 @@ shared_ptr<Level> World::getCurrentLevel() {
     return levels[currentLevel];
 }
 /**
- * @Functionality Adds a new level
+ * @Functionality Adds a new level.
  *
  * @Explanation /
  */
 void World::addLevel(shared_ptr<Level> &level) {
     levels.push_back(level);
-}
-void World::levelFinished() {
-    currentLevel++;
 }
 /**
  * @Functionality Makes a new Level
@@ -140,34 +152,7 @@ void World::makeLevel(shared_ptr<Level> level) {
     }
 }
 /**
- * @Functionality We will check if PacMan collides with a wall
- *
- * @Explanation I make use of 2 hitboxes, one is for pacman and one is for the wall
- * If pacman just touches the other hitbox he will stop by giving himself his previous
- * position. We won't only use this function to make the full collision though.
- */
-void World::checkCollision() {
-    auto pac = pacman->getPosition();
-    float xMin = get<0>(pac)-pacman->entity_width()/2.5;
-    float xMax = get<0>(pac)+pacman->entity_width()/2.5;
-    float yMin = get<1>(pac)+pacman->entity_height()/2.5;
-    float yMax = get<1>(pac)-pacman->entity_height()/2.5;
-    for (auto entity: getEntities()) {
-        if (entity->getSymbol()== '#') {
-            auto wall = entity->getPosition();
-            float wMinx = get<0>(wall)-entity->entity_width()/2.5;
-            float wMaxx = get<0>(wall)+entity->entity_width()/2.5;
-            float wMiny = get<1>(wall)+entity->entity_height()/2.5;
-            float wMaxy = get<1>(wall)-entity->entity_height()/2.5;
-            if (xMax > wMinx && xMin < wMaxx && yMax < wMiny && yMin > wMaxy) {
-                auto pos = pacman->getPrevPosition();
-                pacman->setPosition(pos);
-            }
-        }
-    }
-}
-/**
- * @Functionality This function erases de Entity from all the entities that
+ * @Functionality This function erases the Entity from all the entities that
  * can be eaten.
  *
  * @Explanation /
@@ -186,7 +171,7 @@ void World::removeEatenEntity(shared_ptr<EntityModel> &entity) {
  * @Explanation We use the same system as for walls only now the hitboxes are much smaller
  * so it only triggers when we are almost in the middle. We also make use of an event here.
  * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * eatenEntities and also all the entities. WHen toBeEaten is empty the level is won.
  */
 void World::checkEaten() {
     bool eaten = false;
@@ -232,12 +217,10 @@ void World::checkEaten() {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We check if there is a wall in front of us.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation Because we combine both this and the canMovethroughCorridor function we get great continious movement of pacman.
+ * This checks works by using a line that starts in the middle of the entity and goes forward in the way pacman is facing. When it detects a wall it returns a boolean.
  */
 bool World::wallinDirection(char dir) {
     auto pos = pacman->getPosition();
@@ -274,12 +257,11 @@ bool World::wallinDirection(char dir) {
     return false;
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We will check if PacMan collides with a wall.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation I make use of 2 hitboxes, one is for pacman and one is for the wall
+ * If pacman just touches the other hitbox he will stop by giving himself his previous
+ * position. We won't only use this function to make the full collision though. See the previous comment of wallInDirection
  */
 bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     float x = get<0>(position);
@@ -303,12 +285,11 @@ bool World::canMovethroughcorridor(float hitbox, tuple<float,float> position) {
     return true;
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We let PacMan move.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation This function ensures the movement of pacman is continious by using deltatime.
+ * It also uses a wall detection so that pacman stops moving if he detects one. This function keeps getting called while
+ * the level is not finished.
  */
 void World::updatePacman(float deltaTime) {
     float speed = 0.65;
@@ -364,12 +345,10 @@ void World::updatePacman(float deltaTime) {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Calculate the next position.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation This helper function gets used for finding the right next step for the correct direction. This is used to
+ * make the ghostmovement function shorter.
  */
 tuple<float, float> World::calcDirection(float step, char dir, tuple<float, float> pos) {
     float x = get<0>(pos);
@@ -384,12 +363,9 @@ tuple<float, float> World::calcDirection(float step, char dir, tuple<float, floa
     return nextPos;
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We check if there is a wall in front of the ghosts.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation The same as WallIndirection for PacMan just divided with another number.
  */
 bool World::wallinDirectionGhost(char dir, tuple<float, float> pos, shared_ptr<EntityModel> ghost) {
     float x = get<0>(pos);
@@ -425,12 +401,10 @@ bool World::wallinDirectionGhost(char dir, tuple<float, float> pos, shared_ptr<E
     return false;
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality See if there is an intersection for the ghosts to choose from.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation This function works the same with hitboxes only now the hitbox to move through is bigger. Every time we the ghost moves. It checks
+ * if it encounters an intersection and this function gets called. If so the random class chooses a new way.
  */
 bool World::checkIntersection(char dir, tuple<float, float> pos, shared_ptr<EntityModel> ghost) {
     float x = get<0>(pos);
@@ -466,12 +440,9 @@ bool World::checkIntersection(char dir, tuple<float, float> pos, shared_ptr<Enti
     return false;
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Calculate the manhattan distance
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation This function calculates the manhattan distance.
  */
 float World::manhattanDistance(tuple<float, float> pos, tuple<float, float> pos2) {
     float x2 = get<0>(pos2);
@@ -483,12 +454,10 @@ float World::manhattanDistance(tuple<float, float> pos, tuple<float, float> pos2
     return manhattendistance;
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality We return pacmans nextPos.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation This function gets used so that we can calculate pacmans nextPosition ahead of time. That way we can correctly find the smallest manhatten distance
+ * for the two ghosts that use the nextDirection of pacman.
  */
 tuple<float, float> World::pacmanNextpos(float step) {
     auto pacpos = pacman->getPosition();
@@ -501,6 +470,11 @@ tuple<float, float> World::pacmanNextpos(float step) {
         return next;
     }
 }
+/**
+ * @Functionality Movement of the red ghost.
+ *
+ * @Explanation /
+ */
 void World::redMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
         if (ghost->getSymbol() == s) {
@@ -689,7 +663,11 @@ void World::redMovement(char s, float deltatime, float difficulty, float step) {
         }
     }
 }
-
+/**
+ * @Functionality Movement of the pink ghost.
+ *
+ * @Explanation /
+ */
 void World::pinkMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
         if (ghost->getSymbol() == s) {
@@ -943,6 +921,11 @@ void World::pinkMovement(char s, float deltatime, float difficulty, float step) 
         }
     }
 }
+/**
+ * @Functionality Movement of the blue ghost.
+ *
+ * @Explanation /
+ */
 void World::blueMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
         if (ghost->getSymbol() == s) {
@@ -1196,6 +1179,11 @@ void World::blueMovement(char s, float deltatime, float difficulty, float step) 
         }
     }
 }
+/**
+ * @Functionality Movement of the orange ghost.
+ *
+ * @Explanation /
+ */
 void World::orangeMovement(char s, float deltatime, float difficulty, float step) {
     for (auto ghost: ghosts) {
         if (ghost->getSymbol() == s) {
@@ -1450,12 +1438,10 @@ void World::orangeMovement(char s, float deltatime, float difficulty, float step
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality The whole ghost update loop.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation This is where the difficulty gets decided based on what level we're in. It also minimizes every feartime per level.
+ * Red and Pink leave immediately. While blue first waits 5 seconds and orange waits 10 seconds before leaving the spawn point.
  */
 void World::GhostMovement(float deltatime) {
     float difficultytime = currentLevel;
@@ -1489,12 +1475,13 @@ void World::GhostMovement(float deltatime) {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Pacman eats fruit.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
+ * @Explanation We use the same system as for coins/walls only now the hitboxes are much smaller
  * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * To tell our view that the fruit needs to disappear. The fruit itself gets deleted from
+ * eatenEntities and also all the entities. The only difference this function does different is that when the fruit is eaten, the ghosts
+ * get set on fearmode, and we send an event to change our views. When toBeEaten is empty the level is won.
  */
 void World::checkEatenFruit() {
     auto pac = pacman->getPosition();
@@ -1537,12 +1524,11 @@ void World::checkEatenFruit() {
     }
 }
 /**
- * @Functionality Pacman eats coin
+ * @Functionality Reset the game after dying.
  *
- * @Explanation We use the same system as for walls only now the hitboxes are much smaller
- * so it only triggers when we are almost in the middle. We also make use of an event here.
- * To tell our view that the coin needs to disappear. The coin itself gets deleted from
- * eatenEntities and also all the entities.
+ * @Explanation When PacMan dies we use this function to set everything back on it's original state. The ghost go back to their spawnpoint.
+ * Pacman loses a live. The only thing that doesn't get reset is the fruits/coins. They stay the same after dying so when you try again you need to eat less
+ * fruit/coins to win.
  */
 void World::reset() {
     countr = 0;
@@ -1566,9 +1552,10 @@ void World::reset() {
 /**
  * @Functionality We check collision with ghosts.
  *
- * @Explanation We also make use of hitboxes here just like walls only here they are smaller to give the player more chance to escape.
- * There are 2 ways this could go: If the ghost touched is in fearmode. The ghost goes to the spawnpoint and starts to chase again. But when
- * the ghost is not in fearmode, pacman loses a life and every entity goes to its rightous place. Only the ToBeEaten entities do not get affected.
+ * @Explanation We also make use of hitboxes here just like walls/fruits/coins only here they are smaller to give the player more chance to escape.
+ * There are 2 ways this could go: If the ghost is touched is fearmode. The ghost goes to the spawnpoint and starts to chase again. But when
+ * the ghost is not in fearmode, pacman loses a life and every entity goes to its righteous place. We use the reset function for this.
+ * Only the ToBeEaten entities do not get affected/reset.
  */
 void World::CheckGhost() {
     auto pac = pacman->getPosition();
