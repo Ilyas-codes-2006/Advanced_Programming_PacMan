@@ -233,23 +233,6 @@ LevelState::LevelState(sf::RenderWindow *window,StateManager *stateManager) : St
  * @Explanation It makes the entities for that level and gives them their correspondant view. It also clears the previous level.
  */
 void LevelState::newLevel(int levelNumber) {
-    int count = 0;
-    tuple<float,float> pos1;
-    tuple<float,float> pos2;
-    for (auto entity: world->getEntities()) {
-        if (count == 0) {
-            auto pixel1 = camera.worldCoToPixelsCo(entity->getPosition(), 0);
-            pos1 = pixel1;
-            count++;
-        }
-        else if (count == 1) {
-            auto pixel2 = camera.worldCoToPixelsCo(entity->getPosition(), 0);
-            pos2 = pixel2;
-            break;
-        }
-    }
-    float xpixel = get<0>(pos2) - get<0>(pos1);
-    float ypixel = get<1>(pos2) - get<1>(pos1);
     if (levelNumber == 0) {
         auto level = make_shared<Level>("../levelTest.txt",camera);
         world->addLevel(level);
